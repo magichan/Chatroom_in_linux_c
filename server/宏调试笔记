@@ -1,0 +1,11 @@
+    #用来把参数转换成字符串，请看下面的两个例子。
+         例子一 
+           #define P(A) printf("%s:%d\n",#A,A);  
+         例子二
+            #define SQR(x) printf("The square of "#x" is %d.\n", ((x)*(x)));  
+    和#运算符一样，##运算符可以用于宏函数的替换部分。这个运算符把两个语言符号组合成单个语言符号
+
+    #define debug(format, …) fprintf (stderr, format, ## __VA_ARGS__)
+          这里，如果可变参数被忽略或为空，‘##’操作将使预处理器（preprocessor）去除掉它前面的那个逗号
+利用 c90 支持 参数可变宏
+     #define debug_mesg(fmt,...)  printf(fmt._VA_)
