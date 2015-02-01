@@ -45,6 +45,7 @@ int  AddUser( PtrUserDate  list, PtrUserDate Node ); /*  添加用户*/
 int  DeleUser( PtrUserDate list, char * name ); /*  删除用户*/
 const PtrUserDate  SearchUser( PtrUserDate list, char * name ); /* 查找用户 */
 int  WriteUserList( PtrUserDate list);          /*  写入文件*/
+int  UserListIsEmpty( PtrUserDate list);        /*判断是否为空*/
 
 
 

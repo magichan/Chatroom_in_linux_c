@@ -37,12 +37,22 @@
 
 #define         SERV_PORT       4507      /*服务器端口号*/
 #define         LISTENQ         12        /*连接请求的最大队列长度*/
+#define         CLIENT_MAX      16        /*服务端最大个数*/
+/*           服务器向客户端发送的命令  */
 
+#define         ERROR_PROCESS                           -1 /* 数据包发送流程错误 */
+#define         ERROR_USERNAME_EXISTENCE                -2 /*  用户存在*/
+#define         ERROR_USRENAME_NOEXISTENCE              -3 /*  用户名不存*/
+#define         ERROR_USERPASS_WRONG                    -4 /*  密码错误*/
+#define         ERROR_EXCEEDING                         -5 /*  客户端过多*/
 
-void SloveConnect(void);
-void InitServer(void);
-void DealDate(void);
-void LogOrRegist( int clie_fd,const struct CliToSerFrame * data );
+void  InitSock(void);
+int   AnalyzeMesg( int clie_fd );
+void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data);
+
+void LoginOrRegist( int clie_fd ,struct sockaddr_in * clie_addr);
+void Login( int clie_fd,struct sockaddr_in * clie_addr);
+void Regist(int clie_fd,struct sockaddr_in * clie_addr);
 
 
 

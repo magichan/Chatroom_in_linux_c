@@ -13,7 +13,7 @@
  *         Author:  magichan (fgm), 574932286@qq.com
  *   Organization:  FH Südwestfalen, Iserlohn
  *
- * =====================================================================================
+ * ===================================================================================
  */
 
 #include<time.h>
@@ -36,17 +36,19 @@ struct SerToCliFrame{ /* 服务端向客户端发送 */
 #define CLIENT_STATUS_ROOT               1 /* 管理员权限 */
 #define CLIENT_STATUS_COMMON             2 /* 普通用户权限 */
 #define CLIENT_STATUS_AUDIENCE           3 /* 旁听用户权限 */
-
+#define Pending_Client_ROOT              4 /* 管理用户待定*/
+#define Pending_Client_COMMON            5 /* 普通用户待定*/
 
 struct CliToSerFrame{                      /* 客户端向服务端发送  */
         int option;                        /* 命令选项，仅和登录和注册有关 */
         char mesg_data[MESG_MAX];          /* 数据 */
 };
-/*   结构体 CliToSerFrame option option 宏定义  */
-#define CLIENT_REQUIE_REGISTER            5 /* 客户端注册请求 */
-#define CLIENT_REGISTER_USERNAME          6 /* 注册名 */
-#define CLIENT_REGISTER_USERPASSWORD      7 /* 注册密码 */
-#define CLIENT_REQUEST_LOGIN              8 /* 客户端登录请求 */
-#define CLIENT_LOGIN_USERNAME             9 /* 登录名 */
-#define CLIENT_LOGIN_USERPASSWORD         10 /* 登录密码  */
+/*  登陆和注册 退出  所用 宏定义  */
+#define REQUIE_REGISTER            5 /* 客户端注册请求 */
+#define REGISTER_USERNAME          6 /* 注册名 */
+#define REGISTER_USERPASSWORD      7 /* 注册密码 */
+#define REQUEST_LOGIN              8 /* 客户端登录请求 */
+#define LOGIN_USERNAME             9 /* 登录名 */
+#define LOGIN_USERPASSWORD         10 /* 登录密码  */
+#define REQUEST_EXIT               11/*客户端退出请求*/
 #endif

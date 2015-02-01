@@ -49,7 +49,7 @@ void MyErrorPthread(char * err_string,const char * function, int line)
  *         Exit:  空
  * =====================================================================================
  */
-void Log(char *log_string,char * user_string)
+void Log(const char *log_string, const char * user_string)
 {   
       
 }

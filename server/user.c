@@ -84,3 +84,17 @@ int  WriteUserList( PtrUserDate list)
 {
         return 0;
 }
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  UserListIsEmpty
+ *  Description:  判断用户表是否为空
+ *        Entry:  用户表头
+ *         Exit:  为空返回 1
+ *                 非空返回 0
+ * =====================================================================================
+ */
+int  UserListIsEmpty( PtrUserDate list)
+{
+        return 0;
+}
