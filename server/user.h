@@ -35,6 +35,7 @@ struct UserDate{
 };
 /*  结构体 UserData 补充状态  */
 
+#define USER_STATUS_DEALING               2 /*注册处理*/
 #define USER_STATUS_UP                    1 /* 上线 */
 #define USER_STATUS_DOWN                  0 /* 下线 */
 
@@ -43,7 +44,7 @@ typedef struct UserDate * PtrUserDate;
 PtrUserDate InitUserList( void );               /* 链表初始化 */
 int  AddUser( PtrUserDate  list, PtrUserDate Node ); /*  添加用户*/
 int  DeleUser( PtrUserDate list, char * name ); /*  删除用户*/
-const PtrUserDate  SearchUser( PtrUserDate list, char * name ); /* 查找用户 */
+ PtrUserDate  SearchUser( PtrUserDate list, const char * name ); /* 查找用户 */
 int  WriteUserList( PtrUserDate list);          /*  写入文件*/
 int  UserListIsEmpty( PtrUserDate list);        /*判断是否为空*/
 

@@ -67,7 +67,9 @@ int  DeleUser( PtrUserDate list, char * name )
  *         Exit:  成功返回用户信息 失败返回NULL
  * =====================================================================================
  */
-const PtrUserDate  SearchUser( PtrUserDate list, char * name )
+
+ PtrUserDate  SearchUser( PtrUserDate list, const char * name )
+        /* 查找用户 */
 {
         return NULL;
 }

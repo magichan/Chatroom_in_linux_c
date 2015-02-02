@@ -178,6 +178,12 @@ int   AnalyzeMesg( int clie_fd )
                 return -1;
         }
         memset(&send_data,0,sizeof(struct SerToCliFrame));
+        memset(&get_data,0,sizeof(struct CliToSerFrame));
+/* 
+ *    管理员和普通用户的注册问题：一旦管理员用户注册失败，同时还排列这普通用户，就会出问题
+ */
+
+
 
         switch( get_data.option)
         {
@@ -198,35 +204,98 @@ int   AnalyzeMesg( int clie_fd )
                         return 0;
                 case REGISTER_USERNAME:
                         {
-                                if( SearchUser(g_user_list,get_data.mesg_data) != NULL )
+                                if( SearchUser(g_user_list,get_data.mesg_data) == NULL )
                                 {
                                         PtrUserDate temp = (struct UserDate *)malloc(sizeof(struct UserDate));
                                         strcpy(temp->name,get_data.mesg_data);
-                                       
+                                        temp->status = USER_STATUS_DEALING;//待处理的用户结构
+                                        temp->confd = clie_fd;
+                                        AddUser(g_user_list,temp);//先将待处理的数据结构添加
+                                        send_data.option = REGISTER_USERPASSWORD;
 
-
-                                }
+                                        strcpy(send_data.mesg_data,"输入密码:");
+                                        write(clie_fd,&send_data,sizeof(struct SerToCliFrame));//将密码要求发送
+                                }else{
+                                        send_data.option = ERROR_USERNAME_EXISTENCE;
+                                        Log("申请的姓名重复，拒绝注册","麻烦");
+                                        write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+                                }//用户名重复
 
                         }
                         return 0;
                 case REGISTER_USERPASSWORD:
                         {
+                                PtrUserDate temp;
+
+                                if((temp = SearchUser(g_user_list,FdToUsername(clie_fd))) == NULL )
+                                {
+                                        Log("密码验证错误，端口号找不到相映射的数据","server");
+                                        send_data.option =  ERROR_TEXT;
+                                        strcpy(send_data.mesg_data,"服务器处理错误");
+                                        write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+                                }else{
+                                       /*信息赋予*/ 
+                                        strcpy(temp->password,get_data.mesg_data);
+                                        if( g_user_list->next == temp )//判断是否管理员权限
+                                        {
+                                                temp->authority = CLIENT_STATUS_ROOT;
+                                        }else{
+                                                temp->authority = CLIENT_STATUS_COMMON;
+                                        }
+                                        /*向客户端确认，Log文件写入*/
+                                        send_data.option = REGISTER_SUCCSE;
+                                        write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+                                        Log("注册成功",temp->name);
+                                }//if((temp = SearchUser(g_user_list,FdToUsername(clie_fd))) == NULL ) 判断和处理密码
 
                         }
                         return 0;
                 case REQUEST_LOGIN:
                         {
-
+                                send_data.option = LOGIN_USERNAME;
+                                strcpy(send_data.mesg_data,"输入您的用户名:");
+                                write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
                         }
                         return 0;
                 case LOGIN_USERNAME:
                         {
+                                PtrUserDate temp;
+                                if( (temp=SearchUser(g_user_list,get_data.mesg_data)) == NULL )
+                                {
+                                        send_data.option = ERROR_USRENAME_NOEXISTENCE;
+                                        write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+                                }else{
+                                        temp->confd = clie_fd;//将端口号放进对应的用户信息中
+                                        send_data.option = LOGIN_USERPASSWORD;
+                                        strcpy(send_data.mesg_data,"输入密码：");
+                                        send_data.chatroom_authority = temp->authority;
+                                        write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+                                }//处理存在和发送确认信息
 
                         }
                         return 0;
                 case LOGIN_USERPASSWORD:
                         {
-
+                                PtrUserDate temp;
+                                if((temp = SearchUser(g_user_list,FdToUsername(clie_fd))) == NULL )
+                                {
+                                        Log("密码验证错误，端口号找不到相映射的数据","server");
+                                        send_data.option =  ERROR_TEXT;
+                                        strcpy(send_data.mesg_data,"服务器处理错误");
+                                        write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+                                }else{
+                                       if( strcmp(temp->password,get_data.mesg_data) == 0 )
+                                       {
+                                               temp->status = USER_STATUS_UP;//上线
+                                               send_data.chatroom_authority = temp->authority;
+                                               send_data.option = LOGIN_SUCCESE;
+                                               Log("登陆成功",temp->name);
+                                               write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+                                       }else{
+                                               send_data.option = ERROR_USERPASS_WRONG;
+                                               write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+                                       }
+                                }//if((temp = SearchUser(g_user_list,FdToUsername(clie_fd))) == NULL ) 判断和处理密码
                         }
                         return 0;
                 case REQUEST_EXIT:
@@ -238,58 +307,30 @@ int   AnalyzeMesg( int clie_fd )
 
 }
 
-
-/* 
- * ===  FUNCTION  ======================================================================
- *         Name:  LogOrRegist
- *  Description:  登陆或是注册
- *        Entry:  服务端端口号,服务端地址
- *         Exit:
- * =====================================================================================
- */
-void LoginOrRegist( int clie_fd ,struct sockaddr_in * clie_addr)
+void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data)
 {
-        int flag;
-        struct CliToSerFrame data;    // 存放发送过来的数据帧
-        struct SerToCliFrame send_data;
-        
-        flag = read(clie_fd,&data,sizeof(struct CliToSerFrame));
-        if( flag <= 0)
+       PtrUserDate head;
+
+       for( head=g_user_list->next; head!=NULL; head=head->next)
+       {
+               MySend(clie_fd,head->confd,get_data->mesg_data);
+       }
+
+}
+
+int  MySend( int source_fd,int target_fd,char * send_string )
+{
+        PtrUserDate temp;
+        struct SerToCliFrame  send_data;
+        temp = SearchUser(g_user_list,FdToUsername(target_fd)); /*  */
+        send_data.chatroom_authority = temp->authority; /* */
+        strcpy(send_data.mesg_data,send_string); /*  */
+        send_data.option = SEND_MESG;           /*  */
+        send_data.send_time = time(NULL);       /*  */
+        strcpy(send_data.sender_name,FdToUsername(source_fd)); /*  */
+        if( write(target_fd,&send_data,sizeof(struct SerToCliFrame)) < 0 )
         {
-                MyErrorPthread("read\n",__FUNCTION__,__LINE__);
+                Log("send mesg eror",FdToUsername(source_fd));
         }
 
-        switch( data.option )//判断数据包
-        {
-                case REQUIE_REGISTER :
-                        Regist(clie_fd,clie_addr);
-                        break;
-                case REQUEST_LOGIN :
-                        Login(clie_fd,clie_addr);
-                        break;
-                default:
-                     memset(&send_data,0,sizeof(struct SerToCliFrame)); 
-                     send_data.option = ERROR_PROCESS;
-                     Log("登陆流程错误\n",inet_ntoa(clie_addr->sin_addr));
-                     write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
-                     pthread_exit((void *)1);
-        }
 }
-
-void Login( int clie_fd,struct sockaddr_in * clie_addr)
-{
-        struct SerToCliFrame send_data;
-        memset(&send_data,0,sizeof(struct SerToCliFrame));
-        send_data.option =  LOGIN_USERNAME;
-        strcpy(send_data.mesg_data,"请输入用户名:");
-        write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
-
-
-
-}
-void Regist(int clie_fd,struct sockaddr_in * clie_addr)
-{
-
-}
-
-

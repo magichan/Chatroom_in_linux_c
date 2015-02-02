@@ -51,7 +51,15 @@ void MyErrorPthread(char * err_string,const char * function, int line)
  */
 void Log(const char *log_string, const char * user_string)
 {   
-      
+        FILE * log_fp;
+        time_t time_now = time(NULL);        
+
+        if( (log_fp=fopen("log_fp","a+")) == NULL )
+        {
+                MyError("fopne",__FUNCTION__,__LINE__ );
+        }
+        fprintf(log_fp,"time:%s what:%10s   who:%10s\n",ctime(&(time_now)),log_string,user_string);
+        fclose(log_fp);
 }
 
 /* 
