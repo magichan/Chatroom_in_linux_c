@@ -15,11 +15,14 @@
  *
  * =====================================================================================
  */
-#include"server.h"
-#include"user.h"
- /* 日志的宏定义 */
-#define   LOG_SERVER    -1
+/* 日志的宏定义 */
+#include<stdio.h>
+#include<string.h>
+#include<time.h>
+#include<pthread.h>
+#include<stdlib.h>
 void MyError(char * err_string,const char * function, int line);
 void MyErrorPthread(char * err_string,const char * function, int line);
 void Log(const char *log_string, const char * user_string);
-const char *FdToUsername( int client_fd );
+int  GetInfo( char *buf,unsigned int counnt);
+void Myfflush(void);

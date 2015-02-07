@@ -18,8 +18,7 @@
  * =====================================================================================
  */
 #include"user.h"
-
-
+#include"tool.h"
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  InitUserList
@@ -30,7 +29,32 @@
  */
 PtrUserDate InitUserList( void )           
 {
-        return NULL;
+        FILE * fp;
+        PtrUserDate  temp;
+        PtrUserDate  head;
+        PtrUserDate  p;
+        if( (fp=fopen("userlist","ab+"))== NULL )
+        {
+          MyError("fopen",__FUNCTION__,__LINE__);
+        }
+        head = ( PtrUserDate )malloc(sizeof(struct UserDate));
+        head->next = NULL;
+        p = head;
+
+        temp = ( PtrUserDate )malloc(sizeof(struct UserDate));
+        while( fread(temp,sizeof(struct UserDate),1,fp) >0 )
+        {
+                temp->next = NULL;
+                p->next = temp;
+                p = temp;//挂链
+
+                p->status = USER_STATUS_DOWN;
+                p->confd  = 0;//初始化状态
+                temp = ( PtrUserDate )malloc(sizeof(struct UserDate));
+        }
+        free(temp);
+
+        return head;
 }
 
 /* 
@@ -43,6 +67,17 @@ PtrUserDate InitUserList( void )
  */
 int  AddUser( PtrUserDate  list, PtrUserDate Node ) 
 {
+        PtrUserDate p;
+        if( Node == NULL )
+        {
+          MyError("Adduser",__FUNCTION__,__LINE__);
+        }
+        p = list;
+        while( p->next!=NULL )
+        {
+                p= p->next;
+        }
+        p->next = Node;
         return 0;
 }
 
@@ -50,12 +85,35 @@ int  AddUser( PtrUserDate  list, PtrUserDate Node )
  * ===  FUNCTION  ======================================================================
  *         Name:  DeleUser
  *  Description:  删除一个用户信息
- *        Entry:  链表头节点 和  需要删除的用户名，如果char 指向 NULL 删除全部用户
+ *        Entry:  链表头节点 和  需要删除的用户名，如果char 指向 NULL 删除全部用户[慎用]
  *         Exit:  成功返回 0 失败返回 1 
  * =====================================================================================
  */
 int  DeleUser( PtrUserDate list, char * name ) 
 {
+        PtrUserDate p,q;
+        if( name == NULL )
+        {
+                p = list->next;
+                while( p!=NULL )
+                {
+                        q = p;
+                        p = p->next;
+                        free(q);
+                }
+                return 0;
+        
+        }// 全部删除
+        for( p=list,q=list->next;q!=NULL&&strcmp(q->name,name)!=0;p=p->next,q=q->next)
+        {
+                ;
+        }
+        if( q==NULL )
+        {
+                return 1;
+        }
+        p->next = q->next;
+        free(q);
         return 0;
 }
 
@@ -71,7 +129,15 @@ int  DeleUser( PtrUserDate list, char * name )
  PtrUserDate  SearchUser( PtrUserDate list, const char * name )
         /* 查找用户 */
 {
-        return NULL;
+        PtrUserDate p;
+        p = list->next;
+        while( p!=NULL )
+        {
+                if( strcpy(p->name,name)==0 )
+                        return p;
+                p = p->next;
+        }
+        return p;
 }
 
 /* 
@@ -84,6 +150,18 @@ int  DeleUser( PtrUserDate list, char * name )
  */
 int  WriteUserList( PtrUserDate list)    
 {
+        FILE *fp;
+        PtrUserDate p;
+        if( (fp=fopen("userlist","w")) == NULL )
+        {
+                MyError("fopne",__FUNCTION__,__LINE__);
+        }
+        p = list->next;
+        while( p!=NULL )
+        {
+                fwrite(p,sizeof(struct UserDate),1,fp);
+                p = p->next;
+        }
         return 0;
 }
 
@@ -98,5 +176,8 @@ int  WriteUserList( PtrUserDate list)
  */
 int  UserListIsEmpty( PtrUserDate list)
 {
-        return 0;
+        if( list->next==NULL)
+                return 1;
+        else
+                return 0;
 }

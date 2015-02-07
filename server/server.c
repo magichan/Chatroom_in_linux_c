@@ -18,6 +18,7 @@
  * =====================================================================================*/
 
 #include"server.h"
+#define _DEBUG_   
 
 /*   全局变量，所有线程共享  */
 PtrUserDate g_user_list;
@@ -50,12 +51,32 @@ int main( void )
         {
                 readfile = Allreadfile;
                 int flag;
+#if(1)
+                if( FD_ISSET(g_sock_fd,&readfile))
+                {
+                        printf("g_sock is on readfile \n");
+                }
+                if( FD_ISSET(clie_fd,&readfile))
+                {
+                        printf("clie_fd is on readfile \n");
+                }
+#endif
+//                input_msg("我两次以上\n");
                 flag = select(Maxfd+1,&readfile,NULL,NULL,NULL);
+//                input_msg("select获取读入\n");
+
+                if( flag <= 0 )
+                {
+                        MyError("select\n",__FUNCTION__,__LINE__);
+                }
+                        
                 if( flag >= 1 )
                 {
                         int i;
+                        input_msg("来了几个信息:%d",flag);
                         if( FD_ISSET(g_sock_fd,&readfile) )
                         {
+                              input_msg("出现多余一次就有问题\n");
                                struct sockaddr_in  clie_addr;//请求连接者地址
                                socklen_t serv_addr_len;
                                serv_addr_len = sizeof(struct sockaddr_in);
@@ -65,13 +86,14 @@ int main( void )
                                     printf("Ip : %s 请求连接\n",inet_ntoa(clie_addr.sin_addr));
                                    for( i=0; i<CLIENT_MAX; i++ )
                                    {
-                                           if( AllClieFd[i] < 0 )
+                                           if( AllClieFd[i] <= 0 )
                                            {
                                                    AllClieFd[i] = clie_fd;
                                                    break;
                                            }
                                    }//for( i=0; i<CLIENT_MAX;i++),为clie_fd找个新的位置 
 
+    //                               input_msg("检测 第一个 套接字描述符放在那个位置 %d \n",i);
                                    if( i >= CLIENT_MAX ) 
                                    {
                                            memset(&send_data,0,sizeof(struct SerToCliFrame)); 
@@ -80,18 +102,19 @@ int main( void )
                                            write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
                                            close(clie_fd);
                                    }else{
-                                           FD_ISSET(clie_fd,&Allreadfile);
+      //                                     input_msg("套接字%d 成功 放入 Allreadfile",clie_fd);
+                                           FD_SET(clie_fd,&Allreadfile);
                                            Maxfd = clie_fd>Maxfd?clie_fd:Maxfd;
                                            Log("请求连接",inet_ntoa(clie_addr.sin_addr));
                                    }//if( i >= CLIENT_MAX ) ，处理超额情况
                               }//if(clie_fd<0)
 
                         }// if( FD_ISSET(g_sock_fd,&readfile) ) 
-
                         for( i=0; i< CLIENT_MAX; i++ )
                         {
                                 if(FD_ISSET(AllClieFd[i],&readfile))
                                 {
+                                        input_msg("%d 的端口有信息发送过来\n",AllClieFd[i]);
                                        switch(AnalyzeMesg( AllClieFd[i] ))
                                        {
                                                case 1:
@@ -172,13 +195,13 @@ int   AnalyzeMesg( int clie_fd )
         struct SerToCliFrame send_data;
         int    count;
 
+        memset(&get_data,0,sizeof(struct CliToSerFrame));
         
         if((count = read(clie_fd,&get_data,sizeof(struct CliToSerFrame))) == 0 )
         {
                 return -1;
         }
         memset(&send_data,0,sizeof(struct SerToCliFrame));
-        memset(&get_data,0,sizeof(struct CliToSerFrame));
 /* 
  *    管理员和普通用户的注册问题：一旦管理员用户注册失败，同时还排列这普通用户，就会出问题
  */
@@ -331,6 +354,9 @@ int  MySend( int source_fd,int target_fd,char * send_string )
         if( write(target_fd,&send_data,sizeof(struct SerToCliFrame)) < 0 )
         {
                 Log("send mesg eror",FdToUsername(source_fd));
+                return -1;
         }
+        return 0;
+        
 
 }

@@ -64,26 +64,25 @@ void Log(const char *log_string, const char * user_string)
 
 /* 
  * ===  FUNCTION  ======================================================================
- *         Name:  FdToUsername
- *  Description:  根据套接字，找到用户名
- *        Entry:  套接字
- *         Exit:  用户名
+ *         Name:  get_info
+ *  Description:  获取一行输入,以回车为结尾，在buf中删除\n,以\0为结尾
+ *        Entry:  存放空间 buf ,空间大小
+ *         Exit:  成功存储返回 0 ， buf空间不存，存储失败在返回 -1 ，
  * =====================================================================================
  */
-const char * FdToUsername( int client_fd )
+int   get_info( char *buf,unsigned int counnt)
 {
-        PtrUserDate temp;
+        int  i = 0;
+        int  c;
 
-        temp =  g_user_list->next;
-        while( temp != NULL )
+        if( buf == NULL )
         {
-                if( temp->confd == client_fd )
-                {
-                        return temp->name;
-                }
-                temp = temp->next;
+                return -1;
         }
-        return NULL;
-}
+       fgets()
 
+
+
+
+}
 

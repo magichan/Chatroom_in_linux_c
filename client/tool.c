@@ -64,26 +64,49 @@ void Log(const char *log_string, const char * user_string)
 
 /* 
  * ===  FUNCTION  ======================================================================
- *         Name:  FdToUsername
- *  Description:  根据套接字，找到用户名
- *        Entry:  套接字
- *         Exit:  用户名
+ *         Name:  get_info
+ *  Description:  获取一行输入,以回车为结尾，在buf中删除\n,以\0为结尾
+ *        Entry:  存放空间 buf ,空间大小
+ *         Exit:  成功存储返回 0 ， buf空间不存，存储失败在返回 -1 ， 字符串过长返回 -2
  * =====================================================================================
  */
-const char * FdToUsername( int client_fd )
+int   GetInfo( char *buf,unsigned int counnt)
 {
-        PtrUserDate temp;
+        int  i = 0;
+        int  c;
 
-        temp =  g_user_list->next;
-        while( temp != NULL )
+        if( buf == NULL )
         {
-                if( temp->confd == client_fd )
-                {
-                        return temp->name;
-                }
-                temp = temp->next;
+                return -1;
         }
-        return NULL;
+         while( getchar() == '\n') ;// 预防多余回车
+
+         while((buf[i]=getchar()) != '\n')
+         {
+                 i++;
+         }
+        if( i >= counnt )
+        {
+                memset(buf,0,counnt);
+                return -2;
+        }
+
+         buf[i] = '\0';//去回车，加\0
+         return 0;
+
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  Myfflush
+ *  Description:  清空标准输入流
+ *        Entry:
+ *         Exit:
+ * =====================================================================================
+ */
+void Myfflush( void )
+{
+        char ch;
+        while( (ch=getchar())!='\n'&&ch!=EOF);
+}
 
