@@ -1,57 +1,11 @@
-cscope 15 $HOME/Chatroom_in_linux_c/client               0000428128
-	@client.h
+cscope 15 $HOME/Chatroom_in_linux_c/server               0000441757
+	@debug.h
 
-19 #i‚de‡
-_CLIENT_H_
-
-
-20 
-	#_CLIENT_H
+18 
+	#_DEBUG_
 
 
 	)
-
-23 
-	~"‰ame.h
-"
-
-24 
-	~"u£r.h
-"
-
-25 
-	~<°dio.h
->
-
-26 
-	~<°dlib.h
->
-
-27 
-	~<°rög.h
->
-
-28 
-	~<uni°d.h
->
-
-29 
-	~<±hªad.h
->
-
-30 
-	~<sys/ty≥s.h
->
-
-31 
-	~<√töë/ö.h
->
-
-32 
-	~<¨∑/öë.h
->
-
-	@debug.h
 
 19 #i‚de‡
 _DEBUG_
@@ -67,15 +21,49 @@ fmt
 
 	)
 
-22 
+21 
+	#öput_msg
+(
+fmt
+,
+¨gs
+...)
+
+	)
+
+23 
 	#debug_msg
 (
 fmt
 ,
 ¨gs
-..Ë
+...Ë
 	`¥ötf
-(fmt,##¨gs)
+("[%s:%s:löê%d]"fmt,
+__FILE__
+,
+__FUNCTION__
+,
+__LINE__
+,##¨gs)
+
+	)
+
+24 
+	#öput_msg
+(
+fmt
+,
+¨gs
+...Ë
+	`¥ötf
+("[%s:%s:löê%d]"fmt,
+__FILE__
+,
+__FUNCTION__
+,
+__LINE__
+,##¨gs)
 
 	)
 
@@ -110,7 +98,7 @@ _FRAME_H_
 {
 
 27 
-	mch©room_°©us
+	mch©room_auth‹ôy
 ;
 
 28 
@@ -153,60 +141,1860 @@ MESG_MAX
 
 	)
 
-41 
+40 
 	sCliToSîFøme
 {
 
-42 
+41 
 	m›ti⁄
 ;
 
-43 
+42 
 	mmesg_d©a
 [
 MESG_MAX
 ];
 
+45 
+	#REGISTER_SUCCSE
+ 4
+
+	)
+
 46 
-	#CLIENT_REQUIE_REGISTER
+	#REQUIE_REGISTER
  5
 
 	)
 
 47 
-	#CLIENT_REGISTER_USERNAME
+	#REGISTER_USERNAME
  6
 
 	)
 
 48 
-	#CLIENT_REGISTER_USERPASSWORD
+	#REGISTER_USERPASSWORD
  7
 
 	)
 
 49 
-	#CLIENT_REQUEST_LOGIN
+	#REQUEST_LOGIN
  8
 
 	)
 
 50 
-	#CLIENT_LOGIN_USERNAME
+	#LOGIN_USERNAME
  9
 
 	)
 
 51 
-	#CLIENT_LOGIN_USERPASSWORD
+	#LOGIN_USERPASSWORD
  10
 
 	)
+
+52 
+	#LOGIN_SUCCESE
+ 11
+
+	)
+
+53 
+	#REQUEST_EXIT
+ 12
+
+	)
+
+55 
+	#SEND_MESG
+ 13
+
+	)
+
+	@server.c
+
+20 
+	~"£rvî.h
+"
+
+21 
+	#_DEBUG_
+
+
+	)
+
+24 
+PåU£rD©e
+ 
+	gg_u£r_li°
+;
+
+25 
+	gg_sock_fd
+;
+
+29 
+	$maö
+( )
+
+31 
+˛õ_fd
+;
+
+32 
+AŒClõFd
+[
+CLIENT_MAX
+] = {-1};
+
+33 
+Maxfd
+;
+
+34 
+SîToCliFøme
+ 
+£nd_d©a
+;
+
+35 
+fd_£t
+ 
+ªadfûe
+,
+AŒªadfûe
+;
+
+36 
+±hªad_t
+ 
+±hªad_¶ove_c⁄√˘
+;
+
+39 
+g_u£r_li°
+ = 
+	`InôU£rLi°
+();
+
+41 
+	`InôSock
+();
+
+43 
+	`FD_ZERO
+(&
+ªadfûe
+);
+
+44 
+	`FD_SET
+(
+g_sock_fd
+,&
+AŒªadfûe
+);
+
+45 
+Maxfd
+ = 
+g_sock_fd
+;
+
+52 
+ªadfûe
+ = 
+AŒªadfûe
+;
+
+53 
+Êag
+;
+
+55 
+Êag
+ = 
+	`£À˘
+(
+Maxfd
++1,&
+ªadfûe
+,
+NULL
+,NULL,NULL);
+
+57 if–
+Êag
+ <= 0 )
+
+59 
+	`MyEº‹
+("£À˘\n",
+__FUNCTION__
+,
+__LINE__
+);
+
+62 if–
+Êag
+ >= 1 )
+
+64 
+i
+;
+
+65 if–
+	`FD_ISSET
+(
+g_sock_fd
+,&
+ªadfûe
+) )
+
+67 
+sockaddr_ö
+ 
+˛õ_addr
+;
+
+68 
+sockÀn_t
+ 
+£rv_addr_Àn
+;
+
+69 
+£rv_addr_Àn
+ = (
+sockaddr_ö
+);
+
+70 
+˛õ_fd
+ = 
+	`ac˚±
+(
+g_sock_fd
+,(
+sockaddr
+ *)&
+˛õ_addr
+,&
+£rv_addr_Àn
+);
+
+71 if(
+˛õ_fd
+ < 0 ) 
+	`Log
+("ËøûÊé•Â§±Ë¥•","client");
+
+73 
+	`¥ötf
+("I∞: %†ËØ∑Ê±ÇËøûÊé•\n",
+	`öë_¡ﬂ
+(
+˛õ_addr
+.
+sö_addr
+));
+
+74  
+i
+=0; i<
+CLIENT_MAX
+; i++ )
+
+76 if–
+AŒClõFd
+[
+i
+] <= 0 )
+
+78 
+AŒClõFd
+[
+i
+] = 
+˛õ_fd
+;
+
+83 if–
+i
+ >
+CLIENT_MAX
+ )
+
+85 
+	`mem£t
+(&
+£nd_d©a
+,0,(
+SîToCliFøme
+));
+
+86 
+£nd_d©a
+.
+›ti⁄
+ = 
+ERROR_EXCEEDING
+;
+
+87 
+	`Log
+("ÁôªÈôÜËøáÂ§öÔºåÊãíÁªùËÆøÈóÆ\n",
+	`öë_¡ﬂ
+(
+˛õ_addr
+.
+sö_addr
+));
+
+88 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+89 
+	`˛o£
+(
+˛õ_fd
+);
+
+91 
+	`FD_SET
+(
+˛õ_fd
+,&
+AŒªadfûe
+);
+
+92 
+Maxfd
+ = 
+˛õ_fd
+>Maxfd?clie_fd:Maxfd;
+
+93 
+	`Log
+("ËØ∑Ê±ÇËøûÊé•",
+	`öë_¡ﬂ
+(
+˛õ_addr
+.
+sö_addr
+));
+
+98  
+i
+=0; i< 
+CLIENT_MAX
+; i++ )
+
+100 if(
+	`FD_ISSET
+(
+AŒClõFd
+[
+i
+],&
+ªadfûe
+))
+
+102 
+	`öput_msg
+("%d ÁöÑÊñá‰ª∂ÊèèËø∞Á¨¶Êúâ‰ø°ÊÅØÂèëÈÄÅËøáÊù•\n",
+AŒClõFd
+[
+i
+]);
+
+103 
+	`A«lyzeMesg
+–
+AŒClõFd
+[
+i
+] ))
+
+106 
+	`Log
+("Áî≥ËØ∑ÈÄÄÂá∫",
+	`FdToU£∫ame
+(
+AŒClõFd
+[
+i
+]));
+
+107 
+	`˛o£
+(
+AŒClõFd
+[
+i
+]);
+
+108 
+AŒClõFd
+[
+i
+] = -1;
+
+110 -1:
+	`Log
+("ÈùûÊ≥ïÈÄÄÂá∫","È∫ªÁÉ¶");
+
+111 
+	`˛o£
+(
+AŒClõFd
+[
+i
+]);
+
+112 
+AŒClõFd
+[
+i
+] = -1;
+
+124 
+	}
+}
+
+135 
+	$InôSock
+()
+
+137 
+›tvÆ
+ = 1;
+
+138 
+sockaddr_ö
+ 
+£rv_addr
+;
+
+141 if((
+g_sock_fd
+ = 
+	`sockë
+(
+AF_INET
+,
+SOCK_STREAM
+,0)) < 0 )
+
+143 
+	`MyEº‹
+("sockë",
+__FUNCTION__
+,
+__LINE__
+);
+
+146 if–
+	`£tsock›t
+(
+g_sock_fd
+,
+SOL_SOCKET
+,
+SO_REUSEADDR
+,(*)&
+›tvÆ
+,()) < 0 )
+
+148 
+	`MyEº‹
+("£tsock›t",
+__FUNCTION__
+,
+__LINE__
+);
+
+151 
+	`mem£t
+(&
+£rv_addr
+,0,(
+sockaddr_ö
+));
+
+152 
+£rv_addr
+.
+sö_Ámûy
+ = 
+AF_INET
+;
+
+153 
+£rv_addr
+.
+sö_p‹t
+ = 
+	`ht⁄s
+(
+SERV_PORT
+);
+
+154 
+£rv_addr
+.
+sö_addr
+.
+s_addr
+ = 
+	`ht⁄l
+(
+INADDR_ANY
+);
+
+156 if–
+	`böd
+(
+g_sock_fd
+,(
+sockaddr
+ * )&
+£rv_addr
+,(
+sockaddr_ö
+)) < 0 )
+
+158 
+	`MyEº‹
+("böd\n",
+__FUNCTION__
+,
+__LINE__
+);
+
+161 if–
+	`li°í
+(
+g_sock_fd
+,
+LISTENQ
+) < 0 )
+
+163 
+	`MyEº‹
+("li°í\n",
+__FUNCTION__
+,
+__LINE__
+);
+
+165 
+	}
+}
+
+177 
+	$A«lyzeMesg
+–
+˛õ_fd
+ )
+
+179 
+CliToSîFøme
+ 
+gë_d©a
+;
+
+180 
+SîToCliFøme
+ 
+£nd_d©a
+;
+
+181 
+cou¡
+;
+
+183 
+	`mem£t
+(&
+gë_d©a
+,0,(
+CliToSîFøme
+));
+
+185 if((
+cou¡
+ = 
+	`ªad
+(
+˛õ_fd
+,&
+gë_d©a
+,(
+CliToSîFøme
+))) == 0 )
+
+189 
+	`öput_msg
+("Êé•Êî∂Âà∞ÁöÑÊï∞ÊçÆ : o±i⁄ :%d, mesg: %s\n",
+gë_d©a
+.
+›ti⁄
+,gë_d©a.
+mesg_d©a
+);
+
+190 
+	`mem£t
+(&
+£nd_d©a
+,0,(
+SîToCliFøme
+));
+
+197  
+gë_d©a
+.
+›ti⁄
+)
+
+199 
+REQUIE_REGISTER
+:
+
+201 if–
+	`U£rLi°IsEm±y
+(
+g_u£r_li°
+) )
+
+203 
+£nd_d©a
+.
+›ti⁄
+ = 
+REGISTER_USERNAME
+;
+
+204 
+	`°r˝y
+(
+£nd_d©a
+.
+mesg_d©a
+,"ËæìÂÖ•Áî®Êà∑Âêç[ÁÆ°ÁêÜÂëò]Ôºö");
+
+205 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+208 
+	`öput_msg
+("ÊàêÂäüÁöÑÂàÜÊûêËØ∑Ê±ÇÊ≥®ÂÜåÂëΩ‰ª§\n");
+
+209 
+£nd_d©a
+.
+›ti⁄
+ = 
+REGISTER_USERNAME
+;
+
+210 
+	`°r˝y
+(
+£nd_d©a
+.
+mesg_d©a
+,"ËæìÂÖ•Áî®Êà∑ÂêçÔºö");
+
+211 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+215 
+REGISTER_USERNAME
+:
+
+217 if–
+	`SórchU£r
+(
+g_u£r_li°
+,
+gë_d©a
+.
+mesg_d©a
+Ë=
+NULL
+ )
+
+219 
+PåU£rD©e
+ 
+ãmp
+ = (
+U£rD©e
+ *)
+	`mÆloc
+((UserDate));
+
+220 
+	`°r˝y
+(
+ãmp
+->
+«me
+,
+gë_d©a
+.
+mesg_d©a
+);
+
+221 
+ãmp
+->
+°©us
+ = 
+USER_STATUS_DEALING
+;
+
+222 
+ãmp
+->
+c⁄fd
+ = 
+˛õ_fd
+;
+
+223 
+	`AddU£r
+(
+g_u£r_li°
+,
+ãmp
+);
+
+224 
+£nd_d©a
+.
+›ti⁄
+ = 
+REGISTER_USERPASSWORD
+;
+
+226 
+	`°r˝y
+(
+£nd_d©a
+.
+mesg_d©a
+,"ËæìÂÖ•ÂØÜÁ†Å:");
+
+227 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+229 
+£nd_d©a
+.
+›ti⁄
+ = 
+ERROR_USERNAME_EXISTENCE
+;
+
+230 
+	`Log
+("Áî≥ËØ∑ÁöÑÂßìÂêçÈáçÂ§çÔºåÊãíÁªùÊ≥®ÂÜå","È∫ªÁÉ¶");
+
+231 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+236 
+REGISTER_USERPASSWORD
+:
+
+238 
+PåU£rD©e
+ 
+ãmp
+;
+
+240 if((
+ãmp
+=
+	`SórchU£r
+(
+g_u£r_li°
+,
+	`FdToU£∫ame
+(
+˛õ_fd
+))Ë=
+NULL
+ )
+
+242 
+	`Log
+("ÂØÜÁ†ÅÈ™åËØÅÈîôËØØÔºåÁ´ØÂè£Âè∑Êâæ‰∏çÂà∞Áõ∏Êò†Â∞ÑÁöÑÊï∞ÊçÆ","server");
+
+243 
+£nd_d©a
+.
+›ti⁄
+ = 
+ERROR_TEXT
+;
+
+244 
+	`°r˝y
+(
+£nd_d©a
+.
+mesg_d©a
+,"ÊúçÂä°Âô®Â§ÑÁêÜÈîôËØØ");
+
+245 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+248 
+	`°r˝y
+(
+ãmp
+->
+∑ssw‹d
+,
+gë_d©a
+.
+mesg_d©a
+);
+
+249 if–
+g_u£r_li°
+->
+√xt
+ =
+ãmp
+ )
+
+251 
+ãmp
+->
+auth‹ôy
+ = 
+CLIENT_STATUS_ROOT
+;
+
+253 
+ãmp
+->
+auth‹ôy
+ = 
+CLIENT_STATUS_COMMON
+;
+
+256 
+£nd_d©a
+.
+›ti⁄
+ = 
+REGISTER_SUCCSE
+;
+
+257 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+258 
+	`Log
+("Ê≥®ÂÜåÊàêÂäü",
+ãmp
+->
+«me
+);
+
+263 
+REQUEST_LOGIN
+:
+
+265 
+£nd_d©a
+.
+›ti⁄
+ = 
+LOGIN_USERNAME
+;
+
+266 
+	`°r˝y
+(
+£nd_d©a
+.
+mesg_d©a
+,"ËæìÂÖ•ÊÇ®ÁöÑÁî®Êà∑Âêç:");
+
+267 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+270 
+LOGIN_USERNAME
+:
+
+272 
+PåU£rD©e
+ 
+ãmp
+;
+
+273 if–(
+ãmp
+=
+	`SórchU£r
+(
+g_u£r_li°
+,
+gë_d©a
+.
+mesg_d©a
+)Ë=
+NULL
+ )
+
+275 
+£nd_d©a
+.
+›ti⁄
+ = 
+ERROR_USRENAME_NOEXISTENCE
+;
+
+276 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+278 
+ãmp
+->
+c⁄fd
+ = 
+˛õ_fd
+;
+
+279 
+£nd_d©a
+.
+›ti⁄
+ = 
+LOGIN_USERPASSWORD
+;
+
+280 
+	`°r˝y
+(
+£nd_d©a
+.
+mesg_d©a
+,"ËæìÂÖ•ÂØÜÁ†ÅÔºö");
+
+281 
+£nd_d©a
+.
+ch©room_auth‹ôy
+ = 
+ãmp
+->
+auth‹ôy
+;
+
+282 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+287 
+LOGIN_USERPASSWORD
+:
+
+289 
+PåU£rD©e
+ 
+ãmp
+;
+
+290 if((
+ãmp
+ = 
+	`SórchU£r
+(
+g_u£r_li°
+,
+	`FdToU£∫ame
+(
+˛õ_fd
+))Ë=
+NULL
+ )
+
+292 
+	`Log
+("ÂØÜÁ†ÅÈ™åËØÅÈîôËØØÔºåÁ´ØÂè£Âè∑Êâæ‰∏çÂà∞Áõ∏Êò†Â∞ÑÁöÑÊï∞ÊçÆ","server");
+
+293 
+£nd_d©a
+.
+›ti⁄
+ = 
+ERROR_TEXT
+;
+
+294 
+	`°r˝y
+(
+£nd_d©a
+.
+mesg_d©a
+,"ÊúçÂä°Âô®Â§ÑÁêÜÈîôËØØ");
+
+295 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+297 if–
+	`°rcmp
+(
+ãmp
+->
+∑ssw‹d
+,
+gë_d©a
+.
+mesg_d©a
+) == 0 )
+
+299 
+ãmp
+->
+°©us
+ = 
+USER_STATUS_UP
+;
+
+300 
+£nd_d©a
+.
+ch©room_auth‹ôy
+ = 
+ãmp
+->
+auth‹ôy
+;
+
+301 
+£nd_d©a
+.
+›ti⁄
+ = 
+LOGIN_SUCCESE
+;
+
+302 
+	`Log
+("ÁôªÈôÜÊàêÂäü",
+ãmp
+->
+«me
+);
+
+303 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+305 
+£nd_d©a
+.
+›ti⁄
+ = 
+ERROR_USERPASS_WRONG
+;
+
+306 
+	`Mywrôe
+(
+˛õ_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+));
+
+311 
+REQUEST_EXIT
+:
+
+314 
+	`Pro˚ssMesg
+(
+˛õ_fd
+,&
+gë_d©a
+);
+
+318 
+	}
+}
+
+320 
+	$Pro˚ssMesg
+(
+˛õ_fd
+,
+CliToSîFøme
+ * 
+gë_d©a
+)
+
+322 
+PåU£rD©e
+ 
+hód
+;
+
+324  
+hód
+=
+g_u£r_li°
+->
+√xt
+; hód!=
+NULL
+; head=head->next)
+
+326 
+	`MySíd
+(
+˛õ_fd
+,
+hód
+->
+c⁄fd
+,
+gë_d©a
+->
+mesg_d©a
+);
+
+329 
+	}
+}
+
+331 
+	$MySíd
+–
+sour˚_fd
+,
+èrgë_fd
+,* 
+£nd_°rög
+ )
+
+333 
+PåU£rD©e
+ 
+ãmp
+;
+
+334 
+SîToCliFøme
+ 
+£nd_d©a
+;
+
+335 
+ãmp
+ = 
+	`SórchU£r
+(
+g_u£r_li°
+,
+	`FdToU£∫ame
+(
+èrgë_fd
+));
+
+336 
+£nd_d©a
+.
+ch©room_auth‹ôy
+ = 
+ãmp
+->
+auth‹ôy
+;
+
+337 
+	`°r˝y
+(
+£nd_d©a
+.
+mesg_d©a
+,
+£nd_°rög
+);
+
+338 
+£nd_d©a
+.
+›ti⁄
+ = 
+SEND_MESG
+;
+
+339 
+£nd_d©a
+.
+£nd_time
+ = 
+	`time
+(
+NULL
+);
+
+340 
+	`°r˝y
+(
+£nd_d©a
+.
+£ndî_«me
+,
+	`FdToU£∫ame
+(
+sour˚_fd
+));
+
+341 if–
+	`Mywrôe
+(
+èrgë_fd
+,&
+£nd_d©a
+,(
+SîToCliFøme
+)) < 0 )
+
+343 
+	`Log
+("£nd mesgÉr‹",
+	`FdToU£∫ame
+(
+sour˚_fd
+));
+
+349 
+	}
+}
+
+	@server.h
+
+19 #i‚de‡
+_CLIENT_H_
+
+
+20 
+	#_CLIENT_H_
+
+
+	)
+
+22 
+	~"‰ame.h
+"
+
+23 
+	~"u£r.h
+"
+
+24 
+	~"debug.h
+"
+
+25 
+	~"toﬁ.h
+"
+
+26 
+	~<°dio.h
+>
+
+27 
+	~<°dlib.h
+>
+
+28 
+	~<°rög.h
+>
+
+29 
+	~<uni°d.h
+>
+
+30 
+	~<±hªad.h
+>
+
+31 
+	~<sys/sockë.h
+>
+
+32 
+	~<sys/ty≥s.h
+>
+
+33 
+	~<sys/£À˘.h
+>
+
+34 
+	~<√töë/ö.h
+>
+
+35 
+	~<¨∑/öë.h
+>
+
+39 
+	#SERV_PORT
+ 4507
+
+	)
+
+40 
+	#LISTENQ
+ 12
+
+	)
+
+41 
+	#CLIENT_MAX
+ 16
+
+	)
+
+44 
+	#ERROR_PROCESS
+ -1
+
+	)
+
+45 
+	#ERROR_USERNAME_EXISTENCE
+ -2
+
+	)
+
+46 
+	#ERROR_USRENAME_NOEXISTENCE
+ -3
+
+	)
+
+47 
+	#ERROR_USERPASS_WRONG
+ -4
+
+	)
+
+48 
+	#ERROR_EXCEEDING
+ -5
+
+	)
+
+49 
+	#ERROR_TEXT
+ -6
+
+	)
+
+51 
+InôSock
+();
+
+52 
+A«lyzeMesg
+–
+˛õ_fd
+ );
+
+53 
+Pro˚ssMesg
+(
+˛õ_fd
+,
+CliToSîFøme
+ * 
+gë_d©a
+);
+
+54 
+MySíd
+–
+sour˚_fd
+,
+èrgë_fd
+,* 
+£nd_°rög
+ );
+
+	@test/test1.c
+
+22 
+	~<°dio.h
+>
+
+23 
+	~<îr‹.h
+>
+
+25 
+	$MyEº‹
+(* 
+îr_°rög
+,c⁄° * 
+fun˘i⁄
+, 
+löe
+)
+
+27 
+	`Ârötf
+(
+°dîr
+,"[fun˘i⁄:%s,löe:%d]",
+fun˘i⁄
+,
+löe
+);
+
+28 
+	`≥º‹
+(
+îr_°rög
+);
+
+29 
+	}
+}
+
+32 
+	$maö
+()
+
+34 
+	`MyEº‹
+("Stög\n",
+__FUNCTION__
+,
+__LINE__
+);
+
+35 
+	}
+}
+
+	@tool.c
+
+20 
+	~"toﬁ.h
+"
+
+30 
+	$MyEº‹
+(* 
+îr_°rög
+,c⁄° * 
+fun˘i⁄
+, 
+löe
+)
+
+32 
+	`Ârötf
+(
+°dîr
+,"[fun˘i⁄:%s,löe:%d]",
+fun˘i⁄
+,
+löe
+);
+
+33 
+	`≥º‹
+(
+îr_°rög
+);
+
+34 
+	`exô
+(1);
+
+36 
+	}
+}
+
+37 
+	$MyEº‹Pthªad
+(* 
+îr_°rög
+,c⁄° * 
+fun˘i⁄
+, 
+löe
+)
+
+39 
+	`Ârötf
+(
+°dîr
+,"[fun˘i⁄:%s,löe:%d]",
+fun˘i⁄
+,
+löe
+);
+
+40 
+	`≥º‹
+(
+îr_°rög
+);
+
+41 
+	`±hªad_exô
+(0);
+
+42 
+	}
+}
+
+53 
+	$Log
+(c⁄° *
+log_°rög
+, c⁄° * 
+u£r_°rög
+)
+
+55 
+FILE
+ * 
+log_Â
+;
+
+56 
+time_t
+ 
+time_now
+ = 
+	`time
+(
+NULL
+);
+
+58 if–(
+log_Â
+=
+	`f›í
+("log_Â","a+")Ë=
+NULL
+ )
+
+60 
+	`MyEº‹
+("f›√",
+__FUNCTION__
+,
+__LINE__
+ );
+
+62 
+	`Ârötf
+(
+log_Â
+,"time:%†wh©:%10† who:%10s\n",
+	`˘ime
+(&(
+time_now
+)),
+log_°rög
+,
+u£r_°rög
+);
+
+63 
+	`f˛o£
+(
+log_Â
+);
+
+64 
+	}
+}
+
+74 c⁄° * 
+	$FdToU£∫ame
+–
+˛õ¡_fd
+ )
+
+76 
+PåU£rD©e
+ 
+ãmp
+;
+
+78 
+ãmp
+ = 
+g_u£r_li°
+->
+√xt
+;
+
+80  
+ãmp
+ !
+NULL
+ )
+
+82 
+	`öput_msg
+("ÂΩìÂâçÊåáÂêë‰ΩçÁΩÆÁöÑ˛õ¡_fd :%d,«mê:%s\n",
+ãmp
+->
+c⁄fd
+,ãmp->
+«me
+);
+
+83 if–
+ãmp
+->
+c⁄fd
+ =
+˛õ¡_fd
+ )
+
+85  
+ãmp
+->
+«me
+;
+
+87 
+ãmp
+ =Åemp->
+√xt
+;
+
+89  
+NULL
+;
+
+90 
+	}
+}
+
+92 
+	$Mywrôe
+–
+fd
+, c⁄° * 
+buf
+,
+cou¡
+ )
+
+94 
+ªtu∫_vÆue
+;
+
+95 if–(
+ªtu∫_vÆue
+=
+	`wrôe
+(
+fd
+,
+buf
+,
+cou¡
+)) > 0 )
+
+97  
+ªtu∫_vÆue
+;
+
+100 
+	`¥ötf
+("write ÂáΩÊï∞Âá∫Èîô \n");
+
+101 
+	`exô
+(0);
+
+105 
+	}
+}
+
+	@tool.h
+
+18 
+	~"£rvî.h
+"
+
+19 
+	~"u£r.h
+"
+
+21 
+	#LOG_SERVER
+ -1
+
+	)
+
+22 
+MyEº‹
+(* 
+îr_°rög
+,c⁄° * 
+fun˘i⁄
+, 
+löe
+);
+
+23 
+MyEº‹Pthªad
+(* 
+îr_°rög
+,c⁄° * 
+fun˘i⁄
+, 
+löe
+);
+
+24 
+Log
+(c⁄° *
+log_°rög
+, c⁄° * 
+u£r_°rög
+);
+
+25 c⁄° *
+FdToU£∫ame
+–
+˛õ¡_fd
+ );
+
+26 
+Mywrôe
+–
+fd
+, c⁄° * 
+buf
+,
+cou¡
+ );
 
 	@user.c
 
 20 
 	~"u£r.h
+"
+
+21 
+	~"toﬁ.h
+"
+
+22 
+	~"debug.h
 "
 
 31 
@@ -215,15 +2003,157 @@ PåU£rD©e
 	$InôU£rLi°
 ( )
 
-33  
-NULL
+33 
+FILE
+ * 
+Â
 ;
 
 34 
+PåU£rD©e
+ 
+ãmp
+;
+
+35 
+PåU£rD©e
+ 
+hód
+;
+
+36 
+PåU£rD©e
+ 
+p
+;
+
+37 if–(
+Â
+=
+	`f›í
+("u£æi°","ab+"))=
+NULL
+ )
+
+39 
+	`MyEº‹
+("f›í",
+__FUNCTION__
+,
+__LINE__
+);
+
+41 
+hód
+ = ( 
+PåU£rD©e
+ )
+	`mÆloc
+((
+U£rD©e
+));
+
+42 
+hód
+->
+√xt
+ = 
+NULL
+;
+
+43 
+p
+ = 
+hód
+;
+
+45 
+ãmp
+ = ( 
+PåU£rD©e
+ )
+	`mÆloc
+((
+U£rD©e
+));
+
+46  
+	`‰ód
+(
+ãmp
+,(
+U£rD©e
+),1,
+Â
+) >0 )
+
+48 
+ãmp
+->
+√xt
+ = 
+NULL
+;
+
+49 
+p
+->
+√xt
+ = 
+ãmp
+;
+
+50 
+p
+ = 
+ãmp
+;
+
+52 
+p
+->
+°©us
+ = 
+USER_STATUS_DOWN
+;
+
+53 
+p
+->
+c⁄fd
+ = 0;
+
+54 
+ãmp
+ = ( 
+PåU£rD©e
+ )
+	`mÆloc
+((
+U£rD©e
+));
+
+56 
+	`‰ì
+(
+ãmp
+);
+
+57 
+	`f˛o£
+(
+Â
+);
+
+59  
+hód
+;
+
+60 
 	}
 }
 
-44 
+70 
 	$AddU£r
 –
 PåU£rD©e
@@ -233,11 +2163,67 @@ li°
 Node
  )
 
-47 
+72 
+PåU£rD©e
+ 
+p
+;
+
+73 if–
+Node
+ =
+NULL
+ )
+
+75 
+	`MyEº‹
+("Addu£r",
+__FUNCTION__
+,
+__LINE__
+);
+
+77 
+p
+ = 
+li°
+;
+
+78 
+Node
+->
+√xt
+ = 
+NULL
+;
+
+79  
+p
+->
+√xt
+!=
+NULL
+ )
+
+81 
+p
+p->
+√xt
+;
+
+83 
+p
+->
+√xt
+ = 
+Node
+;
+
+85 
 	}
 }
 
-57 
+95 
 	$DñeU£r
 –
 PåU£rD©e
@@ -247,11 +2233,93 @@ li°
 «me
  )
 
-60 
+97 
+PåU£rD©e
+ 
+p
+,
+q
+;
+
+98 if–
+«me
+ =
+NULL
+ )
+
+100 
+p
+ = 
+li°
+->
+√xt
+;
+
+101  
+p
+!=
+NULL
+ )
+
+103 
+q
+ = 
+p
+;
+
+104 
+p
+ =Ö->
+√xt
+;
+
+105 
+	`‰ì
+(
+q
+);
+
+110  
+p
+=
+li°
+,
+q
+ˆi°->
+√xt
+;q!=
+NULL
+&&
+	`°rcmp
+(q->
+«me
+,name)!=0;p=p->next,q=q->next)
+
+114 if–
+q
+==
+NULL
+ )
+
+118 
+p
+->
+√xt
+ = 
+q
+->next;
+
+119 
+	`‰ì
+(
+q
+);
+
+121 
 	}
 }
 
-70 c⁄° 
+131 
 PåU£rD©e
  
 	$SórchU£r
@@ -259,19 +2327,67 @@ PåU£rD©e
 PåU£rD©e
  
 li°
-, * 
+, c⁄° * 
 «me
  )
 
-72  
-NULL
+133 
+PåU£rD©e
+ 
+p
 ;
 
-73 
+134 
+p
+ = 
+li°
+->
+√xt
+;
+
+135  
+p
+!=
+NULL
+ )
+
+137 
+	`öput_msg
+("ÂΩìÂâçÊåáÂêë‰ΩçÁΩÆÁöÑ˛õ¡_fd :%d,«mê:%s\n",
+p
+->
+c⁄fd
+,p->
+«me
+);
+
+138 if–
+	`°rcmp
+(
+p
+->
+«me
+,name)==0 )
+
+140  
+p
+;
+
+142 
+p
+ =Ö->
+√xt
+;
+
+144  
+p
+;
+
+145 
 	}
 }
 
-83 
+155 
 	$WrôeU£rLi°
 –
 PåU£rD©e
@@ -279,7 +2395,85 @@ PåU£rD©e
 li°
 )
 
-86 
+157 
+FILE
+ *
+Â
+;
+
+158 
+PåU£rD©e
+ 
+p
+;
+
+159 if–(
+Â
+=
+	`f›í
+("u£æi°","w")Ë=
+NULL
+ )
+
+161 
+	`MyEº‹
+("f›√",
+__FUNCTION__
+,
+__LINE__
+);
+
+163 
+p
+ = 
+li°
+->
+√xt
+;
+
+164  
+p
+!=
+NULL
+ )
+
+166 
+	`fwrôe
+(
+p
+,(
+U£rD©e
+),1,
+Â
+);
+
+167 
+p
+ =Ö->
+√xt
+;
+
+170 
+	}
+}
+
+181 
+	$U£rLi°IsEm±y
+–
+PåU£rD©e
+ 
+li°
+)
+
+183 if–
+li°
+->
+√xt
+==
+NULL
+)
+
+187 
 	}
 }
 
@@ -300,62 +2494,102 @@ _USER_H_
 "
 
 23 
+	~"£rvî.h
+"
+
+24 
 	~<°dio.h
 >
 
-24 
+25 
 	~<°rög.h
 >
 
-25 
+26 
 	~<°dlib.h
 >
 
-26 
+27 
 	#USERFIFE
  "u£æi°"
 
 	)
 
-28 
+29 
 	sU£rD©e
 {
 
-29 
+30 
 	m°©us
 ;
 
-30 
+31 
+	mauth‹ôy
+;
+
+32 
+	mc⁄fd
+;
+
+33 
 	m«me
 [
 USER_MAX
 ];
 
-31 
+34 
 	m∑ssw‹d
 [
 USER_MAX
 ];
 
-32 
+35 
 U£rD©e
  * 
 	m√xt
 ;
 
-35 
+39 
+	#USER_STATUS_DEALING
+ 2
+
+	)
+
+40 
+	#USER_STATUS_UP
+ 1
+
+	)
+
+41 
+	#USER_STATUS_DOWN
+ 0
+
+	)
+
+43 
 U£rD©e
  * 
 	tPåU£rD©e
 ;
 
-37 
+45 
+PåU£rD©e
+ 
+g_u£r_li°
+;
+
+46 
+g_sock_fd
+;
+
+47 
 PåU£rD©e
  
 InôU£rLi°
 ( );
 
-38 
+48 
 AddU£r
 –
 PåU£rD©e
@@ -365,7 +2599,7 @@ li°
 Node
  );
 
-39 
+49 
 DñeU£r
 –
 PåU£rD©e
@@ -375,18 +2609,26 @@ li°
 «me
  );
 
-40 c⁄° 
+50 
 PåU£rD©e
  
 SórchU£r
 –PåU£rD©ê
 li°
-, * 
+, c⁄° * 
 «me
  );
 
-41 
+51 
 WrôeU£rLi°
+–
+PåU£rD©e
+ 
+li°
+);
+
+52 
+U£rLi°IsEm±y
 –
 PåU£rD©e
  
@@ -644,6 +2886,96 @@ __THROW
 ;
 
 103 
+__END_DECLS
+
+
+	@/usr/include/error.h
+
+19 #i‚de‡
+_ERROR_H
+
+
+20 
+	#_ERROR_H
+ 1
+
+	)
+
+22 
+	~<„©uªs.h
+>
+
+25 
+__BEGIN_DECLS
+
+
+31 
+	$îr‹
+ (
+__°©us
+, 
+__î∫um
+, c⁄° *
+__f‹m©
+, ...)
+
+32 
+	`__©åibuã__
+ ((
+	`__f‹m©__
+ (
+__¥ötf__
+, 3, 4)));
+
+34 
+	$îr‹_©_löe
+ (
+__°©us
+, 
+__î∫um
+, c⁄° *
+__‚ame
+,
+
+35 
+__löío
+, c⁄° *
+__f‹m©
+, ...)
+
+36 
+	`__©åibuã__
+ ((
+	`__f‹m©__
+ (
+__¥ötf__
+, 5, 6)));
+
+41 (*
+îr‹_¥öt_¥og«me
+) ();
+
+44 
+îr‹_mesßge_cou¡
+;
+
+48 
+îr‹_⁄e_≥r_löe
+;
+
+51 #i‡
+deföed
+ 
+__exã∫_Æways_ölöe
+ && deföed 
+__va_¨g_∑ck
+
+
+52 
+	~<bôs/îr‹.h
+>
+
+55 
 __END_DECLS
 
 
@@ -15213,6 +17545,1056 @@ __f‹tify_fun˘i⁄
 __END_DECLS
 
 
+	@/usr/include/sys/select.h
+
+21 #i‚de‡
+_SYS_SELECT_H
+
+
+22 
+	#_SYS_SELECT_H
+ 1
+
+	)
+
+24 
+	~<„©uªs.h
+>
+
+27 
+	~<bôs/ty≥s.h
+>
+
+30 
+	~<bôs/£À˘.h
+>
+
+33 
+	~<bôs/sig£t.h
+>
+
+35 #i‚de‡
+__sig£t_t_deföed
+
+
+36 
+	#__sig£t_t_deföed
+
+
+	)
+
+37 
+__sig£t_t
+ 
+	tsig£t_t
+;
+
+41 
+	#__√ed_time_t
+
+
+	)
+
+42 
+	#__√ed_time•ec
+
+
+	)
+
+43 
+	~<time.h
+>
+
+44 
+	#__√ed_timevÆ
+
+
+	)
+
+45 
+	~<bôs/time.h
+>
+
+47 #i‚de‡
+__su£c⁄ds_t_deföed
+
+
+48 
+__su£c⁄ds_t
+ 
+	tsu£c⁄ds_t
+;
+
+49 
+	#__su£c⁄ds_t_deföed
+
+
+	)
+
+54 
+	t__fd_mask
+;
+
+57 #unde‡
+__NFDBITS
+
+
+59 
+	#__NFDBITS
+ (8 * (Ë (
+__fd_mask
+))
+
+	)
+
+60 
+	#__FD_ELT
+(
+d
+Ë((dË/ 
+__NFDBITS
+)
+
+	)
+
+61 
+	#__FD_MASK
+(
+d
+Ë((
+__fd_mask
+Ë1 << ((dË% 
+__NFDBITS
+))
+
+	)
+
+68 #ifde‡
+__USE_XOPEN
+
+
+69 
+__fd_mask
+ 
+	mfds_bôs
+[
+__FD_SETSIZE
+ / 
+__NFDBITS
+];
+
+70 
+	#__FDS_BITS
+(
+£t
+Ë((£t)->
+fds_bôs
+)
+
+	)
+
+72 
+__fd_mask
+ 
+	m__fds_bôs
+[
+__FD_SETSIZE
+ / 
+__NFDBITS
+];
+
+73 
+	#__FDS_BITS
+(
+£t
+Ë((£t)->
+__fds_bôs
+)
+
+	)
+
+75 } 
+	tfd_£t
+;
+
+78 
+	#FD_SETSIZE
+ 
+__FD_SETSIZE
+
+
+	)
+
+80 #ifde‡
+__USE_MISC
+
+
+82 
+__fd_mask
+ 
+	tfd_mask
+;
+
+85 
+	#NFDBITS
+ 
+__NFDBITS
+
+
+	)
+
+90 
+	#FD_SET
+(
+fd
+, 
+fd£ç
+Ë
+	`__FD_SET
+ (fd, fd£ç)
+
+	)
+
+91 
+	#FD_CLR
+(
+fd
+, 
+fd£ç
+Ë
+	`__FD_CLR
+ (fd, fd£ç)
+
+	)
+
+92 
+	#FD_ISSET
+(
+fd
+, 
+fd£ç
+Ë
+	`__FD_ISSET
+ (fd, fd£ç)
+
+	)
+
+93 
+	#FD_ZERO
+(
+fd£ç
+Ë
+	`__FD_ZERO
+ (fd£ç)
+
+	)
+
+96 
+__BEGIN_DECLS
+
+
+106 
+£À˘
+ (
+__nfds
+, 
+fd_£t
+ *
+__ª°ri˘
+ 
+__ªadfds
+,
+
+107 
+fd_£t
+ *
+__ª°ri˘
+ 
+__wrôefds
+,
+
+108 
+fd_£t
+ *
+__ª°ri˘
+ 
+__ex˚±fds
+,
+
+109 
+timevÆ
+ *
+__ª°ri˘
+ 
+__timeout
+);
+
+111 #ifde‡
+__USE_XOPEN2K
+
+
+118 
+p£À˘
+ (
+__nfds
+, 
+fd_£t
+ *
+__ª°ri˘
+ 
+__ªadfds
+,
+
+119 
+fd_£t
+ *
+__ª°ri˘
+ 
+__wrôefds
+,
+
+120 
+fd_£t
+ *
+__ª°ri˘
+ 
+__ex˚±fds
+,
+
+121 c⁄° 
+time•ec
+ *
+__ª°ri˘
+ 
+__timeout
+,
+
+122 c⁄° 
+__sig£t_t
+ *
+__ª°ri˘
+ 
+__sigmask
+);
+
+127 #i‡
+__USE_FORTIFY_LEVEL
+ > 0 && 
+deföed
+ 
+__GNUC__
+
+
+128 
+	~<bôs/£À˘2.h
+>
+
+131 
+	g__END_DECLS
+
+
+	@/usr/include/sys/socket.h
+
+19 #i‚def 
+_SYS_SOCKET_H
+
+
+20 
+	#_SYS_SOCKET_H
+ 1
+
+	)
+
+22 
+	~<„©uªs.h
+>
+
+24 
+	g__BEGIN_DECLS
+
+
+26 
+	~<sys/uio.h
+>
+
+27 
+	#__√ed_size_t
+
+
+	)
+
+28 
+	~<°ddef.h
+>
+
+29 #ifde‡
+__USE_GNU
+
+
+31 
+	~<bôs/sig£t.h
+>
+
+38 
+	~<bôs/sockë.h
+>
+
+40 #ifde‡
+__USE_BSD
+
+
+43 
+	sosockaddr
+
+
+45 
+	mß_Ámûy
+;
+
+46 
+	mß_d©a
+[14];
+
+54 
+	mSHUT_RD
+ = 0,
+
+55 
+	#SHUT_RD
+ 
+SHUT_RD
+
+
+	)
+
+56 
+	mSHUT_WR
+,
+
+57 
+	#SHUT_WR
+ 
+SHUT_WR
+
+
+	)
+
+58 
+	mSHUT_RDWR
+
+
+59 
+	#SHUT_RDWR
+ 
+SHUT_RDWR
+
+
+	)
+
+68 #i‡
+deföed
+ 
+__˝lu•lus
+ || !
+__GNUC_PREREQ
+ (2, 7Ë|| !deföed 
+__USE_GNU
+
+
+69 
+	#__SOCKADDR_ARG
+ 
+sockaddr
+ *
+__ª°ri˘
+
+
+	)
+
+70 
+	#__CONST_SOCKADDR_ARG
+ c⁄° 
+sockaddr
+ *
+
+	)
+
+74 
+	#__SOCKADDR_ALLTYPES
+ \
+
+75 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr
+) \
+
+76 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_©
+) \
+
+77 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_ax25
+) \
+
+78 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_dl
+) \
+
+79 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_e⁄
+) \
+
+80 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_ö
+) \
+
+81 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_ö6
+) \
+
+82 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_ö¨p
+) \
+
+83 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_ùx
+) \
+
+84 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_iso
+) \
+
+85 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_ns
+) \
+
+86 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_un
+) \
+
+87 
+	`__SOCKADDR_ONETYPE
+ (
+sockaddr_x25
+)
+
+	)
+
+89 
+	#__SOCKADDR_ONETYPE
+(
+ty≥
+Ëty≥ *
+__ª°ri˘
+ 
+__
+##ty≥##__;
+
+	)
+
+90 uni⁄ { 
+	m__SOCKADDR_ALLTYPES
+
+
+91 } 
+	t__SOCKADDR_ARG
+ 
+	t__©åibuã__
+ ((
+	t__å™•¨ít_uni⁄__
+));
+
+92 #unde‡
+__SOCKADDR_ONETYPE
+
+
+93 
+	#__SOCKADDR_ONETYPE
+(
+ty≥
+Ëc⁄° ty≥ *
+__ª°ri˘
+ 
+__
+##ty≥##__;
+
+	)
+
+94 uni⁄ { 
+	m__SOCKADDR_ALLTYPES
+
+
+95 } 
+	t__CONST_SOCKADDR_ARG
+ 
+	t__©åibuã__
+ ((
+	t__å™•¨ít_uni⁄__
+));
+
+96 #unde‡
+__SOCKADDR_ONETYPE
+
+
+99 #ifde‡
+__USE_GNU
+
+
+101 
+	smmsghdr
+
+
+103 
+msghdr
+ 
+	mmsg_hdr
+;
+
+104 
+	mmsg_Àn
+;
+
+113 
+	$sockë
+ (
+__domaö
+, 
+__ty≥
+, 
+__¥Ÿocﬁ
+Ë
+__THROW
+;
+
+119 
+	$sockë∑ú
+ (
+__domaö
+, 
+__ty≥
+, 
+__¥Ÿocﬁ
+,
+
+120 
+__fds
+[2]Ë
+__THROW
+;
+
+123 
+	$böd
+ (
+__fd
+, 
+__CONST_SOCKADDR_ARG
+ 
+__addr
+, 
+sockÀn_t
+ 
+__Àn
+)
+
+124 
+__THROW
+;
+
+127 
+	$gësock«me
+ (
+__fd
+, 
+__SOCKADDR_ARG
+ 
+__addr
+,
+
+128 
+sockÀn_t
+ *
+__ª°ri˘
+ 
+__Àn
+Ë
+__THROW
+;
+
+137 
+	`c⁄√˘
+ (
+__fd
+, 
+__CONST_SOCKADDR_ARG
+ 
+__addr
+, 
+sockÀn_t
+ 
+__Àn
+);
+
+141 
+	$gë≥î«me
+ (
+__fd
+, 
+__SOCKADDR_ARG
+ 
+__addr
+,
+
+142 
+sockÀn_t
+ *
+__ª°ri˘
+ 
+__Àn
+Ë
+__THROW
+;
+
+149 
+ssize_t
+ 
+	`£nd
+ (
+__fd
+, c⁄° *
+__buf
+, 
+size_t
+ 
+__n
+, 
+__Êags
+);
+
+156 
+ssize_t
+ 
+	`ªcv
+ (
+__fd
+, *
+__buf
+, 
+size_t
+ 
+__n
+, 
+__Êags
+);
+
+163 
+ssize_t
+ 
+	`£ndto
+ (
+__fd
+, c⁄° *
+__buf
+, 
+size_t
+ 
+__n
+,
+
+164 
+__Êags
+, 
+__CONST_SOCKADDR_ARG
+ 
+__addr
+,
+
+165 
+sockÀn_t
+ 
+__addr_Àn
+);
+
+174 
+ssize_t
+ 
+	`ªcv‰om
+ (
+__fd
+, *
+__ª°ri˘
+ 
+__buf
+, 
+size_t
+ 
+__n
+,
+
+175 
+__Êags
+, 
+__SOCKADDR_ARG
+ 
+__addr
+,
+
+176 
+sockÀn_t
+ *
+__ª°ri˘
+ 
+__addr_Àn
+);
+
+184 
+ssize_t
+ 
+	`£ndmsg
+ (
+__fd
+, c⁄° 
+msghdr
+ *
+__mesßge
+,
+
+185 
+__Êags
+);
+
+187 #ifde‡
+__USE_GNU
+
+
+193 
+	`£ndmmsg
+ (
+__fd
+, 
+mmsghdr
+ *
+__vmesßges
+,
+
+194 
+__vÀn
+, 
+__Êags
+);
+
+202 
+ssize_t
+ 
+	`ªcvmsg
+ (
+__fd
+, 
+msghdr
+ *
+__mesßge
+, 
+__Êags
+);
+
+204 #ifde‡
+__USE_GNU
+
+
+210 
+	`ªcvmmsg
+ (
+__fd
+, 
+mmsghdr
+ *
+__vmesßges
+,
+
+211 
+__vÀn
+, 
+__Êags
+,
+
+212 c⁄° 
+time•ec
+ *
+__tmo
+);
+
+219 
+	$gësock›t
+ (
+__fd
+, 
+__Àvñ
+, 
+__›äame
+,
+
+220 *
+__ª°ri˘
+ 
+__›tvÆ
+,
+
+221 
+sockÀn_t
+ *
+__ª°ri˘
+ 
+__›éí
+Ë
+__THROW
+;
+
+226 
+	$£tsock›t
+ (
+__fd
+, 
+__Àvñ
+, 
+__›äame
+,
+
+227 c⁄° *
+__›tvÆ
+, 
+sockÀn_t
+ 
+__›éí
+Ë
+__THROW
+;
+
+233 
+	$li°í
+ (
+__fd
+, 
+__n
+Ë
+__THROW
+;
+
+243 
+	`ac˚±
+ (
+__fd
+, 
+__SOCKADDR_ARG
+ 
+__addr
+,
+
+244 
+sockÀn_t
+ *
+__ª°ri˘
+ 
+__addr_Àn
+);
+
+246 #ifde‡
+__USE_GNU
+
+
+251 
+	`ac˚±4
+ (
+__fd
+, 
+__SOCKADDR_ARG
+ 
+__addr
+,
+
+252 
+sockÀn_t
+ *
+__ª°ri˘
+ 
+__addr_Àn
+, 
+__Êags
+);
+
+261 
+	$shutdown
+ (
+__fd
+, 
+__how
+Ë
+__THROW
+;
+
+264 #ifde‡
+__USE_XOPEN2K
+
+
+266 
+	$sock©m¨k
+ (
+__fd
+Ë
+__THROW
+;
+
+270 #ifde‡
+__USE_MISC
+
+
+274 
+	$isfdty≥
+ (
+__fd
+, 
+__fdty≥
+Ë
+__THROW
+;
+
+279 #i‡
+__USE_FORTIFY_LEVEL
+ > 0 && 
+deföed
+ 
+__f‹tify_fun˘i⁄
+
+
+280 
+	~<bôs/sockë2.h
+>
+
+283 
+__END_DECLS
+
+
 	@/usr/include/sys/types.h
 
 22 #i‚def 
@@ -24505,6 +27887,250 @@ __ILP32__
 
 	)
 
+	@/usr/include/bits/error.h
+
+19 #i‚def 
+_ERROR_H
+
+
+24 
+__REDIRECT
+ (
+__îr‹_Æüs
+, (
+__°©us
+, 
+__î∫um
+,
+
+25 c⁄° *
+__f‹m©
+, ...),
+
+26 
+îr‹
+)
+
+27 
+__©åibuã__
+ ((
+__f‹m©__
+ (
+__¥ötf__
+, 3, 4)));
+
+28 
+__REDIRECT
+ (
+__îr‹_n‹ëu∫
+, (
+__°©us
+, 
+__î∫um
+,
+
+29 c⁄° *
+__f‹m©
+, ...),
+
+30 
+îr‹
+)
+
+31 
+__©åibuã__
+ ((
+__n‹ëu∫__
+, 
+__f‹m©__
+ (
+__¥ötf__
+, 3, 4)));
+
+36 
+__exã∫_Æways_ölöe
+ 
+
+37 
+	$îr‹
+ (
+__°©us
+, 
+__î∫um
+, c⁄° *
+__f‹m©
+, ...)
+
+39 i‡(
+	`__buûtö_c⁄°™t_p
+ (
+__°©us
+) && __status != 0)
+
+40 
+	`__îr‹_n‹ëu∫
+ (
+__°©us
+, 
+__î∫um
+, 
+__f‹m©
+, 
+	`__va_¨g_∑ck
+ ());
+
+42 
+	`__îr‹_Æüs
+ (
+__°©us
+, 
+__î∫um
+, 
+__f‹m©
+, 
+	`__va_¨g_∑ck
+ ());
+
+43 
+	}
+}
+
+46 
+__REDIRECT
+ (
+__îr‹_©_löe_Æüs
+, (
+__°©us
+, 
+__î∫um
+,
+
+47 c⁄° *
+__‚ame
+,
+
+48 
+__löe
+,
+
+49 c⁄° *
+__f‹m©
+, ...),
+
+50 
+îr‹_©_löe
+)
+
+51 
+__©åibuã__
+ ((
+__f‹m©__
+ (
+__¥ötf__
+, 5, 6)));
+
+52 
+__REDIRECT
+ (
+__îr‹_©_löe_n‹ëu∫
+, (
+__°©us
+, 
+__î∫um
+,
+
+53 c⁄° *
+__‚ame
+,
+
+54 
+__löe
+,
+
+55 c⁄° *
+__f‹m©
+,
+
+57 
+îr‹_©_löe
+)
+
+58 
+__©åibuã__
+ ((
+__n‹ëu∫__
+, 
+__f‹m©__
+ (
+__¥ötf__
+, 5, 6)));
+
+63 
+__exã∫_Æways_ölöe
+ 
+
+64 
+	$îr‹_©_löe
+ (
+__°©us
+, 
+__î∫um
+, c⁄° *
+__‚ame
+,
+
+65 
+__löe
+, c⁄° *
+__f‹m©
+, ...)
+
+67 i‡(
+	`__buûtö_c⁄°™t_p
+ (
+__°©us
+) && __status != 0)
+
+68 
+	`__îr‹_©_löe_n‹ëu∫
+ (
+__°©us
+, 
+__î∫um
+, 
+__‚ame
+, 
+__löe
+, 
+__f‹m©
+,
+
+69 
+	`__va_¨g_∑ck
+ ());
+
+71 
+	`__îr‹_©_löe_Æüs
+ (
+__°©us
+, 
+__î∫um
+, 
+__‚ame
+, 
+__löe
+,
+
+72 
+__f‹m©
+, 
+	`__va_¨g_∑ck
+ ());
+
+73 
+	}
+}
+
 	@/usr/include/bits/in.h
 
 20 #i‚de‡
@@ -26295,6 +29921,262 @@ __x86_64__
 
 	)
 
+	@/usr/include/bits/select.h
+
+18 #i‚de‡
+_SYS_SELECT_H
+
+
+22 
+	~<bôs/w‹dsize.h
+>
+
+25 #i‡
+deföed
+ 
+__GNUC__
+ && __GNUC__ >= 2
+
+27 #i‡
+__WORDSIZE
+ == 64
+
+28 
+	#__FD_ZERO_STOS
+ "°osq"
+
+	)
+
+30 
+	#__FD_ZERO_STOS
+ "°o¶"
+
+	)
+
+33 
+	#__FD_ZERO
+(
+fd•
+) \
+
+35 
+__d0
+, 
+__d1
+; \
+
+36 
+__asm__
+ 
+	`__vﬁ©ûe__
+ ("˛d;Ñï; " 
+__FD_ZERO_STOS
+ \
+
+37 : "=c" (
+__d0
+), "=D" (
+__d1
+) \
+
+38 : "a" (0), "0" ( (
+fd_£t
+) \
+
+39 /  (
+__fd_mask
+)), \
+
+40 "1" (&
+	`__FDS_BITS
+ (
+fd•
+)[0]) \
+
+42 } 0)
+
+	)
+
+48 
+	#__FD_ZERO
+(
+£t
+) \
+
+50 
+__i
+; \
+
+51 
+fd_£t
+ *
+__¨r
+ = (
+£t
+); \
+
+52 
+__i
+ = 0; __ò<  (
+fd_£t
+Ë/  (
+__fd_mask
+); ++__i) \
+
+53 
+	`__FDS_BITS
+ (
+__¨r
+)[
+__i
+] = 0; \
+
+54 } 0)
+
+	)
+
+58 
+	#__FD_SET
+(
+d
+, 
+£t
+) \
+
+59 ((Ë(
+	`__FDS_BITS
+ (
+£t
+)[
+	`__FD_ELT
+ (
+d
+)] |
+	`__FD_MASK
+ (d)))
+
+	)
+
+60 
+	#__FD_CLR
+(
+d
+, 
+£t
+) \
+
+61 ((Ë(
+	`__FDS_BITS
+ (
+£t
+)[
+	`__FD_ELT
+ (
+d
+)] &~
+	`__FD_MASK
+ (d)))
+
+	)
+
+62 
+	#__FD_ISSET
+(
+d
+, 
+£t
+) \
+
+63 ((
+	`__FDS_BITS
+ (
+£t
+)[
+	`__FD_ELT
+ (
+d
+)] & 
+	`__FD_MASK
+ (d)Ë!0)
+
+	)
+
+	@/usr/include/bits/select2.h
+
+19 #i‚de‡
+_SYS_SELECT_H
+
+
+24 
+__fdñt_chk
+ (
+__d
+);
+
+25 
+	$__fdñt_w¨n
+ (
+__d
+)
+
+26 
+	`__w¨«âr
+ ("bit outside of fd_set selected");
+
+27 #unde‡
+__FD_ELT
+
+
+28 
+	#__FD_ELT
+(
+d
+) \
+
+29 
+__exãnsi⁄__
+ \
+
+30 ({ 
+__d
+ = (
+d
+); \
+
+31 (
+	`__buûtö_c⁄°™t_p
+ (
+__d
+) \
+
+32 ? (0 <
+__d
+ && __d < 
+__FD_SETSIZE
+ \
+
+33 ? (
+__d
+ / 
+__NFDBITS
+) \
+
+34 : 
+	`__fdñt_w¨n
+ (
+__d
+)) \
+
+35 : 
+	`__fdñt_chk
+ (
+__d
+)); 
+	}
+})
+
+	)
+
 	@/usr/include/bits/setjmp.h
 
 19 #i‚de‡
@@ -26346,6 +30228,2438 @@ __exãnsi⁄__
 35 
 	t__jmp_buf
 [6];
+
+	@/usr/include/bits/sigset.h
+
+19 #i‚def 
+_SIGSET_H_ty≥s
+
+
+20 
+	#_SIGSET_H_ty≥s
+ 1
+
+	)
+
+22 
+	t__sig_©omic_t
+;
+
+26 
+	#_SIGSET_NWORDS
+ (1024 / (8 *  ()))
+
+	)
+
+29 
+	m__vÆ
+[
+_SIGSET_NWORDS
+];
+
+30 } 
+	t__sig£t_t
+;
+
+41 #i‡!
+deföed
+ 
+_SIGSET_H_‚s
+ && deföed 
+_SIGNAL_H
+
+
+42 
+	#_SIGSET_H_‚s
+ 1
+
+	)
+
+44 #i‚de‡
+_EXTERN_INLINE
+
+
+45 
+	#_EXTERN_INLINE
+ 
+__exã∫_ölöe
+
+
+	)
+
+49 
+	#__sigmask
+(
+sig
+) \
+
+50 (((Ë1Ë<< (((
+sig
+Ë- 1Ë% (8 *  ())))
+
+	)
+
+53 
+	#__sigw‹d
+(
+sig
+Ë(((sigË- 1Ë/ (8 *  ()))
+
+	)
+
+55 #i‡
+deföed
+ 
+__GNUC__
+ && __GNUC__ >= 2
+
+56 
+	#__sigem±y£t
+(
+£t
+) \
+
+57 (
+	`__exãnsi⁄__
+ ({ 
+__˙t
+ = 
+_SIGSET_NWORDS
+; \
+
+58 
+sig£t_t
+ *
+__£t
+ = (
+£t
+); \
+
+59 --
+__˙t
+ >0Ë
+__£t
+->
+__vÆ
+[__cnt] = 0; \
+
+60 0; }))
+
+	)
+
+61 
+	#__sigfûl£t
+(
+£t
+) \
+
+62 (
+	`__exãnsi⁄__
+ ({ 
+__˙t
+ = 
+_SIGSET_NWORDS
+; \
+
+63 
+sig£t_t
+ *
+__£t
+ = (
+£t
+); \
+
+64 --
+__˙t
+ >0Ë
+__£t
+->
+__vÆ
+[__cnt] = ~0UL; \
+
+65 0; }))
+
+	)
+
+67 #ifde‡
+__USE_GNU
+
+
+71 
+	#__sigi£m±y£t
+(
+£t
+) \
+
+72 (
+	`__exãnsi⁄__
+ ({ 
+__˙t
+ = 
+_SIGSET_NWORDS
+; \
+
+73 c⁄° 
+sig£t_t
+ *
+__£t
+ = (
+£t
+); \
+
+74 
+__ªt
+ = 
+__£t
+->
+__vÆ
+[--
+__˙t
+]; \
+
+75 !
+__ªt
+ && --
+__˙t
+ >= 0) \
+
+76 
+__ªt
+ = 
+__£t
+->
+__vÆ
+[
+__˙t
+]; \
+
+77 
+__ªt
+ =0; }))
+
+	)
+
+78 
+	#__sig™d£t
+(
+de°
+, 
+À·
+, 
+right
+) \
+
+79 (
+	`__exãnsi⁄__
+ ({ 
+__˙t
+ = 
+_SIGSET_NWORDS
+; \
+
+80 
+sig£t_t
+ *
+__de°
+ = (
+de°
+); \
+
+81 c⁄° 
+sig£t_t
+ *
+__À·
+ = (
+À·
+); \
+
+82 c⁄° 
+sig£t_t
+ *
+__right
+ = (
+right
+); \
+
+83 --
+__˙t
+ >= 0) \
+
+84 
+__de°
+->
+__vÆ
+[
+__˙t
+] = (
+__À·
+->__val[__cnt] \
+
+85 & 
+__right
+->
+__vÆ
+[
+__˙t
+]); \
+
+86 0; }))
+
+	)
+
+87 
+	#__sig‹£t
+(
+de°
+, 
+À·
+, 
+right
+) \
+
+88 (
+	`__exãnsi⁄__
+ ({ 
+__˙t
+ = 
+_SIGSET_NWORDS
+; \
+
+89 
+sig£t_t
+ *
+__de°
+ = (
+de°
+); \
+
+90 c⁄° 
+sig£t_t
+ *
+__À·
+ = (
+À·
+); \
+
+91 c⁄° 
+sig£t_t
+ *
+__right
+ = (
+right
+); \
+
+92 --
+__˙t
+ >= 0) \
+
+93 
+__de°
+->
+__vÆ
+[
+__˙t
+] = (
+__À·
+->__val[__cnt] \
+
+94 | 
+__right
+->
+__vÆ
+[
+__˙t
+]); \
+
+95 0; }))
+
+	)
+
+102 
+__sigismembî
+ (c⁄° 
+__sig£t_t
+ *, );
+
+103 
+__sigadd£t
+ (
+__sig£t_t
+ *, );
+
+104 
+__sigdñ£t
+ (
+__sig£t_t
+ *, );
+
+106 #ifde‡
+__USE_EXTERN_INLINES
+
+
+107 
+	#__SIGSETFN
+(
+NAME
+, 
+BODY
+, 
+CONST
+) \
+
+108 
+_EXTERN_INLINE
+ \
+
+109 
+	`NAME
+ (
+CONST
+ 
+__sig£t_t
+ *
+__£t
+, 
+__sig
+) \
+
+111 
+__mask
+ = 
+	`__sigmask
+ (
+__sig
+); \
+
+112 
+__w‹d
+ = 
+	`__sigw‹d
+ (
+__sig
+); \
+
+113  
+BODY
+; \
+
+114 }
+
+	)
+
+116 
+__SIGSETFN
+ (
+__sigismembî
+, (
+__£t
+->
+__vÆ
+[
+__w‹d
+] & 
+__mask
+) ? 1 : 0, const)
+
+117 
+__SIGSETFN
+ (
+__sigadd£t
+, ((
+__£t
+->
+__vÆ
+[
+__w‹d
+] |
+__mask
+), 0), )
+
+118 
+__SIGSETFN
+ (
+__sigdñ£t
+, ((
+__£t
+->
+__vÆ
+[
+__w‹d
+] &~
+__mask
+), 0), )
+
+120 #unde‡
+__SIGSETFN
+
+
+	@/usr/include/bits/socket.h
+
+19 #i‚de‡
+__BITS_SOCKET_H
+
+
+20 
+	#__BITS_SOCKET_H
+
+
+	)
+
+22 #i‚de‡
+_SYS_SOCKET_H
+
+
+26 
+	#__√ed_size_t
+
+
+	)
+
+27 
+	~<°ddef.h
+>
+
+29 
+	~<sys/ty≥s.h
+>
+
+32 #i‚de‡
+__sockÀn_t_deföed
+
+
+33 
+__sockÀn_t
+ 
+	tsockÀn_t
+;
+
+34 
+	#__sockÀn_t_deföed
+
+
+	)
+
+38 
+	~<bôs/sockë_ty≥.h
+>
+
+41 
+	#PF_UNSPEC
+ 0
+
+	)
+
+42 
+	#PF_LOCAL
+ 1
+
+	)
+
+43 
+	#PF_UNIX
+ 
+PF_LOCAL
+
+
+	)
+
+44 
+	#PF_FILE
+ 
+PF_LOCAL
+
+
+	)
+
+45 
+	#PF_INET
+ 2
+
+	)
+
+46 
+	#PF_AX25
+ 3
+
+	)
+
+47 
+	#PF_IPX
+ 4
+
+	)
+
+48 
+	#PF_APPLETALK
+ 5
+
+	)
+
+49 
+	#PF_NETROM
+ 6
+
+	)
+
+50 
+	#PF_BRIDGE
+ 7
+
+	)
+
+51 
+	#PF_ATMPVC
+ 8
+
+	)
+
+52 
+	#PF_X25
+ 9
+
+	)
+
+53 
+	#PF_INET6
+ 10
+
+	)
+
+54 
+	#PF_ROSE
+ 11
+
+	)
+
+55 
+	#PF_DEC√t
+ 12
+
+	)
+
+56 
+	#PF_NETBEUI
+ 13
+
+	)
+
+57 
+	#PF_SECURITY
+ 14
+
+	)
+
+58 
+	#PF_KEY
+ 15
+
+	)
+
+59 
+	#PF_NETLINK
+ 16
+
+	)
+
+60 
+	#PF_ROUTE
+ 
+PF_NETLINK
+
+
+	)
+
+61 
+	#PF_PACKET
+ 17
+
+	)
+
+62 
+	#PF_ASH
+ 18
+
+	)
+
+63 
+	#PF_ECONET
+ 19
+
+	)
+
+64 
+	#PF_ATMSVC
+ 20
+
+	)
+
+65 
+	#PF_RDS
+ 21
+
+	)
+
+66 
+	#PF_SNA
+ 22
+
+	)
+
+67 
+	#PF_IRDA
+ 23
+
+	)
+
+68 
+	#PF_PPPOX
+ 24
+
+	)
+
+69 
+	#PF_WANPIPE
+ 25
+
+	)
+
+70 
+	#PF_LLC
+ 26
+
+	)
+
+71 
+	#PF_CAN
+ 29
+
+	)
+
+72 
+	#PF_TIPC
+ 30
+
+	)
+
+73 
+	#PF_BLUETOOTH
+ 31
+
+	)
+
+74 
+	#PF_IUCV
+ 32
+
+	)
+
+75 
+	#PF_RXRPC
+ 33
+
+	)
+
+76 
+	#PF_ISDN
+ 34
+
+	)
+
+77 
+	#PF_PHONET
+ 35
+
+	)
+
+78 
+	#PF_IEEE802154
+ 36
+
+	)
+
+79 
+	#PF_CAIF
+ 37
+
+	)
+
+80 
+	#PF_ALG
+ 38
+
+	)
+
+81 
+	#PF_NFC
+ 39
+
+	)
+
+82 
+	#PF_VSOCK
+ 40
+
+	)
+
+83 
+	#PF_MAX
+ 41
+
+	)
+
+86 
+	#AF_UNSPEC
+ 
+PF_UNSPEC
+
+
+	)
+
+87 
+	#AF_LOCAL
+ 
+PF_LOCAL
+
+
+	)
+
+88 
+	#AF_UNIX
+ 
+PF_UNIX
+
+
+	)
+
+89 
+	#AF_FILE
+ 
+PF_FILE
+
+
+	)
+
+90 
+	#AF_INET
+ 
+PF_INET
+
+
+	)
+
+91 
+	#AF_AX25
+ 
+PF_AX25
+
+
+	)
+
+92 
+	#AF_IPX
+ 
+PF_IPX
+
+
+	)
+
+93 
+	#AF_APPLETALK
+ 
+PF_APPLETALK
+
+
+	)
+
+94 
+	#AF_NETROM
+ 
+PF_NETROM
+
+
+	)
+
+95 
+	#AF_BRIDGE
+ 
+PF_BRIDGE
+
+
+	)
+
+96 
+	#AF_ATMPVC
+ 
+PF_ATMPVC
+
+
+	)
+
+97 
+	#AF_X25
+ 
+PF_X25
+
+
+	)
+
+98 
+	#AF_INET6
+ 
+PF_INET6
+
+
+	)
+
+99 
+	#AF_ROSE
+ 
+PF_ROSE
+
+
+	)
+
+100 
+	#AF_DEC√t
+ 
+PF_DEC√t
+
+
+	)
+
+101 
+	#AF_NETBEUI
+ 
+PF_NETBEUI
+
+
+	)
+
+102 
+	#AF_SECURITY
+ 
+PF_SECURITY
+
+
+	)
+
+103 
+	#AF_KEY
+ 
+PF_KEY
+
+
+	)
+
+104 
+	#AF_NETLINK
+ 
+PF_NETLINK
+
+
+	)
+
+105 
+	#AF_ROUTE
+ 
+PF_ROUTE
+
+
+	)
+
+106 
+	#AF_PACKET
+ 
+PF_PACKET
+
+
+	)
+
+107 
+	#AF_ASH
+ 
+PF_ASH
+
+
+	)
+
+108 
+	#AF_ECONET
+ 
+PF_ECONET
+
+
+	)
+
+109 
+	#AF_ATMSVC
+ 
+PF_ATMSVC
+
+
+	)
+
+110 
+	#AF_RDS
+ 
+PF_RDS
+
+
+	)
+
+111 
+	#AF_SNA
+ 
+PF_SNA
+
+
+	)
+
+112 
+	#AF_IRDA
+ 
+PF_IRDA
+
+
+	)
+
+113 
+	#AF_PPPOX
+ 
+PF_PPPOX
+
+
+	)
+
+114 
+	#AF_WANPIPE
+ 
+PF_WANPIPE
+
+
+	)
+
+115 
+	#AF_LLC
+ 
+PF_LLC
+
+
+	)
+
+116 
+	#AF_CAN
+ 
+PF_CAN
+
+
+	)
+
+117 
+	#AF_TIPC
+ 
+PF_TIPC
+
+
+	)
+
+118 
+	#AF_BLUETOOTH
+ 
+PF_BLUETOOTH
+
+
+	)
+
+119 
+	#AF_IUCV
+ 
+PF_IUCV
+
+
+	)
+
+120 
+	#AF_RXRPC
+ 
+PF_RXRPC
+
+
+	)
+
+121 
+	#AF_ISDN
+ 
+PF_ISDN
+
+
+	)
+
+122 
+	#AF_PHONET
+ 
+PF_PHONET
+
+
+	)
+
+123 
+	#AF_IEEE802154
+ 
+PF_IEEE802154
+
+
+	)
+
+124 
+	#AF_CAIF
+ 
+PF_CAIF
+
+
+	)
+
+125 
+	#AF_ALG
+ 
+PF_ALG
+
+
+	)
+
+126 
+	#AF_NFC
+ 
+PF_NFC
+
+
+	)
+
+127 
+	#AF_VSOCK
+ 
+PF_VSOCK
+
+
+	)
+
+128 
+	#AF_MAX
+ 
+PF_MAX
+
+
+	)
+
+134 
+	#SOL_RAW
+ 255
+
+	)
+
+135 
+	#SOL_DECNET
+ 261
+
+	)
+
+136 
+	#SOL_X25
+ 262
+
+	)
+
+137 
+	#SOL_PACKET
+ 263
+
+	)
+
+138 
+	#SOL_ATM
+ 264
+
+	)
+
+139 
+	#SOL_AAL
+ 265
+
+	)
+
+140 
+	#SOL_IRDA
+ 266
+
+	)
+
+143 
+	#SOMAXCONN
+ 128
+
+	)
+
+146 
+	~<bôs/sockaddr.h
+>
+
+149 
+	ssockaddr
+
+
+151 
+__SOCKADDR_COMMON
+ (
+ß_
+);
+
+152 
+	mß_d©a
+[14];
+
+158 
+	#__ss_Æig¡y≥
+ 
+
+	)
+
+159 
+	#_SS_SIZE
+ 128
+
+	)
+
+160 
+	#_SS_PADSIZE
+ (
+_SS_SIZE
+ - (2 *  (
+__ss_Æig¡y≥
+)))
+
+	)
+
+162 
+	ssockaddr_°‹age
+
+
+164 
+__SOCKADDR_COMMON
+ (
+ss_
+);
+
+165 
+__ss_Æig¡y≥
+ 
+	m__ss_Æign
+;
+
+166 
+	m__ss_∑ddög
+[
+_SS_PADSIZE
+];
+
+173 
+	mMSG_OOB
+ = 0x01,
+
+174 
+	#MSG_OOB
+ 
+MSG_OOB
+
+
+	)
+
+175 
+	mMSG_PEEK
+ = 0x02,
+
+176 
+	#MSG_PEEK
+ 
+MSG_PEEK
+
+
+	)
+
+177 
+	mMSG_DONTROUTE
+ = 0x04,
+
+178 
+	#MSG_DONTROUTE
+ 
+MSG_DONTROUTE
+
+
+	)
+
+179 #ifde‡
+__USE_GNU
+
+
+181 
+	mMSG_TRYHARD
+ = 
+MSG_DONTROUTE
+,
+
+182 
+	#MSG_TRYHARD
+ 
+MSG_DONTROUTE
+
+
+	)
+
+184 
+	mMSG_CTRUNC
+ = 0x08,
+
+185 
+	#MSG_CTRUNC
+ 
+MSG_CTRUNC
+
+
+	)
+
+186 
+	mMSG_PROXY
+ = 0x10,
+
+187 
+	#MSG_PROXY
+ 
+MSG_PROXY
+
+
+	)
+
+188 
+	mMSG_TRUNC
+ = 0x20,
+
+189 
+	#MSG_TRUNC
+ 
+MSG_TRUNC
+
+
+	)
+
+190 
+	mMSG_DONTWAIT
+ = 0x40,
+
+191 
+	#MSG_DONTWAIT
+ 
+MSG_DONTWAIT
+
+
+	)
+
+192 
+	mMSG_EOR
+ = 0x80,
+
+193 
+	#MSG_EOR
+ 
+MSG_EOR
+
+
+	)
+
+194 
+	mMSG_WAITALL
+ = 0x100,
+
+195 
+	#MSG_WAITALL
+ 
+MSG_WAITALL
+
+
+	)
+
+196 
+	mMSG_FIN
+ = 0x200,
+
+197 
+	#MSG_FIN
+ 
+MSG_FIN
+
+
+	)
+
+198 
+	mMSG_SYN
+ = 0x400,
+
+199 
+	#MSG_SYN
+ 
+MSG_SYN
+
+
+	)
+
+200 
+	mMSG_CONFIRM
+ = 0x800,
+
+201 
+	#MSG_CONFIRM
+ 
+MSG_CONFIRM
+
+
+	)
+
+202 
+	mMSG_RST
+ = 0x1000,
+
+203 
+	#MSG_RST
+ 
+MSG_RST
+
+
+	)
+
+204 
+	mMSG_ERRQUEUE
+ = 0x2000,
+
+205 
+	#MSG_ERRQUEUE
+ 
+MSG_ERRQUEUE
+
+
+	)
+
+206 
+	mMSG_NOSIGNAL
+ = 0x4000,
+
+207 
+	#MSG_NOSIGNAL
+ 
+MSG_NOSIGNAL
+
+
+	)
+
+208 
+	mMSG_MORE
+ = 0x8000,
+
+209 
+	#MSG_MORE
+ 
+MSG_MORE
+
+
+	)
+
+210 
+	mMSG_WAITFORONE
+ = 0x10000,
+
+211 
+	#MSG_WAITFORONE
+ 
+MSG_WAITFORONE
+
+
+	)
+
+212 
+	mMSG_FASTOPEN
+ = 0x20000000,
+
+213 
+	#MSG_FASTOPEN
+ 
+MSG_FASTOPEN
+
+
+	)
+
+215 
+	mMSG_CMSG_CLOEXEC
+ = 0x40000000
+
+218 
+	#MSG_CMSG_CLOEXEC
+ 
+MSG_CMSG_CLOEXEC
+
+
+	)
+
+224 
+	smsghdr
+
+
+226 *
+	mmsg_«me
+;
+
+227 
+sockÀn_t
+ 
+	mmsg_«mñí
+;
+
+229 
+iovec
+ *
+	mmsg_iov
+;
+
+230 
+size_t
+ 
+	mmsg_iovÀn
+;
+
+232 *
+	mmsg_c⁄åﬁ
+;
+
+233 
+size_t
+ 
+	mmsg_c⁄åﬁÀn
+;
+
+238 
+	mmsg_Êags
+;
+
+242 
+	scmsghdr
+
+
+244 
+size_t
+ 
+	mcmsg_Àn
+;
+
+249 
+	mcmsg_Àvñ
+;
+
+250 
+	mcmsg_ty≥
+;
+
+251 #i‡(!
+deföed
+ 
+__STRICT_ANSI__
+ && 
+__GNUC__
+ >2Ë|| 
+__STDC_VERSION__
+ >= 199901L
+
+252 
+__exãnsi⁄__
+ 
+__cmsg_d©a
+ 
+	m__Êex¨r
+;
+
+257 #i‡(!
+deföed
+ 
+__STRICT_ANSI__
+ && 
+__GNUC__
+ >2Ë|| 
+__STDC_VERSION__
+ >= 199901L
+
+258 
+	#CMSG_DATA
+(
+cmsg
+Ë((cmsg)->
+__cmsg_d©a
+)
+
+	)
+
+260 
+	#CMSG_DATA
+(
+cmsg
+Ë((*Ë((
+cmsghdr
+ *Ë(cmsgË+ 1))
+
+	)
+
+262 
+	#CMSG_NXTHDR
+(
+mhdr
+, 
+cmsg
+Ë
+	`__cmsg_nxthdr
+ (mhdr, cmsg)
+
+	)
+
+263 
+	#CMSG_FIRSTHDR
+(
+mhdr
+) \
+
+264 ((
+size_t
+Ë(
+mhdr
+)->
+msg_c⁄åﬁÀn
+ > (
+cmsghdr
+) \
+
+265 ? (
+cmsghdr
+ *Ë(
+mhdr
+)->
+msg_c⁄åﬁ
+ : (cmsghd∏*Ë0)
+
+	)
+
+266 
+	#CMSG_ALIGN
+(
+Àn
+Ë((÷íË+  (
+size_t
+) - 1) \
+
+267 & (
+size_t
+Ë~( (size_tË- 1))
+
+	)
+
+268 
+	#CMSG_SPACE
+(
+Àn
+Ë(
+	`CMSG_ALIGN
+ (len) \
+
+269 + 
+	`CMSG_ALIGN
+ ( (
+cmsghdr
+)))
+
+	)
+
+270 
+	#CMSG_LEN
+(
+Àn
+Ë(
+	`CMSG_ALIGN
+ ( (
+cmsghdr
+)Ë+ (Àn))
+
+	)
+
+272 
+cmsghdr
+ *
+	$__cmsg_nxthdr
+ (
+msghdr
+ *
+__mhdr
+,
+
+273 
+cmsghdr
+ *
+__cmsg
+Ë
+__THROW
+;
+
+274 #ifde‡
+__USE_EXTERN_INLINES
+
+
+275 #i‚de‡
+_EXTERN_INLINE
+
+
+276 
+	#_EXTERN_INLINE
+ 
+__exã∫_ölöe
+
+
+	)
+
+278 
+_EXTERN_INLINE
+ 
+cmsghdr
+ *
+
+279 
+	`__NTH
+ (
+	$__cmsg_nxthdr
+ (
+msghdr
+ *
+__mhdr
+, 
+cmsghdr
+ *
+__cmsg
+))
+
+281 i‡((
+size_t
+Ë
+__cmsg
+->
+cmsg_Àn
+ <  (
+cmsghdr
+))
+
+283  (
+cmsghdr
+ *) 0;
+
+285 
+__cmsg
+ = (
+cmsghdr
+ *) ((*) __cmsg
+
+286 + 
+	`CMSG_ALIGN
+ (
+__cmsg
+->
+cmsg_Àn
+));
+
+287 i‡((*Ë(
+__cmsg
+ + 1Ë> ((*Ë
+__mhdr
+->
+msg_c⁄åﬁ
+
+
+288 + 
+__mhdr
+->
+msg_c⁄åﬁÀn
+)
+
+289 || ((*Ë
+__cmsg
+ + 
+	`CMSG_ALIGN
+ (__cmsg->
+cmsg_Àn
+)
+
+290 > ((*Ë
+__mhdr
+->
+msg_c⁄åﬁ
+ + __mhdr->
+msg_c⁄åﬁÀn
+)))
+
+292  (
+cmsghdr
+ *) 0;
+
+293  
+__cmsg
+;
+
+294 
+	}
+}
+
+301 
+	mSCM_RIGHTS
+ = 0x01
+
+302 
+	#SCM_RIGHTS
+ 
+SCM_RIGHTS
+
+
+	)
+
+303 #ifde‡
+__USE_GNU
+
+
+304 , 
+	mSCM_CREDENTIALS
+ = 0x02
+
+305 
+	#SCM_CREDENTIALS
+ 
+SCM_CREDENTIALS
+
+
+	)
+
+309 #ifde‡
+__USE_GNU
+
+
+311 
+	su¸ed
+
+
+313 
+pid_t
+ 
+	mpid
+;
+
+314 
+uid_t
+ 
+	muid
+;
+
+315 
+gid_t
+ 
+	mgid
+;
+
+320 #i‡!
+deföed
+ 
+__USE_MISC
+ && !deföed 
+__USE_GNU
+
+
+321 #i‚de‡
+FIOGETOWN
+
+
+322 
+	#__SYS_SOCKET_H_undef_FIOGETOWN
+
+
+	)
+
+324 #i‚de‡
+FIOSETOWN
+
+
+325 
+	#__SYS_SOCKET_H_undef_FIOSETOWN
+
+
+	)
+
+327 #i‚de‡
+SIOCATMARK
+
+
+328 
+	#__SYS_SOCKET_H_undef_SIOCATMARK
+
+
+	)
+
+330 #i‚de‡
+SIOCGPGRP
+
+
+331 
+	#__SYS_SOCKET_H_undef_SIOCGPGRP
+
+
+	)
+
+333 #i‚de‡
+SIOCGSTAMP
+
+
+334 
+	#__SYS_SOCKET_H_undef_SIOCGSTAMP
+
+
+	)
+
+336 #i‚de‡
+SIOCGSTAMPNS
+
+
+337 
+	#__SYS_SOCKET_H_undef_SIOCGSTAMPNS
+
+
+	)
+
+339 #i‚de‡
+SIOCSPGRP
+
+
+340 
+	#__SYS_SOCKET_H_undef_SIOCSPGRP
+
+
+	)
+
+345 
+	~<asm/sockë.h
+>
+
+347 #i‡!
+deföed
+ 
+__USE_MISC
+ && !deföed 
+__USE_GNU
+
+
+348 #ifde‡
+__SYS_SOCKET_H_undef_FIOGETOWN
+
+
+349 #unde‡
+__SYS_SOCKET_H_undef_FIOGETOWN
+
+
+350 #unde‡
+FIOGETOWN
+
+
+352 #ifde‡
+__SYS_SOCKET_H_undef_FIOSETOWN
+
+
+353 #unde‡
+__SYS_SOCKET_H_undef_FIOSETOWN
+
+
+354 #unde‡
+FIOSETOWN
+
+
+356 #ifde‡
+__SYS_SOCKET_H_undef_SIOCATMARK
+
+
+357 #unde‡
+__SYS_SOCKET_H_undef_SIOCATMARK
+
+
+358 #unde‡
+SIOCATMARK
+
+
+360 #ifde‡
+__SYS_SOCKET_H_undef_SIOCGPGRP
+
+
+361 #unde‡
+__SYS_SOCKET_H_undef_SIOCGPGRP
+
+
+362 #unde‡
+SIOCGPGRP
+
+
+364 #ifde‡
+__SYS_SOCKET_H_undef_SIOCGSTAMP
+
+
+365 #unde‡
+__SYS_SOCKET_H_undef_SIOCGSTAMP
+
+
+366 #unde‡
+SIOCGSTAMP
+
+
+368 #ifde‡
+__SYS_SOCKET_H_undef_SIOCGSTAMPNS
+
+
+369 #unde‡
+__SYS_SOCKET_H_undef_SIOCGSTAMPNS
+
+
+370 #unde‡
+SIOCGSTAMPNS
+
+
+372 #ifde‡
+__SYS_SOCKET_H_undef_SIOCSPGRP
+
+
+373 #unde‡
+__SYS_SOCKET_H_undef_SIOCSPGRP
+
+
+374 #unde‡
+SIOCSPGRP
+
+
+379 
+	slögî
+
+
+381 
+	ml_⁄off
+;
+
+382 
+	ml_lögî
+;
+
+	@/usr/include/bits/socket2.h
+
+19 #i‚de‡
+_SYS_SOCKET_H
+
+
+23 
+ssize_t
+ 
+__ªcv_chk
+ (
+__fd
+, *
+__buf
+, 
+size_t
+ 
+__n
+, size_à
+__buÊí
+,
+
+24 
+__Êags
+);
+
+25 
+ssize_t
+ 
+__REDIRECT
+ (
+__ªcv_Æüs
+, (
+__fd
+, *
+__buf
+, 
+size_t
+ 
+__n
+,
+
+26 
+__Êags
+), 
+ªcv
+);
+
+27 
+ssize_t
+ 
+__REDIRECT
+ (
+__ªcv_chk_w¨n
+,
+
+28 (
+__fd
+, *
+__buf
+, 
+size_t
+ 
+__n
+, size_à
+__buÊí
+,
+
+29 
+__Êags
+), 
+__ªcv_chk
+)
+
+30 
+__w¨«âr
+ ("recv called with biggerÜengthÅhan size of destination "
+
+33 
+__f‹tify_fun˘i⁄
+ 
+ssize_t
+
+
+34 
+	$ªcv
+ (
+__fd
+, *
+__buf
+, 
+size_t
+ 
+__n
+, 
+__Êags
+)
+
+36 i‡(
+	`__bos0
+ (
+__buf
+Ë!(
+size_t
+) -1)
+
+38 i‡(!
+	`__buûtö_c⁄°™t_p
+ (
+__n
+))
+
+39  
+	`__ªcv_chk
+ (
+__fd
+, 
+__buf
+, 
+__n
+, 
+	`__bos0
+ (__buf), 
+__Êags
+);
+
+41 i‡(
+__n
+ > 
+	`__bos0
+ (
+__buf
+))
+
+42  
+	`__ªcv_chk_w¨n
+ (
+__fd
+, 
+__buf
+, 
+__n
+, 
+	`__bos0
+ (__buf), 
+__Êags
+);
+
+44  
+	`__ªcv_Æüs
+ (
+__fd
+, 
+__buf
+, 
+__n
+, 
+__Êags
+);
+
+45 
+	}
+}
+
+47 
+ssize_t
+ 
+__ªcv‰om_chk
+ (
+__fd
+, *
+__ª°ri˘
+ 
+__buf
+, 
+size_t
+ 
+__n
+,
+
+48 
+size_t
+ 
+__buÊí
+, 
+__Êags
+,
+
+49 
+__SOCKADDR_ARG
+ 
+__addr
+,
+
+50 
+sockÀn_t
+ *
+__ª°ri˘
+ 
+__addr_Àn
+);
+
+51 
+ssize_t
+ 
+__REDIRECT
+ (
+__ªcv‰om_Æüs
+,
+
+52 (
+__fd
+, *
+__ª°ri˘
+ 
+__buf
+, 
+size_t
+ 
+__n
+,
+
+53 
+__Êags
+, 
+__SOCKADDR_ARG
+ 
+__addr
+,
+
+54 
+sockÀn_t
+ *
+__ª°ri˘
+ 
+__addr_Àn
+), 
+ªcv‰om
+);
+
+55 
+ssize_t
+ 
+__REDIRECT
+ (
+__ªcv‰om_chk_w¨n
+,
+
+56 (
+__fd
+, *
+__ª°ri˘
+ 
+__buf
+, 
+size_t
+ 
+__n
+,
+
+57 
+size_t
+ 
+__buÊí
+, 
+__Êags
+,
+
+58 
+__SOCKADDR_ARG
+ 
+__addr
+,
+
+59 
+sockÀn_t
+ *
+__ª°ri˘
+ 
+__addr_Àn
+), 
+__ªcv‰om_chk
+)
+
+60 
+__w¨«âr
+ ("recvfrom called with biggerÜengthÅhan size of "
+
+63 
+__f‹tify_fun˘i⁄
+ 
+ssize_t
+
+
+64 
+	$ªcv‰om
+ (
+__fd
+, *
+__ª°ri˘
+ 
+__buf
+, 
+size_t
+ 
+__n
+, 
+__Êags
+,
+
+65 
+__SOCKADDR_ARG
+ 
+__addr
+, 
+sockÀn_t
+ *
+__ª°ri˘
+ 
+__addr_Àn
+)
+
+67 i‡(
+	`__bos0
+ (
+__buf
+Ë!(
+size_t
+) -1)
+
+69 i‡(!
+	`__buûtö_c⁄°™t_p
+ (
+__n
+))
+
+70  
+	`__ªcv‰om_chk
+ (
+__fd
+, 
+__buf
+, 
+__n
+, 
+	`__bos0
+ (__buf), 
+__Êags
+,
+
+71 
+__addr
+, 
+__addr_Àn
+);
+
+72 i‡(
+__n
+ > 
+	`__bos0
+ (
+__buf
+))
+
+73  
+	`__ªcv‰om_chk_w¨n
+ (
+__fd
+, 
+__buf
+, 
+__n
+, 
+	`__bos0
+ (__buf), 
+__Êags
+,
+
+74 
+__addr
+, 
+__addr_Àn
+);
+
+76  
+	`__ªcv‰om_Æüs
+ (
+__fd
+, 
+__buf
+, 
+__n
+, 
+__Êags
+, 
+__addr
+, 
+__addr_Àn
+);
+
+77 
+	}
+}
 
 	@/usr/include/bits/stdio-ldbl.h
 
@@ -52747,1056 +59061,6 @@ ULL
 
 	)
 
-	@/usr/include/sys/select.h
-
-21 #i‚de‡
-_SYS_SELECT_H
-
-
-22 
-	#_SYS_SELECT_H
- 1
-
-	)
-
-24 
-	~<„©uªs.h
->
-
-27 
-	~<bôs/ty≥s.h
->
-
-30 
-	~<bôs/£À˘.h
->
-
-33 
-	~<bôs/sig£t.h
->
-
-35 #i‚de‡
-__sig£t_t_deföed
-
-
-36 
-	#__sig£t_t_deföed
-
-
-	)
-
-37 
-__sig£t_t
- 
-	tsig£t_t
-;
-
-41 
-	#__√ed_time_t
-
-
-	)
-
-42 
-	#__√ed_time•ec
-
-
-	)
-
-43 
-	~<time.h
->
-
-44 
-	#__√ed_timevÆ
-
-
-	)
-
-45 
-	~<bôs/time.h
->
-
-47 #i‚de‡
-__su£c⁄ds_t_deföed
-
-
-48 
-__su£c⁄ds_t
- 
-	tsu£c⁄ds_t
-;
-
-49 
-	#__su£c⁄ds_t_deföed
-
-
-	)
-
-54 
-	t__fd_mask
-;
-
-57 #unde‡
-__NFDBITS
-
-
-59 
-	#__NFDBITS
- (8 * (Ë (
-__fd_mask
-))
-
-	)
-
-60 
-	#__FD_ELT
-(
-d
-Ë((dË/ 
-__NFDBITS
-)
-
-	)
-
-61 
-	#__FD_MASK
-(
-d
-Ë((
-__fd_mask
-Ë1 << ((dË% 
-__NFDBITS
-))
-
-	)
-
-68 #ifde‡
-__USE_XOPEN
-
-
-69 
-__fd_mask
- 
-	mfds_bôs
-[
-__FD_SETSIZE
- / 
-__NFDBITS
-];
-
-70 
-	#__FDS_BITS
-(
-£t
-Ë((£t)->
-fds_bôs
-)
-
-	)
-
-72 
-__fd_mask
- 
-	m__fds_bôs
-[
-__FD_SETSIZE
- / 
-__NFDBITS
-];
-
-73 
-	#__FDS_BITS
-(
-£t
-Ë((£t)->
-__fds_bôs
-)
-
-	)
-
-75 } 
-	tfd_£t
-;
-
-78 
-	#FD_SETSIZE
- 
-__FD_SETSIZE
-
-
-	)
-
-80 #ifde‡
-__USE_MISC
-
-
-82 
-__fd_mask
- 
-	tfd_mask
-;
-
-85 
-	#NFDBITS
- 
-__NFDBITS
-
-
-	)
-
-90 
-	#FD_SET
-(
-fd
-, 
-fd£ç
-Ë
-	`__FD_SET
- (fd, fd£ç)
-
-	)
-
-91 
-	#FD_CLR
-(
-fd
-, 
-fd£ç
-Ë
-	`__FD_CLR
- (fd, fd£ç)
-
-	)
-
-92 
-	#FD_ISSET
-(
-fd
-, 
-fd£ç
-Ë
-	`__FD_ISSET
- (fd, fd£ç)
-
-	)
-
-93 
-	#FD_ZERO
-(
-fd£ç
-Ë
-	`__FD_ZERO
- (fd£ç)
-
-	)
-
-96 
-__BEGIN_DECLS
-
-
-106 
-£À˘
- (
-__nfds
-, 
-fd_£t
- *
-__ª°ri˘
- 
-__ªadfds
-,
-
-107 
-fd_£t
- *
-__ª°ri˘
- 
-__wrôefds
-,
-
-108 
-fd_£t
- *
-__ª°ri˘
- 
-__ex˚±fds
-,
-
-109 
-timevÆ
- *
-__ª°ri˘
- 
-__timeout
-);
-
-111 #ifde‡
-__USE_XOPEN2K
-
-
-118 
-p£À˘
- (
-__nfds
-, 
-fd_£t
- *
-__ª°ri˘
- 
-__ªadfds
-,
-
-119 
-fd_£t
- *
-__ª°ri˘
- 
-__wrôefds
-,
-
-120 
-fd_£t
- *
-__ª°ri˘
- 
-__ex˚±fds
-,
-
-121 c⁄° 
-time•ec
- *
-__ª°ri˘
- 
-__timeout
-,
-
-122 c⁄° 
-__sig£t_t
- *
-__ª°ri˘
- 
-__sigmask
-);
-
-127 #i‡
-__USE_FORTIFY_LEVEL
- > 0 && 
-deföed
- 
-__GNUC__
-
-
-128 
-	~<bôs/£À˘2.h
->
-
-131 
-	g__END_DECLS
-
-
-	@/usr/include/sys/socket.h
-
-19 #i‚def 
-_SYS_SOCKET_H
-
-
-20 
-	#_SYS_SOCKET_H
- 1
-
-	)
-
-22 
-	~<„©uªs.h
->
-
-24 
-	g__BEGIN_DECLS
-
-
-26 
-	~<sys/uio.h
->
-
-27 
-	#__√ed_size_t
-
-
-	)
-
-28 
-	~<°ddef.h
->
-
-29 #ifde‡
-__USE_GNU
-
-
-31 
-	~<bôs/sig£t.h
->
-
-38 
-	~<bôs/sockë.h
->
-
-40 #ifde‡
-__USE_BSD
-
-
-43 
-	sosockaddr
-
-
-45 
-	mß_Ámûy
-;
-
-46 
-	mß_d©a
-[14];
-
-54 
-	mSHUT_RD
- = 0,
-
-55 
-	#SHUT_RD
- 
-SHUT_RD
-
-
-	)
-
-56 
-	mSHUT_WR
-,
-
-57 
-	#SHUT_WR
- 
-SHUT_WR
-
-
-	)
-
-58 
-	mSHUT_RDWR
-
-
-59 
-	#SHUT_RDWR
- 
-SHUT_RDWR
-
-
-	)
-
-68 #i‡
-deföed
- 
-__˝lu•lus
- || !
-__GNUC_PREREQ
- (2, 7Ë|| !deföed 
-__USE_GNU
-
-
-69 
-	#__SOCKADDR_ARG
- 
-sockaddr
- *
-__ª°ri˘
-
-
-	)
-
-70 
-	#__CONST_SOCKADDR_ARG
- c⁄° 
-sockaddr
- *
-
-	)
-
-74 
-	#__SOCKADDR_ALLTYPES
- \
-
-75 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr
-) \
-
-76 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_©
-) \
-
-77 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_ax25
-) \
-
-78 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_dl
-) \
-
-79 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_e⁄
-) \
-
-80 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_ö
-) \
-
-81 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_ö6
-) \
-
-82 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_ö¨p
-) \
-
-83 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_ùx
-) \
-
-84 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_iso
-) \
-
-85 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_ns
-) \
-
-86 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_un
-) \
-
-87 
-	`__SOCKADDR_ONETYPE
- (
-sockaddr_x25
-)
-
-	)
-
-89 
-	#__SOCKADDR_ONETYPE
-(
-ty≥
-Ëty≥ *
-__ª°ri˘
- 
-__
-##ty≥##__;
-
-	)
-
-90 uni⁄ { 
-	m__SOCKADDR_ALLTYPES
-
-
-91 } 
-	t__SOCKADDR_ARG
- 
-	t__©åibuã__
- ((
-	t__å™•¨ít_uni⁄__
-));
-
-92 #unde‡
-__SOCKADDR_ONETYPE
-
-
-93 
-	#__SOCKADDR_ONETYPE
-(
-ty≥
-Ëc⁄° ty≥ *
-__ª°ri˘
- 
-__
-##ty≥##__;
-
-	)
-
-94 uni⁄ { 
-	m__SOCKADDR_ALLTYPES
-
-
-95 } 
-	t__CONST_SOCKADDR_ARG
- 
-	t__©åibuã__
- ((
-	t__å™•¨ít_uni⁄__
-));
-
-96 #unde‡
-__SOCKADDR_ONETYPE
-
-
-99 #ifde‡
-__USE_GNU
-
-
-101 
-	smmsghdr
-
-
-103 
-msghdr
- 
-	mmsg_hdr
-;
-
-104 
-	mmsg_Àn
-;
-
-113 
-	$sockë
- (
-__domaö
-, 
-__ty≥
-, 
-__¥Ÿocﬁ
-Ë
-__THROW
-;
-
-119 
-	$sockë∑ú
- (
-__domaö
-, 
-__ty≥
-, 
-__¥Ÿocﬁ
-,
-
-120 
-__fds
-[2]Ë
-__THROW
-;
-
-123 
-	$böd
- (
-__fd
-, 
-__CONST_SOCKADDR_ARG
- 
-__addr
-, 
-sockÀn_t
- 
-__Àn
-)
-
-124 
-__THROW
-;
-
-127 
-	$gësock«me
- (
-__fd
-, 
-__SOCKADDR_ARG
- 
-__addr
-,
-
-128 
-sockÀn_t
- *
-__ª°ri˘
- 
-__Àn
-Ë
-__THROW
-;
-
-137 
-	`c⁄√˘
- (
-__fd
-, 
-__CONST_SOCKADDR_ARG
- 
-__addr
-, 
-sockÀn_t
- 
-__Àn
-);
-
-141 
-	$gë≥î«me
- (
-__fd
-, 
-__SOCKADDR_ARG
- 
-__addr
-,
-
-142 
-sockÀn_t
- *
-__ª°ri˘
- 
-__Àn
-Ë
-__THROW
-;
-
-149 
-ssize_t
- 
-	`£nd
- (
-__fd
-, c⁄° *
-__buf
-, 
-size_t
- 
-__n
-, 
-__Êags
-);
-
-156 
-ssize_t
- 
-	`ªcv
- (
-__fd
-, *
-__buf
-, 
-size_t
- 
-__n
-, 
-__Êags
-);
-
-163 
-ssize_t
- 
-	`£ndto
- (
-__fd
-, c⁄° *
-__buf
-, 
-size_t
- 
-__n
-,
-
-164 
-__Êags
-, 
-__CONST_SOCKADDR_ARG
- 
-__addr
-,
-
-165 
-sockÀn_t
- 
-__addr_Àn
-);
-
-174 
-ssize_t
- 
-	`ªcv‰om
- (
-__fd
-, *
-__ª°ri˘
- 
-__buf
-, 
-size_t
- 
-__n
-,
-
-175 
-__Êags
-, 
-__SOCKADDR_ARG
- 
-__addr
-,
-
-176 
-sockÀn_t
- *
-__ª°ri˘
- 
-__addr_Àn
-);
-
-184 
-ssize_t
- 
-	`£ndmsg
- (
-__fd
-, c⁄° 
-msghdr
- *
-__mesßge
-,
-
-185 
-__Êags
-);
-
-187 #ifde‡
-__USE_GNU
-
-
-193 
-	`£ndmmsg
- (
-__fd
-, 
-mmsghdr
- *
-__vmesßges
-,
-
-194 
-__vÀn
-, 
-__Êags
-);
-
-202 
-ssize_t
- 
-	`ªcvmsg
- (
-__fd
-, 
-msghdr
- *
-__mesßge
-, 
-__Êags
-);
-
-204 #ifde‡
-__USE_GNU
-
-
-210 
-	`ªcvmmsg
- (
-__fd
-, 
-mmsghdr
- *
-__vmesßges
-,
-
-211 
-__vÀn
-, 
-__Êags
-,
-
-212 c⁄° 
-time•ec
- *
-__tmo
-);
-
-219 
-	$gësock›t
- (
-__fd
-, 
-__Àvñ
-, 
-__›äame
-,
-
-220 *
-__ª°ri˘
- 
-__›tvÆ
-,
-
-221 
-sockÀn_t
- *
-__ª°ri˘
- 
-__›éí
-Ë
-__THROW
-;
-
-226 
-	$£tsock›t
- (
-__fd
-, 
-__Àvñ
-, 
-__›äame
-,
-
-227 c⁄° *
-__›tvÆ
-, 
-sockÀn_t
- 
-__›éí
-Ë
-__THROW
-;
-
-233 
-	$li°í
- (
-__fd
-, 
-__n
-Ë
-__THROW
-;
-
-243 
-	`ac˚±
- (
-__fd
-, 
-__SOCKADDR_ARG
- 
-__addr
-,
-
-244 
-sockÀn_t
- *
-__ª°ri˘
- 
-__addr_Àn
-);
-
-246 #ifde‡
-__USE_GNU
-
-
-251 
-	`ac˚±4
- (
-__fd
-, 
-__SOCKADDR_ARG
- 
-__addr
-,
-
-252 
-sockÀn_t
- *
-__ª°ri˘
- 
-__addr_Àn
-, 
-__Êags
-);
-
-261 
-	$shutdown
- (
-__fd
-, 
-__how
-Ë
-__THROW
-;
-
-264 #ifde‡
-__USE_XOPEN2K
-
-
-266 
-	$sock©m¨k
- (
-__fd
-Ë
-__THROW
-;
-
-270 #ifde‡
-__USE_MISC
-
-
-274 
-	$isfdty≥
- (
-__fd
-, 
-__fdty≥
-Ë
-__THROW
-;
-
-279 #i‡
-__USE_FORTIFY_LEVEL
- > 0 && 
-deföed
- 
-__f‹tify_fun˘i⁄
-
-
-280 
-	~<bôs/sockë2.h
->
-
-283 
-__END_DECLS
-
-
 	@/usr/include/sys/sysmacros.h
 
 19 #i‚de‡
@@ -53992,6 +59256,250 @@ mö
  (maj, mö)
 
 	)
+
+	@/usr/include/sys/uio.h
+
+18 #i‚de‡
+_SYS_UIO_H
+
+
+19 
+	#_SYS_UIO_H
+ 1
+
+	)
+
+21 
+	~<„©uªs.h
+>
+
+23 
+	~<sys/ty≥s.h
+>
+
+25 
+	g__BEGIN_DECLS
+
+
+28 
+	~<bôs/uio.h
+>
+
+39 
+ssize_t
+ 
+	$ªadv
+ (
+__fd
+, c⁄° 
+iovec
+ *
+__iovec
+, 
+__cou¡
+)
+
+40 
+__wur
+;
+
+50 
+ssize_t
+ 
+	$wrôev
+ (
+__fd
+, c⁄° 
+iovec
+ *
+__iovec
+, 
+__cou¡
+)
+
+51 
+__wur
+;
+
+54 #ifde‡
+__USE_BSD
+
+
+55 #i‚de‡
+__USE_FILE_OFFSET64
+
+
+65 
+ssize_t
+ 
+	$¥ódv
+ (
+__fd
+, c⁄° 
+iovec
+ *
+__iovec
+, 
+__cou¡
+,
+
+66 
+__off_t
+ 
+__off£t
+Ë
+__wur
+;
+
+77 
+ssize_t
+ 
+	$pwrôev
+ (
+__fd
+, c⁄° 
+iovec
+ *
+__iovec
+, 
+__cou¡
+,
+
+78 
+__off_t
+ 
+__off£t
+Ë
+__wur
+;
+
+80 #ifde‡
+__REDIRECT
+
+
+81 
+ssize_t
+ 
+	`__REDIRECT
+ (
+¥ódv
+, (
+__fd
+, c⁄° 
+iovec
+ *
+__iovec
+,
+
+82 
+__cou¡
+, 
+__off64_t
+ 
+__off£t
+),
+
+83 
+¥ódv64
+Ë
+__wur
+;
+
+84 
+ssize_t
+ 
+	`__REDIRECT
+ (
+pwrôev
+, (
+__fd
+, c⁄° 
+iovec
+ *
+__iovec
+,
+
+85 
+__cou¡
+, 
+__off64_t
+ 
+__off£t
+),
+
+86 
+pwrôev64
+Ë
+__wur
+;
+
+88 
+	#¥ódv
+ 
+¥ódv64
+
+
+	)
+
+89 
+	#pwrôev
+ 
+pwrôev64
+
+
+	)
+
+93 #ifde‡
+__USE_LARGEFILE64
+
+
+103 
+ssize_t
+ 
+	$¥ódv64
+ (
+__fd
+, c⁄° 
+iovec
+ *
+__iovec
+, 
+__cou¡
+,
+
+104 
+__off64_t
+ 
+__off£t
+Ë
+__wur
+;
+
+115 
+ssize_t
+ 
+	$pwrôev64
+ (
+__fd
+, c⁄° 
+iovec
+ *
+__iovec
+, 
+__cou¡
+,
+
+116 
+__off64_t
+ 
+__off£t
+Ë
+__wur
+;
+
+120 
+__END_DECLS
+
 
 	@/usr/include/xlocale.h
 
@@ -54222,6 +59730,12 @@ _STATBUF_ST_BLKSIZE
  8192
 
 	)
+
+	@/usr/include/asm/socket.h
+
+1 
+	~<asm-gíîic/sockë.h
+>
 
 	@/usr/include/bits/byteswap-16.h
 
@@ -55229,2693 +60743,161 @@ __THROW
 __END_DECLS
 
 
-	@/usr/include/bits/select.h
+	@/usr/include/bits/sockaddr.h
 
-18 #i‚de‡
-_SYS_SELECT_H
-
-
-22 
-	~<bôs/w‹dsize.h
->
-
-25 #i‡
-deföed
- 
-__GNUC__
- && __GNUC__ >= 2
-
-27 #i‡
-__WORDSIZE
- == 64
-
-28 
-	#__FD_ZERO_STOS
- "°osq"
-
-	)
-
-30 
-	#__FD_ZERO_STOS
- "°o¶"
-
-	)
-
-33 
-	#__FD_ZERO
-(
-fd•
-) \
-
-35 
-__d0
-, 
-__d1
-; \
-
-36 
-__asm__
- 
-	`__vﬁ©ûe__
- ("˛d;Ñï; " 
-__FD_ZERO_STOS
- \
-
-37 : "=c" (
-__d0
-), "=D" (
-__d1
-) \
-
-38 : "a" (0), "0" ( (
-fd_£t
-) \
-
-39 /  (
-__fd_mask
-)), \
-
-40 "1" (&
-	`__FDS_BITS
- (
-fd•
-)[0]) \
-
-42 } 0)
-
-	)
-
-48 
-	#__FD_ZERO
-(
-£t
-) \
-
-50 
-__i
-; \
-
-51 
-fd_£t
- *
-__¨r
- = (
-£t
-); \
-
-52 
-__i
- = 0; __ò<  (
-fd_£t
-Ë/  (
-__fd_mask
-); ++__i) \
-
-53 
-	`__FDS_BITS
- (
-__¨r
-)[
-__i
-] = 0; \
-
-54 } 0)
-
-	)
-
-58 
-	#__FD_SET
-(
-d
-, 
-£t
-) \
-
-59 ((Ë(
-	`__FDS_BITS
- (
-£t
-)[
-	`__FD_ELT
- (
-d
-)] |
-	`__FD_MASK
- (d)))
-
-	)
-
-60 
-	#__FD_CLR
-(
-d
-, 
-£t
-) \
-
-61 ((Ë(
-	`__FDS_BITS
- (
-£t
-)[
-	`__FD_ELT
- (
-d
-)] &~
-	`__FD_MASK
- (d)))
-
-	)
-
-62 
-	#__FD_ISSET
-(
-d
-, 
-£t
-) \
-
-63 ((
-	`__FDS_BITS
- (
-£t
-)[
-	`__FD_ELT
- (
-d
-)] & 
-	`__FD_MASK
- (d)Ë!0)
-
-	)
-
-	@/usr/include/bits/select2.h
-
-19 #i‚de‡
-_SYS_SELECT_H
+23 #i‚de‡
+_BITS_SOCKADDR_H
 
 
-24 
-__fdñt_chk
- (
-__d
-);
-
-25 
-	$__fdñt_w¨n
- (
-__d
-)
-
-26 
-	`__w¨«âr
- ("bit outside of fd_set selected");
-
-27 #unde‡
-__FD_ELT
-
-
-28 
-	#__FD_ELT
-(
-d
-) \
-
-29 
-__exãnsi⁄__
- \
-
-30 ({ 
-__d
- = (
-d
-); \
-
-31 (
-	`__buûtö_c⁄°™t_p
- (
-__d
-) \
-
-32 ? (0 <
-__d
- && __d < 
-__FD_SETSIZE
- \
-
-33 ? (
-__d
- / 
-__NFDBITS
-) \
-
-34 : 
-	`__fdñt_w¨n
- (
-__d
-)) \
-
-35 : 
-	`__fdñt_chk
- (
-__d
-)); 
-	}
-})
-
-	)
-
-	@/usr/include/bits/sigset.h
-
-19 #i‚def 
-_SIGSET_H_ty≥s
-
-
-20 
-	#_SIGSET_H_ty≥s
+24 
+	#_BITS_SOCKADDR_H
  1
 
 	)
 
-22 
-	t__sig_©omic_t
-;
-
-26 
-	#_SIGSET_NWORDS
- (1024 / (8 *  ()))
-
-	)
-
-29 
-	m__vÆ
-[
-_SIGSET_NWORDS
-];
-
-30 } 
-	t__sig£t_t
-;
-
-41 #i‡!
-deföed
- 
-_SIGSET_H_‚s
- && deföed 
-_SIGNAL_H
-
-
-42 
-	#_SIGSET_H_‚s
- 1
-
-	)
-
-44 #i‚de‡
-_EXTERN_INLINE
-
-
-45 
-	#_EXTERN_INLINE
- 
-__exã∫_ölöe
-
-
-	)
-
-49 
-	#__sigmask
-(
-sig
-) \
-
-50 (((Ë1Ë<< (((
-sig
-Ë- 1Ë% (8 *  ())))
-
-	)
-
-53 
-	#__sigw‹d
-(
-sig
-Ë(((sigË- 1Ë/ (8 *  ()))
-
-	)
-
-55 #i‡
-deföed
- 
-__GNUC__
- && __GNUC__ >= 2
-
-56 
-	#__sigem±y£t
-(
-£t
-) \
-
-57 (
-	`__exãnsi⁄__
- ({ 
-__˙t
- = 
-_SIGSET_NWORDS
-; \
-
-58 
-sig£t_t
- *
-__£t
- = (
-£t
-); \
-
-59 --
-__˙t
- >0Ë
-__£t
-->
-__vÆ
-[__cnt] = 0; \
-
-60 0; }))
-
-	)
-
-61 
-	#__sigfûl£t
-(
-£t
-) \
-
-62 (
-	`__exãnsi⁄__
- ({ 
-__˙t
- = 
-_SIGSET_NWORDS
-; \
-
-63 
-sig£t_t
- *
-__£t
- = (
-£t
-); \
-
-64 --
-__˙t
- >0Ë
-__£t
-->
-__vÆ
-[__cnt] = ~0UL; \
-
-65 0; }))
-
-	)
-
-67 #ifde‡
-__USE_GNU
-
-
-71 
-	#__sigi£m±y£t
-(
-£t
-) \
-
-72 (
-	`__exãnsi⁄__
- ({ 
-__˙t
- = 
-_SIGSET_NWORDS
-; \
-
-73 c⁄° 
-sig£t_t
- *
-__£t
- = (
-£t
-); \
-
-74 
-__ªt
- = 
-__£t
-->
-__vÆ
-[--
-__˙t
-]; \
-
-75 !
-__ªt
- && --
-__˙t
- >= 0) \
-
-76 
-__ªt
- = 
-__£t
-->
-__vÆ
-[
-__˙t
-]; \
-
-77 
-__ªt
- =0; }))
-
-	)
-
-78 
-	#__sig™d£t
-(
-de°
-, 
-À·
-, 
-right
-) \
-
-79 (
-	`__exãnsi⁄__
- ({ 
-__˙t
- = 
-_SIGSET_NWORDS
-; \
-
-80 
-sig£t_t
- *
-__de°
- = (
-de°
-); \
-
-81 c⁄° 
-sig£t_t
- *
-__À·
- = (
-À·
-); \
-
-82 c⁄° 
-sig£t_t
- *
-__right
- = (
-right
-); \
-
-83 --
-__˙t
- >= 0) \
-
-84 
-__de°
-->
-__vÆ
-[
-__˙t
-] = (
-__À·
-->__val[__cnt] \
-
-85 & 
-__right
-->
-__vÆ
-[
-__˙t
-]); \
-
-86 0; }))
-
-	)
-
-87 
-	#__sig‹£t
-(
-de°
-, 
-À·
-, 
-right
-) \
-
-88 (
-	`__exãnsi⁄__
- ({ 
-__˙t
- = 
-_SIGSET_NWORDS
-; \
-
-89 
-sig£t_t
- *
-__de°
- = (
-de°
-); \
-
-90 c⁄° 
-sig£t_t
- *
-__À·
- = (
-À·
-); \
-
-91 c⁄° 
-sig£t_t
- *
-__right
- = (
-right
-); \
-
-92 --
-__˙t
- >= 0) \
-
-93 
-__de°
-->
-__vÆ
-[
-__˙t
-] = (
-__À·
-->__val[__cnt] \
-
-94 | 
-__right
-->
-__vÆ
-[
-__˙t
-]); \
-
-95 0; }))
-
-	)
-
-102 
-__sigismembî
- (c⁄° 
-__sig£t_t
- *, );
-
-103 
-__sigadd£t
- (
-__sig£t_t
- *, );
-
-104 
-__sigdñ£t
- (
-__sig£t_t
- *, );
-
-106 #ifde‡
-__USE_EXTERN_INLINES
-
-
-107 
-	#__SIGSETFN
-(
-NAME
-, 
-BODY
-, 
-CONST
-) \
-
-108 
-_EXTERN_INLINE
- \
-
-109 
-	`NAME
- (
-CONST
- 
-__sig£t_t
- *
-__£t
-, 
-__sig
-) \
-
-111 
-__mask
- = 
-	`__sigmask
- (
-__sig
-); \
-
-112 
-__w‹d
- = 
-	`__sigw‹d
- (
-__sig
-); \
-
-113  
-BODY
-; \
-
-114 }
-
-	)
-
-116 
-__SIGSETFN
- (
-__sigismembî
-, (
-__£t
-->
-__vÆ
-[
-__w‹d
-] & 
-__mask
-) ? 1 : 0, const)
-
-117 
-__SIGSETFN
- (
-__sigadd£t
-, ((
-__£t
-->
-__vÆ
-[
-__w‹d
-] |
-__mask
-), 0), )
-
-118 
-__SIGSETFN
- (
-__sigdñ£t
-, ((
-__£t
-->
-__vÆ
-[
-__w‹d
-] &~
-__mask
-), 0), )
-
-120 #unde‡
-__SIGSETFN
-
-
-	@/usr/include/bits/socket.h
-
-19 #i‚de‡
-__BITS_SOCKET_H
-
-
-20 
-	#__BITS_SOCKET_H
-
-
-	)
-
-22 #i‚de‡
-_SYS_SOCKET_H
-
-
-26 
-	#__√ed_size_t
-
-
-	)
-
-27 
-	~<°ddef.h
->
-
-29 
-	~<sys/ty≥s.h
->
-
-32 #i‚de‡
-__sockÀn_t_deföed
-
-
-33 
-__sockÀn_t
- 
-	tsockÀn_t
+28 
+	tß_Ámûy_t
 ;
 
 34 
-	#__sockÀn_t_deföed
-
-
-	)
-
-38 
-	~<bôs/sockë_ty≥.h
->
-
-41 
-	#PF_UNSPEC
- 0
-
-	)
-
-42 
-	#PF_LOCAL
- 1
-
-	)
-
-43 
-	#PF_UNIX
- 
-PF_LOCAL
-
-
-	)
-
-44 
-	#PF_FILE
- 
-PF_LOCAL
-
-
-	)
-
-45 
-	#PF_INET
- 2
-
-	)
-
-46 
-	#PF_AX25
- 3
-
-	)
-
-47 
-	#PF_IPX
- 4
-
-	)
-
-48 
-	#PF_APPLETALK
- 5
-
-	)
-
-49 
-	#PF_NETROM
- 6
-
-	)
-
-50 
-	#PF_BRIDGE
- 7
-
-	)
-
-51 
-	#PF_ATMPVC
- 8
-
-	)
-
-52 
-	#PF_X25
- 9
-
-	)
-
-53 
-	#PF_INET6
- 10
-
-	)
-
-54 
-	#PF_ROSE
- 11
-
-	)
-
-55 
-	#PF_DEC√t
- 12
-
-	)
-
-56 
-	#PF_NETBEUI
- 13
-
-	)
-
-57 
-	#PF_SECURITY
- 14
-
-	)
-
-58 
-	#PF_KEY
- 15
-
-	)
-
-59 
-	#PF_NETLINK
- 16
-
-	)
-
-60 
-	#PF_ROUTE
- 
-PF_NETLINK
-
-
-	)
-
-61 
-	#PF_PACKET
- 17
-
-	)
-
-62 
-	#PF_ASH
- 18
-
-	)
-
-63 
-	#PF_ECONET
- 19
-
-	)
-
-64 
-	#PF_ATMSVC
- 20
-
-	)
-
-65 
-	#PF_RDS
- 21
-
-	)
-
-66 
-	#PF_SNA
- 22
-
-	)
-
-67 
-	#PF_IRDA
- 23
-
-	)
-
-68 
-	#PF_PPPOX
- 24
-
-	)
-
-69 
-	#PF_WANPIPE
- 25
-
-	)
-
-70 
-	#PF_LLC
- 26
-
-	)
-
-71 
-	#PF_CAN
- 29
-
-	)
-
-72 
-	#PF_TIPC
- 30
-
-	)
-
-73 
-	#PF_BLUETOOTH
- 31
-
-	)
-
-74 
-	#PF_IUCV
- 32
-
-	)
-
-75 
-	#PF_RXRPC
- 33
-
-	)
-
-76 
-	#PF_ISDN
- 34
-
-	)
-
-77 
-	#PF_PHONET
- 35
-
-	)
-
-78 
-	#PF_IEEE802154
- 36
-
-	)
-
-79 
-	#PF_CAIF
- 37
-
-	)
-
-80 
-	#PF_ALG
- 38
-
-	)
-
-81 
-	#PF_NFC
- 39
-
-	)
-
-82 
-	#PF_VSOCK
- 40
-
-	)
-
-83 
-	#PF_MAX
- 41
-
-	)
-
-86 
-	#AF_UNSPEC
- 
-PF_UNSPEC
-
-
-	)
-
-87 
-	#AF_LOCAL
- 
-PF_LOCAL
-
-
-	)
-
-88 
-	#AF_UNIX
- 
-PF_UNIX
-
-
-	)
-
-89 
-	#AF_FILE
- 
-PF_FILE
-
-
-	)
-
-90 
-	#AF_INET
- 
-PF_INET
-
-
-	)
-
-91 
-	#AF_AX25
- 
-PF_AX25
-
-
-	)
-
-92 
-	#AF_IPX
- 
-PF_IPX
-
-
-	)
-
-93 
-	#AF_APPLETALK
- 
-PF_APPLETALK
-
-
-	)
-
-94 
-	#AF_NETROM
- 
-PF_NETROM
-
-
-	)
-
-95 
-	#AF_BRIDGE
- 
-PF_BRIDGE
-
-
-	)
-
-96 
-	#AF_ATMPVC
- 
-PF_ATMPVC
-
-
-	)
-
-97 
-	#AF_X25
- 
-PF_X25
-
-
-	)
-
-98 
-	#AF_INET6
- 
-PF_INET6
-
-
-	)
-
-99 
-	#AF_ROSE
- 
-PF_ROSE
-
-
-	)
-
-100 
-	#AF_DEC√t
- 
-PF_DEC√t
-
-
-	)
-
-101 
-	#AF_NETBEUI
- 
-PF_NETBEUI
-
-
-	)
-
-102 
-	#AF_SECURITY
- 
-PF_SECURITY
-
-
-	)
-
-103 
-	#AF_KEY
- 
-PF_KEY
-
-
-	)
-
-104 
-	#AF_NETLINK
- 
-PF_NETLINK
-
-
-	)
-
-105 
-	#AF_ROUTE
- 
-PF_ROUTE
-
-
-	)
-
-106 
-	#AF_PACKET
- 
-PF_PACKET
-
-
-	)
-
-107 
-	#AF_ASH
- 
-PF_ASH
-
-
-	)
-
-108 
-	#AF_ECONET
- 
-PF_ECONET
-
-
-	)
-
-109 
-	#AF_ATMSVC
- 
-PF_ATMSVC
-
-
-	)
-
-110 
-	#AF_RDS
- 
-PF_RDS
-
-
-	)
-
-111 
-	#AF_SNA
- 
-PF_SNA
-
-
-	)
-
-112 
-	#AF_IRDA
- 
-PF_IRDA
-
-
-	)
-
-113 
-	#AF_PPPOX
- 
-PF_PPPOX
-
-
-	)
-
-114 
-	#AF_WANPIPE
- 
-PF_WANPIPE
-
-
-	)
-
-115 
-	#AF_LLC
- 
-PF_LLC
-
-
-	)
-
-116 
-	#AF_CAN
- 
-PF_CAN
-
-
-	)
-
-117 
-	#AF_TIPC
- 
-PF_TIPC
-
-
-	)
-
-118 
-	#AF_BLUETOOTH
- 
-PF_BLUETOOTH
-
-
-	)
-
-119 
-	#AF_IUCV
- 
-PF_IUCV
-
-
-	)
-
-120 
-	#AF_RXRPC
- 
-PF_RXRPC
-
-
-	)
-
-121 
-	#AF_ISDN
- 
-PF_ISDN
-
-
-	)
-
-122 
-	#AF_PHONET
- 
-PF_PHONET
-
-
-	)
-
-123 
-	#AF_IEEE802154
- 
-PF_IEEE802154
-
-
-	)
-
-124 
-	#AF_CAIF
- 
-PF_CAIF
-
-
-	)
-
-125 
-	#AF_ALG
- 
-PF_ALG
-
-
-	)
-
-126 
-	#AF_NFC
- 
-PF_NFC
-
-
-	)
-
-127 
-	#AF_VSOCK
- 
-PF_VSOCK
-
-
-	)
-
-128 
-	#AF_MAX
- 
-PF_MAX
-
-
-	)
-
-134 
-	#SOL_RAW
- 255
-
-	)
-
-135 
-	#SOL_DECNET
- 261
-
-	)
-
-136 
-	#SOL_X25
- 262
-
-	)
-
-137 
-	#SOL_PACKET
- 263
-
-	)
-
-138 
-	#SOL_ATM
- 264
-
-	)
-
-139 
-	#SOL_AAL
- 265
-
-	)
-
-140 
-	#SOL_IRDA
- 266
-
-	)
-
-143 
-	#SOMAXCONN
- 128
-
-	)
-
-146 
-	~<bôs/sockaddr.h
->
-
-149 
-	ssockaddr
-
-
-151 
-__SOCKADDR_COMMON
- (
-ß_
-);
-
-152 
-	mß_d©a
-[14];
-
-158 
-	#__ss_Æig¡y≥
- 
-
-	)
-
-159 
-	#_SS_SIZE
- 128
-
-	)
-
-160 
-	#_SS_PADSIZE
- (
-_SS_SIZE
- - (2 *  (
-__ss_Æig¡y≥
-)))
-
-	)
-
-162 
-	ssockaddr_°‹age
-
-
-164 
-__SOCKADDR_COMMON
- (
-ss_
-);
-
-165 
-__ss_Æig¡y≥
- 
-	m__ss_Æign
-;
-
-166 
-	m__ss_∑ddög
-[
-_SS_PADSIZE
-];
-
-173 
-	mMSG_OOB
- = 0x01,
-
-174 
-	#MSG_OOB
- 
-MSG_OOB
-
-
-	)
-
-175 
-	mMSG_PEEK
- = 0x02,
-
-176 
-	#MSG_PEEK
- 
-MSG_PEEK
-
-
-	)
-
-177 
-	mMSG_DONTROUTE
- = 0x04,
-
-178 
-	#MSG_DONTROUTE
- 
-MSG_DONTROUTE
-
-
-	)
-
-179 #ifde‡
-__USE_GNU
-
-
-181 
-	mMSG_TRYHARD
- = 
-MSG_DONTROUTE
-,
-
-182 
-	#MSG_TRYHARD
- 
-MSG_DONTROUTE
-
-
-	)
-
-184 
-	mMSG_CTRUNC
- = 0x08,
-
-185 
-	#MSG_CTRUNC
- 
-MSG_CTRUNC
-
-
-	)
-
-186 
-	mMSG_PROXY
- = 0x10,
-
-187 
-	#MSG_PROXY
- 
-MSG_PROXY
-
-
-	)
-
-188 
-	mMSG_TRUNC
- = 0x20,
-
-189 
-	#MSG_TRUNC
- 
-MSG_TRUNC
-
-
-	)
-
-190 
-	mMSG_DONTWAIT
- = 0x40,
-
-191 
-	#MSG_DONTWAIT
- 
-MSG_DONTWAIT
-
-
-	)
-
-192 
-	mMSG_EOR
- = 0x80,
-
-193 
-	#MSG_EOR
- 
-MSG_EOR
-
-
-	)
-
-194 
-	mMSG_WAITALL
- = 0x100,
-
-195 
-	#MSG_WAITALL
- 
-MSG_WAITALL
-
-
-	)
-
-196 
-	mMSG_FIN
- = 0x200,
-
-197 
-	#MSG_FIN
- 
-MSG_FIN
-
-
-	)
-
-198 
-	mMSG_SYN
- = 0x400,
-
-199 
-	#MSG_SYN
- 
-MSG_SYN
-
-
-	)
-
-200 
-	mMSG_CONFIRM
- = 0x800,
-
-201 
-	#MSG_CONFIRM
- 
-MSG_CONFIRM
-
-
-	)
-
-202 
-	mMSG_RST
- = 0x1000,
-
-203 
-	#MSG_RST
- 
-MSG_RST
-
-
-	)
-
-204 
-	mMSG_ERRQUEUE
- = 0x2000,
-
-205 
-	#MSG_ERRQUEUE
- 
-MSG_ERRQUEUE
-
-
-	)
-
-206 
-	mMSG_NOSIGNAL
- = 0x4000,
-
-207 
-	#MSG_NOSIGNAL
- 
-MSG_NOSIGNAL
-
-
-	)
-
-208 
-	mMSG_MORE
- = 0x8000,
-
-209 
-	#MSG_MORE
- 
-MSG_MORE
-
-
-	)
-
-210 
-	mMSG_WAITFORONE
- = 0x10000,
-
-211 
-	#MSG_WAITFORONE
- 
-MSG_WAITFORONE
-
-
-	)
-
-212 
-	mMSG_FASTOPEN
- = 0x20000000,
-
-213 
-	#MSG_FASTOPEN
- 
-MSG_FASTOPEN
-
-
-	)
-
-215 
-	mMSG_CMSG_CLOEXEC
- = 0x40000000
-
-218 
-	#MSG_CMSG_CLOEXEC
- 
-MSG_CMSG_CLOEXEC
-
-
-	)
-
-224 
-	smsghdr
-
-
-226 *
-	mmsg_«me
-;
-
-227 
-sockÀn_t
- 
-	mmsg_«mñí
-;
-
-229 
-iovec
- *
-	mmsg_iov
-;
-
-230 
-size_t
- 
-	mmsg_iovÀn
-;
-
-232 *
-	mmsg_c⁄åﬁ
-;
-
-233 
-size_t
- 
-	mmsg_c⁄åﬁÀn
-;
-
-238 
-	mmsg_Êags
-;
-
-242 
-	scmsghdr
-
-
-244 
-size_t
- 
-	mcmsg_Àn
-;
-
-249 
-	mcmsg_Àvñ
-;
-
-250 
-	mcmsg_ty≥
-;
-
-251 #i‡(!
-deföed
- 
-__STRICT_ANSI__
- && 
-__GNUC__
- >2Ë|| 
-__STDC_VERSION__
- >= 199901L
-
-252 
-__exãnsi⁄__
- 
-__cmsg_d©a
- 
-	m__Êex¨r
-;
-
-257 #i‡(!
-deföed
- 
-__STRICT_ANSI__
- && 
-__GNUC__
- >2Ë|| 
-__STDC_VERSION__
- >= 199901L
-
-258 
-	#CMSG_DATA
+	#__SOCKADDR_COMMON
 (
-cmsg
-Ë((cmsg)->
-__cmsg_d©a
-)
-
-	)
-
-260 
-	#CMSG_DATA
-(
-cmsg
-Ë((*Ë((
-cmsghdr
- *Ë(cmsgË+ 1))
-
-	)
-
-262 
-	#CMSG_NXTHDR
-(
-mhdr
-, 
-cmsg
-Ë
-	`__cmsg_nxthdr
- (mhdr, cmsg)
-
-	)
-
-263 
-	#CMSG_FIRSTHDR
-(
-mhdr
+ß_¥efix
 ) \
 
-264 ((
-size_t
-Ë(
-mhdr
-)->
-msg_c⁄åﬁÀn
- > (
-cmsghdr
-) \
-
-265 ? (
-cmsghdr
- *Ë(
-mhdr
-)->
-msg_c⁄åﬁ
- : (cmsghd∏*Ë0)
-
-	)
-
-266 
-	#CMSG_ALIGN
-(
-Àn
-Ë((÷íË+  (
-size_t
-) - 1) \
-
-267 & (
-size_t
-Ë~( (size_tË- 1))
-
-	)
-
-268 
-	#CMSG_SPACE
-(
-Àn
-Ë(
-	`CMSG_ALIGN
- (len) \
-
-269 + 
-	`CMSG_ALIGN
- ( (
-cmsghdr
-)))
-
-	)
-
-270 
-	#CMSG_LEN
-(
-Àn
-Ë(
-	`CMSG_ALIGN
- ( (
-cmsghdr
-)Ë+ (Àn))
-
-	)
-
-272 
-cmsghdr
- *
-	$__cmsg_nxthdr
- (
-msghdr
- *
-__mhdr
-,
-
-273 
-cmsghdr
- *
-__cmsg
-Ë
-__THROW
-;
-
-274 #ifde‡
-__USE_EXTERN_INLINES
-
-
-275 #i‚de‡
-_EXTERN_INLINE
-
-
-276 
-	#_EXTERN_INLINE
+35 
+ß_Ámûy_t
  
-__exã∫_ölöe
+ß_¥efix
+##
+Ámûy
 
 
 	)
 
-278 
-_EXTERN_INLINE
- 
-cmsghdr
- *
-
-279 
-	`__NTH
- (
-	$__cmsg_nxthdr
- (
-msghdr
- *
-__mhdr
-, 
-cmsghdr
- *
-__cmsg
-))
-
-281 i‡((
-size_t
-Ë
-__cmsg
-->
-cmsg_Àn
- <  (
-cmsghdr
-))
-
-283  (
-cmsghdr
- *) 0;
-
-285 
-__cmsg
- = (
-cmsghdr
- *) ((*) __cmsg
-
-286 + 
-	`CMSG_ALIGN
- (
-__cmsg
-->
-cmsg_Àn
-));
-
-287 i‡((*Ë(
-__cmsg
- + 1Ë> ((*Ë
-__mhdr
-->
-msg_c⁄åﬁ
-
-
-288 + 
-__mhdr
-->
-msg_c⁄åﬁÀn
-)
-
-289 || ((*Ë
-__cmsg
- + 
-	`CMSG_ALIGN
- (__cmsg->
-cmsg_Àn
-)
-
-290 > ((*Ë
-__mhdr
-->
-msg_c⁄åﬁ
- + __mhdr->
-msg_c⁄åﬁÀn
-)))
-
-292  (
-cmsghdr
- *) 0;
-
-293  
-__cmsg
-;
-
-294 
-	}
-}
-
-301 
-	mSCM_RIGHTS
- = 0x01
-
-302 
-	#SCM_RIGHTS
- 
-SCM_RIGHTS
-
+37 
+	#__SOCKADDR_COMMON_SIZE
+ ( ())
 
 	)
 
-303 #ifde‡
-__USE_GNU
-
-
-304 , 
-	mSCM_CREDENTIALS
- = 0x02
-
-305 
-	#SCM_CREDENTIALS
- 
-SCM_CREDENTIALS
-
-
-	)
-
-309 #ifde‡
-__USE_GNU
-
-
-311 
-	su¸ed
-
-
-313 
-pid_t
- 
-	mpid
-;
-
-314 
-uid_t
- 
-	muid
-;
-
-315 
-gid_t
- 
-	mgid
-;
-
-320 #i‡!
-deföed
- 
-__USE_MISC
- && !deföed 
-__USE_GNU
-
-
-321 #i‚de‡
-FIOGETOWN
-
-
-322 
-	#__SYS_SOCKET_H_undef_FIOGETOWN
-
-
-	)
-
-324 #i‚de‡
-FIOSETOWN
-
-
-325 
-	#__SYS_SOCKET_H_undef_FIOSETOWN
-
-
-	)
-
-327 #i‚de‡
-SIOCATMARK
-
-
-328 
-	#__SYS_SOCKET_H_undef_SIOCATMARK
-
-
-	)
-
-330 #i‚de‡
-SIOCGPGRP
-
-
-331 
-	#__SYS_SOCKET_H_undef_SIOCGPGRP
-
-
-	)
-
-333 #i‚de‡
-SIOCGSTAMP
-
-
-334 
-	#__SYS_SOCKET_H_undef_SIOCGSTAMP
-
-
-	)
-
-336 #i‚de‡
-SIOCGSTAMPNS
-
-
-337 
-	#__SYS_SOCKET_H_undef_SIOCGSTAMPNS
-
-
-	)
-
-339 #i‚de‡
-SIOCSPGRP
-
-
-340 
-	#__SYS_SOCKET_H_undef_SIOCSPGRP
-
-
-	)
-
-345 
-	~<asm/sockë.h
->
-
-347 #i‡!
-deföed
- 
-__USE_MISC
- && !deföed 
-__USE_GNU
-
-
-348 #ifde‡
-__SYS_SOCKET_H_undef_FIOGETOWN
-
-
-349 #unde‡
-__SYS_SOCKET_H_undef_FIOGETOWN
-
-
-350 #unde‡
-FIOGETOWN
-
-
-352 #ifde‡
-__SYS_SOCKET_H_undef_FIOSETOWN
-
-
-353 #unde‡
-__SYS_SOCKET_H_undef_FIOSETOWN
-
-
-354 #unde‡
-FIOSETOWN
-
-
-356 #ifde‡
-__SYS_SOCKET_H_undef_SIOCATMARK
-
-
-357 #unde‡
-__SYS_SOCKET_H_undef_SIOCATMARK
-
-
-358 #unde‡
-SIOCATMARK
-
-
-360 #ifde‡
-__SYS_SOCKET_H_undef_SIOCGPGRP
-
-
-361 #unde‡
-__SYS_SOCKET_H_undef_SIOCGPGRP
-
-
-362 #unde‡
-SIOCGPGRP
-
-
-364 #ifde‡
-__SYS_SOCKET_H_undef_SIOCGSTAMP
-
-
-365 #unde‡
-__SYS_SOCKET_H_undef_SIOCGSTAMP
-
-
-366 #unde‡
-SIOCGSTAMP
-
-
-368 #ifde‡
-__SYS_SOCKET_H_undef_SIOCGSTAMPNS
-
-
-369 #unde‡
-__SYS_SOCKET_H_undef_SIOCGSTAMPNS
-
-
-370 #unde‡
-SIOCGSTAMPNS
-
-
-372 #ifde‡
-__SYS_SOCKET_H_undef_SIOCSPGRP
-
-
-373 #unde‡
-__SYS_SOCKET_H_undef_SIOCSPGRP
-
-
-374 #unde‡
-SIOCSPGRP
-
-
-379 
-	slögî
-
-
-381 
-	ml_⁄off
-;
-
-382 
-	ml_lögî
-;
-
-	@/usr/include/bits/socket2.h
+	@/usr/include/bits/socket_type.h
 
 19 #i‚de‡
 _SYS_SOCKET_H
 
 
-23 
-ssize_t
+24 
+	e__sockë_ty≥
+
+
+26 
+	mSOCK_STREAM
+ = 1,
+
+28 
+	#SOCK_STREAM
  
-__ªcv_chk
- (
-__fd
-, *
-__buf
-, 
-size_t
+SOCK_STREAM
+
+
+	)
+
+29 
+	mSOCK_DGRAM
+ = 2,
+
+31 
+	#SOCK_DGRAM
  
-__n
-, size_à
-__buÊí
-,
+SOCK_DGRAM
 
-24 
-__Êags
-);
 
-25 
-ssize_t
+	)
+
+32 
+	mSOCK_RAW
+ = 3,
+
+33 
+	#SOCK_RAW
  
-__REDIRECT
- (
-__ªcv_Æüs
-, (
-__fd
-, *
-__buf
-, 
-size_t
- 
-__n
-,
+SOCK_RAW
 
-26 
-__Êags
-), 
-ªcv
-);
 
-27 
-ssize_t
- 
-__REDIRECT
- (
-__ªcv_chk_w¨n
-,
-
-28 (
-__fd
-, *
-__buf
-, 
-size_t
- 
-__n
-, size_à
-__buÊí
-,
-
-29 
-__Êags
-), 
-__ªcv_chk
-)
-
-30 
-__w¨«âr
- ("recv called with biggerÜengthÅhan size of destination "
-
-33 
-__f‹tify_fun˘i⁄
- 
-ssize_t
-
+	)
 
 34 
-	$ªcv
- (
-__fd
-, *
-__buf
-, 
-size_t
+	mSOCK_RDM
+ = 4,
+
+35 
+	#SOCK_RDM
  
-__n
-, 
-__Êags
-)
+SOCK_RDM
 
-36 i‡(
-	`__bos0
- (
-__buf
-Ë!(
-size_t
-) -1)
 
-38 i‡(!
-	`__buûtö_c⁄°™t_p
- (
-__n
-))
+	)
 
-39  
-	`__ªcv_chk
- (
-__fd
-, 
-__buf
-, 
-__n
-, 
-	`__bos0
- (__buf), 
-__Êags
-);
+36 
+	mSOCK_SEQPACKET
+ = 5,
 
-41 i‡(
-__n
- > 
-	`__bos0
- (
-__buf
-))
-
-42  
-	`__ªcv_chk_w¨n
- (
-__fd
-, 
-__buf
-, 
-__n
-, 
-	`__bos0
- (__buf), 
-__Êags
-);
-
-44  
-	`__ªcv_Æüs
- (
-__fd
-, 
-__buf
-, 
-__n
-, 
-__Êags
-);
-
-45 
-	}
-}
-
-47 
-ssize_t
+38 
+	#SOCK_SEQPACKET
  
-__ªcv‰om_chk
- (
-__fd
-, *
-__ª°ri˘
- 
-__buf
-, 
-size_t
- 
-__n
-,
+SOCK_SEQPACKET
 
-48 
-size_t
+
+	)
+
+39 
+	mSOCK_DCCP
+ = 6,
+
+40 
+	#SOCK_DCCP
  
-__buÊí
-, 
-__Êags
-,
+SOCK_DCCP
+
+
+	)
+
+41 
+	mSOCK_PACKET
+ = 10,
+
+44 
+	#SOCK_PACKET
+ 
+SOCK_PACKET
+
+
+	)
 
 49 
-__SOCKADDR_ARG
+	mSOCK_CLOEXEC
+ = 02000000,
+
+51 
+	#SOCK_CLOEXEC
  
-__addr
-,
+SOCK_CLOEXEC
 
-50 
-sockÀn_t
- *
-__ª°ri˘
+
+	)
+
+52 
+	mSOCK_NONBLOCK
+ = 00004000
+
+54 
+	#SOCK_NONBLOCK
  
-__addr_Àn
-);
-
-51 
-ssize_t
- 
-__REDIRECT
- (
-__ªcv‰om_Æüs
-,
-
-52 (
-__fd
-, *
-__ª°ri˘
- 
-__buf
-, 
-size_t
- 
-__n
-,
-
-53 
-__Êags
-, 
-__SOCKADDR_ARG
- 
-__addr
-,
-
-54 
-sockÀn_t
- *
-__ª°ri˘
- 
-__addr_Àn
-), 
-ªcv‰om
-);
-
-55 
-ssize_t
- 
-__REDIRECT
- (
-__ªcv‰om_chk_w¨n
-,
-
-56 (
-__fd
-, *
-__ª°ri˘
- 
-__buf
-, 
-size_t
- 
-__n
-,
-
-57 
-size_t
- 
-__buÊí
-, 
-__Êags
-,
-
-58 
-__SOCKADDR_ARG
- 
-__addr
-,
-
-59 
-sockÀn_t
- *
-__ª°ri˘
- 
-__addr_Àn
-), 
-__ªcv‰om_chk
-)
-
-60 
-__w¨«âr
- ("recvfrom called with biggerÜengthÅhan size of "
-
-63 
-__f‹tify_fun˘i⁄
- 
-ssize_t
+SOCK_NONBLOCK
 
 
-64 
-	$ªcv‰om
- (
-__fd
-, *
-__ª°ri˘
- 
-__buf
-, 
-size_t
- 
-__n
-, 
-__Êags
-,
-
-65 
-__SOCKADDR_ARG
- 
-__addr
-, 
-sockÀn_t
- *
-__ª°ri˘
- 
-__addr_Àn
-)
-
-67 i‡(
-	`__bos0
- (
-__buf
-Ë!(
-size_t
-) -1)
-
-69 i‡(!
-	`__buûtö_c⁄°™t_p
- (
-__n
-))
-
-70  
-	`__ªcv‰om_chk
- (
-__fd
-, 
-__buf
-, 
-__n
-, 
-	`__bos0
- (__buf), 
-__Êags
-,
-
-71 
-__addr
-, 
-__addr_Àn
-);
-
-72 i‡(
-__n
- > 
-	`__bos0
- (
-__buf
-))
-
-73  
-	`__ªcv‰om_chk_w¨n
- (
-__fd
-, 
-__buf
-, 
-__n
-, 
-	`__bos0
- (__buf), 
-__Êags
-,
-
-74 
-__addr
-, 
-__addr_Àn
-);
-
-76  
-	`__ªcv‰om_Æüs
- (
-__fd
-, 
-__buf
-, 
-__n
-, 
-__Êags
-, 
-__addr
-, 
-__addr_Àn
-);
-
-77 
-	}
-}
+	)
 
 	@/usr/include/bits/stdio-lock.h
 
@@ -59048,6 +62030,148 @@ __x86_64__
  1024
 
 	)
+
+	@/usr/include/bits/uio.h
+
+18 #i‡!
+deföed
+ 
+_SYS_UIO_H
+ && !deföed 
+_FCNTL_H
+
+
+22 #i‚de‡
+_BITS_UIO_H
+
+
+23 
+	#_BITS_UIO_H
+ 1
+
+	)
+
+25 
+	~<sys/ty≥s.h
+>
+
+39 
+	#UIO_MAXIOV
+ 1024
+
+	)
+
+43 
+	siovec
+
+
+45 *
+	miov_ba£
+;
+
+46 
+size_t
+ 
+	miov_Àn
+;
+
+52 #ifde‡
+__USE_GNU
+
+
+53 #i‡
+deföed
+ 
+_SYS_UIO_H
+ && !deföed 
+_BITS_UIO_H_FOR_SYS_UIO_H
+
+
+54 
+	#_BITS_UIO_H_FOR_SYS_UIO_H
+ 1
+
+	)
+
+56 
+__BEGIN_DECLS
+
+
+59 
+ssize_t
+ 
+	$¥o˚ss_vm_ªadv
+ (
+pid_t
+ 
+__pid
+, c⁄° 
+iovec
+ *
+__lvec
+,
+
+60 
+__liov˙t
+,
+
+61 c⁄° 
+iovec
+ *
+__rvec
+,
+
+62 
+__riov˙t
+,
+
+63 
+__Êags
+)
+
+64 
+__THROW
+;
+
+67 
+ssize_t
+ 
+	$¥o˚ss_vm_wrôev
+ (
+pid_t
+ 
+__pid
+, c⁄° 
+iovec
+ *
+__lvec
+,
+
+68 
+__liov˙t
+,
+
+69 c⁄° 
+iovec
+ *
+__rvec
+,
+
+70 
+__riov˙t
+,
+
+71 
+__Êags
+)
+
+72 
+__THROW
+;
+
+74 
+__END_DECLS
+
 
 	@/usr/include/bits/wchar.h
 
@@ -62207,255 +65331,353 @@ __REDIRECT
 
 	)
 
-	@/usr/include/sys/uio.h
+	@/usr/include/asm-generic/socket.h
 
-18 #i‚de‡
-_SYS_UIO_H
+1 #i‚de‡
+__ASM_GENERIC_SOCKET_H
 
 
-19 
-	#_SYS_UIO_H
+2 
+	#__ASM_GENERIC_SOCKET_H
+
+
+	)
+
+4 
+	~<asm/sockios.h
+>
+
+7 
+	#SOL_SOCKET
  1
 
 	)
 
-21 
-	~<„©uªs.h
->
+9 
+	#SO_DEBUG
+ 1
 
-23 
-	~<sys/ty≥s.h
->
+	)
 
-25 
-	g__BEGIN_DECLS
+10 
+	#SO_REUSEADDR
+ 2
+
+	)
+
+11 
+	#SO_TYPE
+ 3
+
+	)
+
+12 
+	#SO_ERROR
+ 4
+
+	)
+
+13 
+	#SO_DONTROUTE
+ 5
+
+	)
+
+14 
+	#SO_BROADCAST
+ 6
+
+	)
+
+15 
+	#SO_SNDBUF
+ 7
+
+	)
+
+16 
+	#SO_RCVBUF
+ 8
+
+	)
+
+17 
+	#SO_SNDBUFFORCE
+ 32
+
+	)
+
+18 
+	#SO_RCVBUFFORCE
+ 33
+
+	)
+
+19 
+	#SO_KEEPALIVE
+ 9
+
+	)
+
+20 
+	#SO_OOBINLINE
+ 10
+
+	)
+
+21 
+	#SO_NO_CHECK
+ 11
+
+	)
+
+22 
+	#SO_PRIORITY
+ 12
+
+	)
+
+23 
+	#SO_LINGER
+ 13
+
+	)
+
+24 
+	#SO_BSDCOMPAT
+ 14
+
+	)
+
+25 
+	#SO_REUSEPORT
+ 15
+
+	)
+
+26 #i‚de‡
+SO_PASSCRED
 
 
-28 
-	~<bôs/uio.h
->
+27 
+	#SO_PASSCRED
+ 16
 
-39 
-ssize_t
+	)
+
+28 
+	#SO_PEERCRED
+ 17
+
+	)
+
+29 
+	#SO_RCVLOWAT
+ 18
+
+	)
+
+30 
+	#SO_SNDLOWAT
+ 19
+
+	)
+
+31 
+	#SO_RCVTIMEO
+ 20
+
+	)
+
+32 
+	#SO_SNDTIMEO
+ 21
+
+	)
+
+36 
+	#SO_SECURITY_AUTHENTICATION
+ 22
+
+	)
+
+37 
+	#SO_SECURITY_ENCRYPTION_TRANSPORT
+ 23
+
+	)
+
+38 
+	#SO_SECURITY_ENCRYPTION_NETWORK
+ 24
+
+	)
+
+40 
+	#SO_BINDTODEVICE
+ 25
+
+	)
+
+43 
+	#SO_ATTACH_FILTER
+ 26
+
+	)
+
+44 
+	#SO_DETACH_FILTER
+ 27
+
+	)
+
+45 
+	#SO_GET_FILTER
  
-	$ªadv
- (
-__fd
-, c⁄° 
-iovec
- *
-__iovec
-, 
-__cou¡
-)
-
-40 
-__wur
-;
-
-50 
-ssize_t
- 
-	$wrôev
- (
-__fd
-, c⁄° 
-iovec
- *
-__iovec
-, 
-__cou¡
-)
-
-51 
-__wur
-;
-
-54 #ifde‡
-__USE_BSD
-
-
-55 #i‚de‡
-__USE_FILE_OFFSET64
-
-
-65 
-ssize_t
- 
-	$¥ódv
- (
-__fd
-, c⁄° 
-iovec
- *
-__iovec
-, 
-__cou¡
-,
-
-66 
-__off_t
- 
-__off£t
-Ë
-__wur
-;
-
-77 
-ssize_t
- 
-	$pwrôev
- (
-__fd
-, c⁄° 
-iovec
- *
-__iovec
-, 
-__cou¡
-,
-
-78 
-__off_t
- 
-__off£t
-Ë
-__wur
-;
-
-80 #ifde‡
-__REDIRECT
-
-
-81 
-ssize_t
- 
-	`__REDIRECT
- (
-¥ódv
-, (
-__fd
-, c⁄° 
-iovec
- *
-__iovec
-,
-
-82 
-__cou¡
-, 
-__off64_t
- 
-__off£t
-),
-
-83 
-¥ódv64
-Ë
-__wur
-;
-
-84 
-ssize_t
- 
-	`__REDIRECT
- (
-pwrôev
-, (
-__fd
-, c⁄° 
-iovec
- *
-__iovec
-,
-
-85 
-__cou¡
-, 
-__off64_t
- 
-__off£t
-),
-
-86 
-pwrôev64
-Ë
-__wur
-;
-
-88 
-	#¥ódv
- 
-¥ódv64
+SO_ATTACH_FILTER
 
 
 	)
 
-89 
-	#pwrôev
+47 
+	#SO_PEERNAME
+ 28
+
+	)
+
+48 
+	#SO_TIMESTAMP
+ 29
+
+	)
+
+49 
+	#SCM_TIMESTAMP
  
-pwrôev64
+SO_TIMESTAMP
 
 
 	)
 
-93 #ifde‡
-__USE_LARGEFILE64
+51 
+	#SO_ACCEPTCONN
+ 30
 
+	)
 
-103 
-ssize_t
+53 
+	#SO_PEERSEC
+ 31
+
+	)
+
+54 
+	#SO_PASSSEC
+ 34
+
+	)
+
+55 
+	#SO_TIMESTAMPNS
+ 35
+
+	)
+
+56 
+	#SCM_TIMESTAMPNS
  
-	$¥ódv64
- (
-__fd
-, c⁄° 
-iovec
- *
-__iovec
-, 
-__cou¡
-,
+SO_TIMESTAMPNS
 
-104 
-__off64_t
+
+	)
+
+58 
+	#SO_MARK
+ 36
+
+	)
+
+60 
+	#SO_TIMESTAMPING
+ 37
+
+	)
+
+61 
+	#SCM_TIMESTAMPING
  
-__off£t
-Ë
-__wur
-;
+SO_TIMESTAMPING
 
-115 
-ssize_t
+
+	)
+
+63 
+	#SO_PROTOCOL
+ 38
+
+	)
+
+64 
+	#SO_DOMAIN
+ 39
+
+	)
+
+66 
+	#SO_RXQ_OVFL
+ 40
+
+	)
+
+68 
+	#SO_WIFI_STATUS
+ 41
+
+	)
+
+69 
+	#SCM_WIFI_STATUS
  
-	$pwrôev64
- (
-__fd
-, c⁄° 
-iovec
- *
-__iovec
-, 
-__cou¡
-,
-
-116 
-__off64_t
- 
-__off£t
-Ë
-__wur
-;
-
-120 
-__END_DECLS
+SO_WIFI_STATUS
 
 
-	@/usr/include/asm/socket.h
+	)
 
-1 
-	~<asm-gíîic/sockë.h
->
+70 
+	#SO_PEEK_OFF
+ 42
+
+	)
+
+73 
+	#SO_NOFCS
+ 43
+
+	)
+
+75 
+	#SO_LOCK_FILTER
+ 44
+
+	)
+
+77 
+	#SO_SELECT_ERR_QUEUE
+ 45
+
+	)
+
+79 
+	#SO_BUSY_POLL
+ 46
+
+	)
+
+81 
+	#SO_MAX_PACING_RATE
+ 47
+
+	)
 
 	@/usr/include/bits/libc-lock.h
 
@@ -63254,304 +66476,6 @@ _LIBC
 233 
 	~"libc-lockP.h
 "
-
-	@/usr/include/bits/sockaddr.h
-
-23 #i‚de‡
-_BITS_SOCKADDR_H
-
-
-24 
-	#_BITS_SOCKADDR_H
- 1
-
-	)
-
-28 
-	tß_Ámûy_t
-;
-
-34 
-	#__SOCKADDR_COMMON
-(
-ß_¥efix
-) \
-
-35 
-ß_Ámûy_t
- 
-ß_¥efix
-##
-Ámûy
-
-
-	)
-
-37 
-	#__SOCKADDR_COMMON_SIZE
- ( ())
-
-	)
-
-	@/usr/include/bits/socket_type.h
-
-19 #i‚de‡
-_SYS_SOCKET_H
-
-
-24 
-	e__sockë_ty≥
-
-
-26 
-	mSOCK_STREAM
- = 1,
-
-28 
-	#SOCK_STREAM
- 
-SOCK_STREAM
-
-
-	)
-
-29 
-	mSOCK_DGRAM
- = 2,
-
-31 
-	#SOCK_DGRAM
- 
-SOCK_DGRAM
-
-
-	)
-
-32 
-	mSOCK_RAW
- = 3,
-
-33 
-	#SOCK_RAW
- 
-SOCK_RAW
-
-
-	)
-
-34 
-	mSOCK_RDM
- = 4,
-
-35 
-	#SOCK_RDM
- 
-SOCK_RDM
-
-
-	)
-
-36 
-	mSOCK_SEQPACKET
- = 5,
-
-38 
-	#SOCK_SEQPACKET
- 
-SOCK_SEQPACKET
-
-
-	)
-
-39 
-	mSOCK_DCCP
- = 6,
-
-40 
-	#SOCK_DCCP
- 
-SOCK_DCCP
-
-
-	)
-
-41 
-	mSOCK_PACKET
- = 10,
-
-44 
-	#SOCK_PACKET
- 
-SOCK_PACKET
-
-
-	)
-
-49 
-	mSOCK_CLOEXEC
- = 02000000,
-
-51 
-	#SOCK_CLOEXEC
- 
-SOCK_CLOEXEC
-
-
-	)
-
-52 
-	mSOCK_NONBLOCK
- = 00004000
-
-54 
-	#SOCK_NONBLOCK
- 
-SOCK_NONBLOCK
-
-
-	)
-
-	@/usr/include/bits/uio.h
-
-18 #i‡!
-deföed
- 
-_SYS_UIO_H
- && !deföed 
-_FCNTL_H
-
-
-22 #i‚de‡
-_BITS_UIO_H
-
-
-23 
-	#_BITS_UIO_H
- 1
-
-	)
-
-25 
-	~<sys/ty≥s.h
->
-
-39 
-	#UIO_MAXIOV
- 1024
-
-	)
-
-43 
-	siovec
-
-
-45 *
-	miov_ba£
-;
-
-46 
-size_t
- 
-	miov_Àn
-;
-
-52 #ifde‡
-__USE_GNU
-
-
-53 #i‡
-deföed
- 
-_SYS_UIO_H
- && !deföed 
-_BITS_UIO_H_FOR_SYS_UIO_H
-
-
-54 
-	#_BITS_UIO_H_FOR_SYS_UIO_H
- 1
-
-	)
-
-56 
-__BEGIN_DECLS
-
-
-59 
-ssize_t
- 
-	$¥o˚ss_vm_ªadv
- (
-pid_t
- 
-__pid
-, c⁄° 
-iovec
- *
-__lvec
-,
-
-60 
-__liov˙t
-,
-
-61 c⁄° 
-iovec
- *
-__rvec
-,
-
-62 
-__riov˙t
-,
-
-63 
-__Êags
-)
-
-64 
-__THROW
-;
-
-67 
-ssize_t
- 
-	$¥o˚ss_vm_wrôev
- (
-pid_t
- 
-__pid
-, c⁄° 
-iovec
- *
-__lvec
-,
-
-68 
-__liov˙t
-,
-
-69 c⁄° 
-iovec
- *
-__rvec
-,
-
-70 
-__riov˙t
-,
-
-71 
-__Êags
-)
-
-72 
-__THROW
-;
-
-74 
-__END_DECLS
-
 
 	@/usr/include/gconv.h
 
@@ -67569,353 +70493,11 @@ __√ed_mb°©e_t
 __√ed_wöt_t
 
 
-	@/usr/include/asm-generic/socket.h
+	@/usr/include/asm/sockios.h
 
-1 #i‚de‡
-__ASM_GENERIC_SOCKET_H
-
-
-2 
-	#__ASM_GENERIC_SOCKET_H
-
-
-	)
-
-4 
-	~<asm/sockios.h
+1 
+	~<asm-gíîic/sockios.h
 >
-
-7 
-	#SOL_SOCKET
- 1
-
-	)
-
-9 
-	#SO_DEBUG
- 1
-
-	)
-
-10 
-	#SO_REUSEADDR
- 2
-
-	)
-
-11 
-	#SO_TYPE
- 3
-
-	)
-
-12 
-	#SO_ERROR
- 4
-
-	)
-
-13 
-	#SO_DONTROUTE
- 5
-
-	)
-
-14 
-	#SO_BROADCAST
- 6
-
-	)
-
-15 
-	#SO_SNDBUF
- 7
-
-	)
-
-16 
-	#SO_RCVBUF
- 8
-
-	)
-
-17 
-	#SO_SNDBUFFORCE
- 32
-
-	)
-
-18 
-	#SO_RCVBUFFORCE
- 33
-
-	)
-
-19 
-	#SO_KEEPALIVE
- 9
-
-	)
-
-20 
-	#SO_OOBINLINE
- 10
-
-	)
-
-21 
-	#SO_NO_CHECK
- 11
-
-	)
-
-22 
-	#SO_PRIORITY
- 12
-
-	)
-
-23 
-	#SO_LINGER
- 13
-
-	)
-
-24 
-	#SO_BSDCOMPAT
- 14
-
-	)
-
-25 
-	#SO_REUSEPORT
- 15
-
-	)
-
-26 #i‚de‡
-SO_PASSCRED
-
-
-27 
-	#SO_PASSCRED
- 16
-
-	)
-
-28 
-	#SO_PEERCRED
- 17
-
-	)
-
-29 
-	#SO_RCVLOWAT
- 18
-
-	)
-
-30 
-	#SO_SNDLOWAT
- 19
-
-	)
-
-31 
-	#SO_RCVTIMEO
- 20
-
-	)
-
-32 
-	#SO_SNDTIMEO
- 21
-
-	)
-
-36 
-	#SO_SECURITY_AUTHENTICATION
- 22
-
-	)
-
-37 
-	#SO_SECURITY_ENCRYPTION_TRANSPORT
- 23
-
-	)
-
-38 
-	#SO_SECURITY_ENCRYPTION_NETWORK
- 24
-
-	)
-
-40 
-	#SO_BINDTODEVICE
- 25
-
-	)
-
-43 
-	#SO_ATTACH_FILTER
- 26
-
-	)
-
-44 
-	#SO_DETACH_FILTER
- 27
-
-	)
-
-45 
-	#SO_GET_FILTER
- 
-SO_ATTACH_FILTER
-
-
-	)
-
-47 
-	#SO_PEERNAME
- 28
-
-	)
-
-48 
-	#SO_TIMESTAMP
- 29
-
-	)
-
-49 
-	#SCM_TIMESTAMP
- 
-SO_TIMESTAMP
-
-
-	)
-
-51 
-	#SO_ACCEPTCONN
- 30
-
-	)
-
-53 
-	#SO_PEERSEC
- 31
-
-	)
-
-54 
-	#SO_PASSSEC
- 34
-
-	)
-
-55 
-	#SO_TIMESTAMPNS
- 35
-
-	)
-
-56 
-	#SCM_TIMESTAMPNS
- 
-SO_TIMESTAMPNS
-
-
-	)
-
-58 
-	#SO_MARK
- 36
-
-	)
-
-60 
-	#SO_TIMESTAMPING
- 37
-
-	)
-
-61 
-	#SCM_TIMESTAMPING
- 
-SO_TIMESTAMPING
-
-
-	)
-
-63 
-	#SO_PROTOCOL
- 38
-
-	)
-
-64 
-	#SO_DOMAIN
- 39
-
-	)
-
-66 
-	#SO_RXQ_OVFL
- 40
-
-	)
-
-68 
-	#SO_WIFI_STATUS
- 41
-
-	)
-
-69 
-	#SCM_WIFI_STATUS
- 
-SO_WIFI_STATUS
-
-
-	)
-
-70 
-	#SO_PEEK_OFF
- 42
-
-	)
-
-73 
-	#SO_NOFCS
- 43
-
-	)
-
-75 
-	#SO_LOCK_FILTER
- 44
-
-	)
-
-77 
-	#SO_SELECT_ERR_QUEUE
- 45
-
-	)
-
-79 
-	#SO_BUSY_POLL
- 46
-
-	)
-
-81 
-	#SO_MAX_PACING_RATE
- 47
-
-	)
 
 	@/usr/include/bits/wchar-ldbl.h
 
@@ -73021,11 +75603,59 @@ __THROW
 __END_DECLS
 
 
-	@/usr/include/asm/sockios.h
+	@/usr/include/asm-generic/sockios.h
 
-1 
-	~<asm-gíîic/sockios.h
->
+1 #i‚de‡
+__ASM_GENERIC_SOCKIOS_H
+
+
+2 
+	#__ASM_GENERIC_SOCKIOS_H
+
+
+	)
+
+5 
+	#FIOSETOWN
+ 0x8901
+
+	)
+
+6 
+	#SIOCSPGRP
+ 0x8902
+
+	)
+
+7 
+	#FIOGETOWN
+ 0x8903
+
+	)
+
+8 
+	#SIOCGPGRP
+ 0x8904
+
+	)
+
+9 
+	#SIOCATMARK
+ 0x8905
+
+	)
+
+10 
+	#SIOCGSTAMP
+ 0x8906
+
+	)
+
+11 
+	#SIOCGSTAMPNS
+ 0x8907
+
+	)
 
 	@/usr/include/bits/errno.h
 
@@ -73156,60 +75786,6 @@ __√ed_Em©h
 65 
 	#ERANGE
  34
-
-	)
-
-	@/usr/include/asm-generic/sockios.h
-
-1 #i‚de‡
-__ASM_GENERIC_SOCKIOS_H
-
-
-2 
-	#__ASM_GENERIC_SOCKIOS_H
-
-
-	)
-
-5 
-	#FIOSETOWN
- 0x8901
-
-	)
-
-6 
-	#SIOCSPGRP
- 0x8902
-
-	)
-
-7 
-	#FIOGETOWN
- 0x8903
-
-	)
-
-8 
-	#SIOCGPGRP
- 0x8904
-
-	)
-
-9 
-	#SIOCATMARK
- 0x8905
-
-	)
-
-10 
-	#SIOCGSTAMP
- 0x8906
-
-	)
-
-11 
-	#SIOCGSTAMPNS
- 0x8907
 
 	)
 
@@ -74060,19 +76636,26 @@ _ASM_GENERIC_ERRNO_BASE_H
 .
 1
 /usr/include
-92
-2390
-client.h
+98
+2473
 debug.h
 frame.h
+server.c
+server.h
+test/test1.c
+tool.c
+tool.h
 user.c
 user.h
 /usr/include/arpa/inet.h
+/usr/include/error.h
 /usr/include/netinet/in.h
 /usr/include/pthread.h
 /usr/include/stdio.h
 /usr/include/stdlib.h
 /usr/include/string.h
+/usr/include/sys/select.h
+/usr/include/sys/socket.h
 /usr/include/sys/types.h
 /usr/include/time.h
 /usr/include/unistd.h
@@ -74080,10 +76663,16 @@ user.h
 /usr/include/bits/byteswap.h
 /usr/include/bits/confname.h
 /usr/include/bits/environments.h
+/usr/include/bits/error.h
 /usr/include/bits/in.h
 /usr/include/bits/posix_opt.h
 /usr/include/bits/pthreadtypes.h
+/usr/include/bits/select.h
+/usr/include/bits/select2.h
 /usr/include/bits/setjmp.h
+/usr/include/bits/sigset.h
+/usr/include/bits/socket.h
+/usr/include/bits/socket2.h
 /usr/include/bits/stdio-ldbl.h
 /usr/include/bits/stdio.h
 /usr/include/bits/stdio2.h
@@ -74108,48 +76697,41 @@ user.h
 /usr/include/libio.h
 /usr/include/sched.h
 /usr/include/stdint.h
-/usr/include/sys/select.h
-/usr/include/sys/socket.h
 /usr/include/sys/sysmacros.h
+/usr/include/sys/uio.h
 /usr/include/xlocale.h
 /usr/include/_G_config.h
+/usr/include/asm/socket.h
 /usr/include/bits/byteswap-16.h
 /usr/include/bits/endian.h
 /usr/include/bits/libio-ldbl.h
 /usr/include/bits/sched.h
-/usr/include/bits/select.h
-/usr/include/bits/select2.h
-/usr/include/bits/sigset.h
-/usr/include/bits/socket.h
-/usr/include/bits/socket2.h
+/usr/include/bits/sockaddr.h
+/usr/include/bits/socket_type.h
 /usr/include/bits/stdio-lock.h
 /usr/include/bits/timex.h
 /usr/include/bits/typesizes.h
+/usr/include/bits/uio.h
 /usr/include/bits/wchar.h
 /usr/include/ctype.h
 /usr/include/gnu/stubs.h
 /usr/include/stdc-predef.h
 /usr/include/sys/cdefs.h
-/usr/include/sys/uio.h
-/usr/include/asm/socket.h
+/usr/include/asm-generic/socket.h
 /usr/include/bits/libc-lock.h
-/usr/include/bits/sockaddr.h
-/usr/include/bits/socket_type.h
-/usr/include/bits/uio.h
 /usr/include/gconv.h
 /usr/include/gnu/stubs-32.h
 /usr/include/gnu/stubs-64.h
 /usr/include/gnu/stubs-x32.h
 /usr/include/wchar.h
-/usr/include/asm-generic/socket.h
+/usr/include/asm/sockios.h
 /usr/include/bits/wchar-ldbl.h
 /usr/include/bits/wchar2.h
 /usr/include/errno.h
 /usr/include/gnu/option-groups.h
 /usr/include/wctype.h
-/usr/include/asm/sockios.h
-/usr/include/bits/errno.h
 /usr/include/asm-generic/sockios.h
+/usr/include/bits/errno.h
 /usr/include/linux/errno.h
 /usr/include/asm/errno.h
 /usr/include/asm-generic/errno.h

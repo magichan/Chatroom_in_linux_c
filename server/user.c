@@ -19,6 +19,7 @@
  */
 #include"user.h"
 #include"tool.h"
+#include"debug.h"
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  InitUserList
@@ -53,6 +54,7 @@ PtrUserDate InitUserList( void )
                 temp = ( PtrUserDate )malloc(sizeof(struct UserDate));
         }
         free(temp);
+        fclose(fp);
 
         return head;
 }
@@ -73,6 +75,7 @@ int  AddUser( PtrUserDate  list, PtrUserDate Node )
           MyError("Adduser",__FUNCTION__,__LINE__);
         }
         p = list;
+        Node->next = NULL;
         while( p->next!=NULL )
         {
                 p= p->next;
@@ -125,16 +128,16 @@ int  DeleUser( PtrUserDate list, char * name )
  *         Exit:  成功返回用户信息 失败返回NULL
  * =====================================================================================
  */
-
  PtrUserDate  SearchUser( PtrUserDate list, const char * name )
-        /* 查找用户 */
 {
         PtrUserDate p;
         p = list->next;
         while( p!=NULL )
         {
-                if( strcpy(p->name,name)==0 )
+                if( strcmp(p->name,name)==0 )
+                {
                         return p;
+                }
                 p = p->next;
         }
         return p;

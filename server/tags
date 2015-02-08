@@ -1,0 +1,110 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AddUser	user.c	/^int  AddUser( PtrUserDate  list, PtrUserDate Node ) $/;"	f	signature:( PtrUserDate list, PtrUserDate Node )
+AddUser	user.h	/^int  AddUser( PtrUserDate  list, PtrUserDate Node ); \/*  添加用户*\/$/;"	p	signature:( PtrUserDate list, PtrUserDate Node )
+AnalyzeMesg	server.c	/^int   AnalyzeMesg( int clie_fd )$/;"	f	signature:( int clie_fd )
+AnalyzeMesg	server.h	/^int   AnalyzeMesg( int clie_fd );$/;"	p	signature:( int clie_fd )
+CC	makefile	/^CC = clang$/;"	m
+CLIENT_MAX	server.h	41;"	d
+CLIENT_STATUS_AUDIENCE	frame.h	38;"	d
+CLIENT_STATUS_COMMON	frame.h	37;"	d
+CLIENT_STATUS_ROOT	frame.h	36;"	d
+CliToSerFrame	frame.h	/^struct CliToSerFrame{                      \/* 客户端向服务端发送  *\/$/;"	s
+CliToSerFrame::mesg_data	frame.h	/^        char mesg_data[MESG_MAX];          \/* 数据 *\/$/;"	m	struct:CliToSerFrame	access:public
+CliToSerFrame::option	frame.h	/^        int option;                        \/* 命令选项，仅和登录和注册有关 *\/$/;"	m	struct:CliToSerFrame	access:public
+DeleUser	user.c	/^int  DeleUser( PtrUserDate list, char * name ) $/;"	f	signature:( PtrUserDate list, char * name )
+DeleUser	user.h	/^int  DeleUser( PtrUserDate list, char * name ); \/*  删除用户*\/$/;"	p	signature:( PtrUserDate list, char * name )
+ERROR_EXCEEDING	server.h	48;"	d
+ERROR_PROCESS	server.h	44;"	d
+ERROR_TEXT	server.h	49;"	d
+ERROR_USERNAME_EXISTENCE	server.h	45;"	d
+ERROR_USERPASS_WRONG	server.h	47;"	d
+ERROR_USRENAME_NOEXISTENCE	server.h	46;"	d
+FdToUsername	tool.c	/^const char * FdToUsername( int client_fd )$/;"	f	signature:( int client_fd )
+FdToUsername	tool.h	/^const char *FdToUsername( int client_fd );$/;"	p	signature:( int client_fd )
+InitSock	server.c	/^void  InitSock(void)$/;"	f	signature:(void)
+InitSock	server.h	/^void  InitSock(void);$/;"	p	signature:(void)
+InitUserList	user.c	/^PtrUserDate InitUserList( void )           $/;"	f	signature:( void )
+InitUserList	user.h	/^PtrUserDate InitUserList( void );               \/* 链表初始化 *\/$/;"	p	signature:( void )
+LISTENQ	server.h	40;"	d
+LOGIN_SUCCESE	frame.h	52;"	d
+LOGIN_USERNAME	frame.h	50;"	d
+LOGIN_USERPASSWORD	frame.h	51;"	d
+LOG_SERVER	tool.h	21;"	d
+Log	tool.c	/^void Log(const char *log_string, const char * user_string)$/;"	f	signature:(const char *log_string, const char * user_string)
+Log	tool.h	/^void Log(const char *log_string, const char * user_string);$/;"	p	signature:(const char *log_string, const char * user_string)
+MESG_MAX	frame.h	24;"	d
+MyError	test/test1.c	/^void MyError(char * err_string,const char * function, int line)$/;"	f	signature:(char * err_string,const char * function, int line)
+MyError	tool.c	/^void MyError(char * err_string,const char * function, int line)$/;"	f	signature:(char * err_string,const char * function, int line)
+MyError	tool.h	/^void MyError(char * err_string,const char * function, int line);$/;"	p	signature:(char * err_string,const char * function, int line)
+MyErrorPthread	tool.c	/^void MyErrorPthread(char * err_string,const char * function, int line)$/;"	f	signature:(char * err_string,const char * function, int line)
+MyErrorPthread	tool.h	/^void MyErrorPthread(char * err_string,const char * function, int line);$/;"	p	signature:(char * err_string,const char * function, int line)
+MySend	server.c	/^int  MySend( int source_fd,int target_fd,char * send_string )$/;"	f	signature:( int source_fd,int target_fd,char * send_string )
+MySend	server.h	/^int  MySend( int source_fd,int target_fd,char * send_string );$/;"	p	signature:( int source_fd,int target_fd,char * send_string )
+Mywrite	tool.c	/^int Mywrite( int fd, const void * buf,unsigned int count )$/;"	f	signature:( int fd, const void * buf,unsigned int count )
+Mywrite	tool.h	/^int Mywrite( int fd, const void * buf,unsigned int count );$/;"	p	signature:( int fd, const void * buf,unsigned int count )
+ProcessMesg	server.c	/^void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data)$/;"	f	signature:(int clie_fd,struct CliToSerFrame * get_data)
+ProcessMesg	server.h	/^void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data);$/;"	p	signature:(int clie_fd,struct CliToSerFrame * get_data)
+PtrUserDate	user.h	/^typedef struct UserDate * PtrUserDate;$/;"	t	typeref:struct:UserDate
+REGISTER_SUCCSE	frame.h	45;"	d
+REGISTER_USERNAME	frame.h	47;"	d
+REGISTER_USERPASSWORD	frame.h	48;"	d
+REQUEST_EXIT	frame.h	53;"	d
+REQUEST_LOGIN	frame.h	49;"	d
+REQUIE_REGISTER	frame.h	46;"	d
+SEND_MESG	frame.h	55;"	d
+SERV_PORT	server.h	39;"	d
+SearchUser	user.c	/^ PtrUserDate  SearchUser( PtrUserDate list, const char * name )$/;"	f	signature:( PtrUserDate list, const char * name )
+SearchUser	user.h	/^ PtrUserDate  SearchUser( PtrUserDate list, const char * name ); \/* 查找用户 *\/$/;"	p	signature:( PtrUserDate list, const char * name )
+SerToCliFrame	frame.h	/^struct SerToCliFrame{ \/* 服务端向客户端发送 *\/$/;"	s
+SerToCliFrame::chatroom_authority	frame.h	/^        int chatroom_authority;            \/\/ 客户端权限$/;"	m	struct:SerToCliFrame	access:public
+SerToCliFrame::mesg_data	frame.h	/^        char mesg_data[MESG_MAX];        \/\/ 数据$/;"	m	struct:SerToCliFrame	access:public
+SerToCliFrame::option	frame.h	/^        int option;                       \/\/ 命名选项 $/;"	m	struct:SerToCliFrame	access:public
+SerToCliFrame::send_time	frame.h	/^        time_t send_time;                 \/\/ 发送时间$/;"	m	struct:SerToCliFrame	access:public
+SerToCliFrame::sender_name	frame.h	/^        char sender_name[USER_MAX];       \/\/ 发送者信息$/;"	m	struct:SerToCliFrame	access:public
+USERFIFE	user.h	27;"	d
+USER_MAX	frame.h	23;"	d
+USER_STATUS_DEALING	user.h	39;"	d
+USER_STATUS_DOWN	user.h	41;"	d
+USER_STATUS_UP	user.h	40;"	d
+UserDate	user.h	/^struct UserDate{$/;"	s
+UserDate::authority	user.h	/^        int authority;                          \/* 客户端权限*\/$/;"	m	struct:UserDate	access:public
+UserDate::confd	user.h	/^        int confd;                              \/* 通信接口*\/$/;"	m	struct:UserDate	access:public
+UserDate::name	user.h	/^        char name[USER_MAX];                    \/* 用户名*\/$/;"	m	struct:UserDate	access:public
+UserDate::next	user.h	/^        struct UserDate * next;                 \/*  *\/$/;"	m	struct:UserDate	typeref:struct:UserDate::UserDate	access:public
+UserDate::password	user.h	/^        char password[USER_MAX];                \/* 密码 *\/$/;"	m	struct:UserDate	access:public
+UserDate::status	user.h	/^        int status;                             \/* 用户状态 *\/$/;"	m	struct:UserDate	access:public
+UserListIsEmpty	user.c	/^int  UserListIsEmpty( PtrUserDate list)$/;"	f	signature:( PtrUserDate list)
+UserListIsEmpty	user.h	/^int  UserListIsEmpty( PtrUserDate list);        \/*判断是否为空*\/$/;"	p	signature:( PtrUserDate list)
+WriteUserList	user.c	/^int  WriteUserList( PtrUserDate list)    $/;"	f	signature:( PtrUserDate list)
+WriteUserList	user.h	/^int  WriteUserList( PtrUserDate list);          \/*  写入文件*\/$/;"	p	signature:( PtrUserDate list)
+_CLIENT_H_	server.h	20;"	d
+_DEBUG_	debug.h	18;"	d
+_DEBUG_	server.c	21;"	d	file:
+_FRAME_H_	frame.h	21;"	d
+_USER_H_	user.h	21;"	d
+authority	user.h	/^        int authority;                          \/* 客户端权限*\/$/;"	m	struct:UserDate	access:public
+chatroom_authority	frame.h	/^        int chatroom_authority;            \/\/ 客户端权限$/;"	m	struct:SerToCliFrame	access:public
+confd	user.h	/^        int confd;                              \/* 通信接口*\/$/;"	m	struct:UserDate	access:public
+debug_msg	debug.h	20;"	d
+debug_msg	debug.h	23;"	d
+g_sock_fd	server.c	/^        int g_sock_fd;$/;"	v
+g_user_list	server.c	/^PtrUserDate g_user_list;$/;"	v
+input_msg	debug.h	21;"	d
+input_msg	debug.h	24;"	d
+main	server.c	/^int main( void )$/;"	f	signature:( void )
+main	test/test1.c	/^int main()$/;"	f
+mesg_data	frame.h	/^        char mesg_data[MESG_MAX];          \/* 数据 *\/$/;"	m	struct:CliToSerFrame	access:public
+mesg_data	frame.h	/^        char mesg_data[MESG_MAX];        \/\/ 数据$/;"	m	struct:SerToCliFrame	access:public
+name	user.h	/^        char name[USER_MAX];                    \/* 用户名*\/$/;"	m	struct:UserDate	access:public
+next	user.h	/^        struct UserDate * next;                 \/*  *\/$/;"	m	struct:UserDate	typeref:struct:UserDate::UserDate	access:public
+option	frame.h	/^        int option;                        \/* 命令选项，仅和登录和注册有关 *\/$/;"	m	struct:CliToSerFrame	access:public
+option	frame.h	/^        int option;                       \/\/ 命名选项 $/;"	m	struct:SerToCliFrame	access:public
+password	user.h	/^        char password[USER_MAX];                \/* 密码 *\/$/;"	m	struct:UserDate	access:public
+send_time	frame.h	/^        time_t send_time;                 \/\/ 发送时间$/;"	m	struct:SerToCliFrame	access:public
+sender_name	frame.h	/^        char sender_name[USER_MAX];       \/\/ 发送者信息$/;"	m	struct:SerToCliFrame	access:public
+status	user.h	/^        int status;                             \/* 用户状态 *\/$/;"	m	struct:UserDate	access:public

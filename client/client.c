@@ -115,7 +115,16 @@ int  Regist( int serv_fd )
         /*发送申请*/
         memset(&send_data,0,sizeof(struct CliToSerFrame));
         send_data.option = REQUIE_REGISTER;
-        write(serv_fd,&send_data,sizeof(struct CliToSerFrame));
+        if( write(serv_fd,&send_data,sizeof(struct CliToSerFrame))<0)
+        {
+                MyError("write",__FUNCTION__,__LINE__);
+        }
+        memset(&get_data,0,sizeof(struct SerToCliFrame));
+        if(read(serv_fd,&get_data,sizeof(struct SerToCliFrame))<=0)
+        {
+                  MyError("read",__FUNCTION__,__LINE__);
+        }
+        input_msg("  从套接字读取的数据为option:%d,mesg:%s\n",get_data.option,get_data.mesg_data);
 
         while(1)
         {
@@ -126,7 +135,6 @@ int  Regist( int serv_fd )
                                          int flag;
                                          memset(&send_data,0,sizeof(struct CliToSerFrame));
                                          send_data.option = REGISTER_USERNAME;
-                                         Myfflush();
                                          printf("%s",get_data.mesg_data);
                                        while((flag=GetInfo(send_data.mesg_data,USER_MAX)) != 0 )
                                        {
@@ -149,7 +157,6 @@ int  Regist( int serv_fd )
                                          int flag;
                                          memset(&send_data,0,sizeof(struct CliToSerFrame));
                                          send_data.option = REGISTER_USERPASSWORD;
-                                         Myfflush();
                                          printf("%s",get_data.mesg_data);
                                        while((flag=GetInfo(send_data.mesg_data,USER_MAX)) != 0 )
                                        {
@@ -219,6 +226,7 @@ int  Regist( int serv_fd )
                {
                        MyError("read",__FUNCTION__,__LINE__);
                }
+                input_msg("  从套接字读取的数据为option:%d,mesg:%s\n",get_data.option,get_data.mesg_data);
         }
 
 }

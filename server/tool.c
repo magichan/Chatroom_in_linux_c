@@ -18,6 +18,7 @@
  * =====================================================================================
  */
 #include"tool.h"
+
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  MyError
@@ -75,6 +76,7 @@ const char * FdToUsername( int client_fd )
         PtrUserDate temp;
 
         temp =  g_user_list->next;
+
         while( temp != NULL )
         {
                 if( temp->confd == client_fd )
@@ -86,4 +88,18 @@ const char * FdToUsername( int client_fd )
         return NULL;
 }
 
+int Mywrite( int fd, const void * buf,unsigned int count )
+{
+        int return_value;
+        if( (return_value=write(fd,buf,count)) > 0 )
+        {
+                return return_value; 
+        }
+        else{
+                printf("write 函数出错 \n");
+                exit(0);
+        }
+
+  
+}
 

@@ -74,12 +74,15 @@ int   GetInfo( char *buf,unsigned int counnt)
 {
         int  i = 0;
         int  c;
+        int temp;
 
         if( buf == NULL )
         {
                 return -1;
         }
-         while( getchar() == '\n') ;// 预防多余回车
+         while( (temp=getchar()) == '\n') ;
+        
+        buf[i++] = temp;
 
          while((buf[i]=getchar()) != '\n')
          {
