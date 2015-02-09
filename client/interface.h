@@ -21,4 +21,5 @@
 void InterfaceBye(void);
 void InterfaceWelcome( void );
 void InterfaceRegistSucces(void);
+void InterfaceHello( void );
 #endif

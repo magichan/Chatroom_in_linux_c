@@ -45,7 +45,7 @@ int main( void )
         Maxfd = g_sock_fd;
 /*         
  *         遗留问题，主线程无法退出
- *         可能的处理方法：信号
+ *         开辟另一线程来处理结束命令
  */
         while(1)//循环等待
         {
@@ -105,10 +105,12 @@ int main( void )
                                                case 1:
                                                        Log("申请退出",FdToUsername(AllClieFd[i]));
                                                        close(AllClieFd[i]);
+                                                       FD_CLR(AllClieFd[i],&Allreadfile);
                                                        AllClieFd[i] = -1;
                                                        break;
                                                case -1:Log("非法退出","麻烦");
                                                        close(AllClieFd[i]);
+                                                       FD_CLR(AllClieFd[i],&Allreadfile);
                                                        AllClieFd[i] = -1;
                                                        break;
                                                default:
@@ -252,6 +254,9 @@ int   AnalyzeMesg( int clie_fd )
                                                 temp->authority = CLIENT_STATUS_COMMON;
                                         }
                                         /*向客户端确认，Log文件写入*/
+
+                                        temp->status = USER_STATUS_DOWN;//下线
+
                                         send_data.option = REGISTER_SUCCSE;
                                         Mywrite(clie_fd,&send_data,sizeof(struct SerToCliFrame));
                                         Log("注册成功",temp->name);
@@ -274,11 +279,19 @@ int   AnalyzeMesg( int clie_fd )
                                         send_data.option = ERROR_USRENAME_NOEXISTENCE;
                                         Mywrite(clie_fd,&send_data,sizeof(struct SerToCliFrame));
                                 }else{
-                                        temp->confd = clie_fd;//将端口号放进对应的用户信息中
-                                        send_data.option = LOGIN_USERPASSWORD;
-                                        strcpy(send_data.mesg_data,"输入密码：");
-                                        send_data.chatroom_authority = temp->authority;
-                                        Mywrite(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+
+                                        if( temp->status == USER_STATUS_DOWN )
+                                        {
+                                                temp->confd = clie_fd;//将端口号放进对应的用户信息中
+                                                send_data.option = LOGIN_USERPASSWORD;
+                                                strcpy(send_data.mesg_data,"输入密码：");
+                                                send_data.chatroom_authority = temp->authority;
+                                                Mywrite(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+                                        }else{
+                                                send_data.option = ERROR_USER_HAVE_UP;
+                                                strcpy(send_data.mesg_data,"该用户已经登陆");
+                                                Mywrite(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+                                        }//处理是否重复登陆
                                 }//处理存在和发送确认信息
 
                         }
@@ -302,6 +315,7 @@ int   AnalyzeMesg( int clie_fd )
                                                Mywrite(clie_fd,&send_data,sizeof(struct SerToCliFrame));
                                        }else{
                                                send_data.option = ERROR_USERPASS_WRONG;
+                                               strcpy(send_data.mesg_data,"密码错误，请重新登陆\n");
                                                Mywrite(clie_fd,&send_data,sizeof(struct SerToCliFrame));
                                        }
                                 }//if((temp = SearchUser(g_user_list,FdToUsername(clie_fd))) == NULL ) 判断和处理密码

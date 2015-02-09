@@ -40,6 +40,7 @@
 #define         ERROR_USERPASS_WRONG                    -4 /*  密码错误*/
 #define         ERROR_EXCEEDING                         -5 /*  客户端过多*/
 #define         ERROR_TEXT                              -6 /*  错误描述见数据*/
+#define         ERROR_USER_HAVE_UP                      -7 /*  该用户已经登陆*/
 
 int  Login(int serv_fd);
 int  Regist(int serv_fd);

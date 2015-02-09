@@ -102,10 +102,137 @@ int main( int argc,char * argv[] )
 
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  Login
+ *  Description:  负责登陆流程，
+ *        Entry: socket所确定的套接字描述符
+ *         Exit:成功情况暂定，但密码错误则返回 1,用户上线页返回1 
+ * =====================================================================================
+ */
 int  Login( int serv_fd)
 {
+        struct CliToSerFrame send_data;
+        struct SerToCliFrame get_data;
 
-        return 0;
+        /*发送申请*/
+        memset(&send_data,0,sizeof(struct CliToSerFrame));
+        send_data.option = REQUEST_LOGIN;
+        if( write(serv_fd,&send_data,sizeof(struct CliToSerFrame))<0)
+        {
+                MyError("write",__FUNCTION__,__LINE__);
+        }
+        memset(&get_data,0,sizeof(struct SerToCliFrame));
+        if(read(serv_fd,&get_data,sizeof(struct SerToCliFrame))<=0)
+        {
+                  MyError("read",__FUNCTION__,__LINE__);
+        }
+        input_msg("  从套接字读取的数据为option:%d,mesg:%s\n",get_data.option,get_data.mesg_data);
+
+        while(1)
+        {
+                switch(get_data.option)
+                {
+                        case LOGIN_USERNAME:
+                                {
+                                         int flag;
+                                         memset(&send_data,0,sizeof(struct CliToSerFrame));
+                                         send_data.option = LOGIN_USERNAME;
+                                         printf("%s",get_data.mesg_data);
+                                       while((flag=GetInfo(send_data.mesg_data,USER_MAX)) != 0 )
+                                       {
+                                               if(flag == -1 )
+                                                {
+                                                        MyError("get_info",__FUNCTION__,__LINE__);
+                                                }
+                                               if(flag == -2 )
+                                               {
+                                                       Myfflush();
+                                                       printf("用户名格式错误,请重新输入:");
+                                                       continue;
+                                               }
+                                       }//获取用户名
+                                       write(serv_fd,&send_data,sizeof(struct CliToSerFrame));
+                                break;
+                               }
+                        case LOGIN_USERPASSWORD:
+                                {
+                                         int flag;
+                                         memset(&send_data,0,sizeof(struct CliToSerFrame));
+                                         send_data.option = LOGIN_USERPASSWORD;
+                                         printf("%s",get_data.mesg_data);
+                                       while((flag=GetInfo(send_data.mesg_data,USER_MAX)) != 0 )
+                                       {
+                                               if(flag == -1 )
+                                                {
+                                                        MyError("get_info",__FUNCTION__,__LINE__);
+                                                }
+                                               if(flag == -2 )
+                                               {
+                                                       Myfflush();
+                                                       printf("密码格式错误,请重新输入:");
+                                                       continue;
+                                               }
+                                       }//获取密码
+                                       write(serv_fd,&send_data,sizeof(struct CliToSerFrame));
+                                }
+                                break;
+                        case LOGIN_SUCCESE:
+                                {
+                                        InterfaceHello();
+                                        /*
+                                         * 登陆成功应该干些啥
+                                         * */
+                                        return 0;
+                                }
+                                break;
+                        case ERROR_USRENAME_NOEXISTENCE:
+                                {
+                                         int flag;
+                                         memset(&send_data,0,sizeof(struct CliToSerFrame));
+                                         send_data.option = LOGIN_USERNAME;
+                                        printf("重新输入用户名:");
+                                       while((flag=GetInfo(send_data.mesg_data,USER_MAX)) != 0 )
+                                       {
+                                               if(flag == -1 )
+                                                {
+                                                        MyError("get_info",__FUNCTION__,__LINE__);
+                                                }
+                                               if(flag == -2 )
+                                               {
+                                                       Myfflush();
+                                                       printf("用户名格式错误,请重新输入:");
+                                                       continue;
+                                               }
+                                       }//获取密码
+                                       write(serv_fd,&send_data,sizeof(struct CliToSerFrame));
+                                }
+                                break;
+                        case ERROR_TEXT:
+                                printf("%s\n",get_data.mesg_data);
+                                sleep(2);
+                                exit(0);
+                                break;
+                        case ERROR_USERPASS_WRONG:
+                                printf("%s\n",get_data.mesg_data);
+                                sleep(1);
+                                return 1;
+                        case ERROR_USER_HAVE_UP:
+                                printf("%s\n",get_data.mesg_data);
+                                sleep(1);
+                                return 1;
+                        default:
+                                input_msg("无法解释的 option ：%d,和 mesg:%s\n",get_data.option,get_data.mesg_data);
+                                MyError("server 返回错误",__FUNCTION__,__LINE__);
+
+                }
+                memset(&get_data,0,sizeof(struct SerToCliFrame));
+               if(read(serv_fd,&get_data,sizeof(struct SerToCliFrame))<=0)
+               {
+                       MyError("read",__FUNCTION__,__LINE__);
+               }
+                input_msg("  从套接字读取的数据为option:%d,mesg:%s\n",get_data.option,get_data.mesg_data);
+        }
 }
 int  Regist( int serv_fd )
 {

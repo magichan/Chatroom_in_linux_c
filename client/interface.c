@@ -49,3 +49,21 @@ void InterfaceRegistSucces(void)
         printf("********××********\n");
 
 }
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  InterfaceHello
+ *  Description:  输出登陆成功后的界面
+ *        Entry:
+ *         Exit:
+ * =====================================================================================
+ */
+void InterfaceHello( void )
+{
+        
+        printf("******6666666*****\n");
+        printf("*     登陆成功   *\n");
+        printf("*   输入 ::help  *\n");
+        printf("*    寻求帮助    *\n");
+        printf("********××********\n");
+}

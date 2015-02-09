@@ -22,3 +22,37 @@ time:Sun Feb  8 21:42:00 2015
  what:注册成功   who:      root
 time:Sun Feb  8 21:42:00 2015
  what:申请退出   who:      root
+time:Mon Feb  9 10:46:55 2015
+ what:请求连接   who: 127.0.0.1
+time:Mon Feb  9 10:47:03 2015
+ what:注册成功   who:      root
+time:Mon Feb  9 10:47:03 2015
+ what:申请退出   who:      root
+time:Mon Feb  9 10:47:10 2015
+ what:请求连接   who: 127.0.0.1
+time:Mon Feb  9 10:47:14 2015
+ what:申请的姓名重复，拒绝注册   who:    麻烦
+time:Mon Feb  9 10:47:14 2015
+ what:非法退出   who:    麻烦
+time:Mon Feb  9 10:53:43 2015
+ what:请求连接   who: 127.0.0.1
+time:Mon Feb  9 10:53:48 2015
+ what:申请的姓名重复，拒绝注册   who:    麻烦
+time:Mon Feb  9 10:53:48 2015
+ what:非法退出   who:    麻烦
+time:Mon Feb  9 10:53:56 2015
+ what:请求连接   who: 127.0.0.1
+time:Mon Feb  9 10:58:01 2015
+ what:非法退出   who:    麻烦
+time:Mon Feb  9 11:01:36 2015
+ what:请求连接   who: 127.0.0.1
+time:Mon Feb  9 11:01:41 2015
+ what:注册成功   who:      root
+time:Mon Feb  9 11:01:41 2015
+ what:申请退出   who:      root
+time:Mon Feb  9 11:01:44 2015
+ what:请求连接   who: 127.0.0.1
+time:Mon Feb  9 11:01:49 2015
+ what:登陆成功   who:      root
+time:Mon Feb  9 11:01:53 2015
+ what:非法退出   who:    麻烦
