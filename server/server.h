@@ -53,6 +53,7 @@ void  InitSock(void);
 int   AnalyzeMesg( int clie_fd );
 void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data);
 int  MySend( int source_fd,int target_fd,char * send_string );
+void Myexit( void );
 
 
 

@@ -102,4 +102,39 @@ int Mywrite( int fd, const void * buf,unsigned int count )
 
   
 }
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  get_info
+ *  Description:  获取一行输入,以回车为结尾，在buf中删除\n,以\0为结尾
+ *        Entry:  存放空间 buf ,空间大小
+ *         Exit:  成功存储返回 0 ， buf空间不存，存储失败在返回 -1 ， 字符串过长返回 -2
+ * =====================================================================================
+ */
+int   GetInfo( char *buf,unsigned int counnt)
+{
+        int  i = 0;
+        int  c;
+        int temp;
+
+        if( buf == NULL )
+        {
+                return -1;
+        }
+         while( (temp=getchar()) == '\n') ;
+        
+        buf[i++] = temp;
+
+         while((buf[i]=getchar()) != '\n')
+         {
+                 i++;
+         }
+        if( i >= counnt )
+        {
+                memset(buf,0,counnt);
+                return -2;
+        }
+
+         buf[i] = '\0';//去回车，加\0
+         return 0;
+}
 

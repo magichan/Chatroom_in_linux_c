@@ -8,7 +8,6 @@ AddUser	user.c	/^int  AddUser( PtrUserDate  list, PtrUserDate Node ) $/;"	f	sign
 AddUser	user.h	/^int  AddUser( PtrUserDate  list, PtrUserDate Node ); \/*  添加用户*\/$/;"	p	signature:( PtrUserDate list, PtrUserDate Node )
 AnalyzeMesg	server.c	/^int   AnalyzeMesg( int clie_fd )$/;"	f	signature:( int clie_fd )
 AnalyzeMesg	server.h	/^int   AnalyzeMesg( int clie_fd );$/;"	p	signature:( int clie_fd )
-CC	makefile	/^CC = clang$/;"	m
 CLIENT_MAX	server.h	41;"	d
 CLIENT_STATUS_AUDIENCE	frame.h	38;"	d
 CLIENT_STATUS_COMMON	frame.h	37;"	d
@@ -23,6 +22,7 @@ ERROR_PROCESS	server.h	44;"	d
 ERROR_TEXT	server.h	49;"	d
 ERROR_USERNAME_EXISTENCE	server.h	45;"	d
 ERROR_USERPASS_WRONG	server.h	47;"	d
+ERROR_USER_HAVE_UP	server.h	50;"	d
 ERROR_USRENAME_NOEXISTENCE	server.h	46;"	d
 FdToUsername	tool.c	/^const char * FdToUsername( int client_fd )$/;"	f	signature:( int client_fd )
 FdToUsername	tool.h	/^const char *FdToUsername( int client_fd );$/;"	p	signature:( int client_fd )
@@ -45,6 +45,8 @@ MyErrorPthread	tool.c	/^void MyErrorPthread(char * err_string,const char * funct
 MyErrorPthread	tool.h	/^void MyErrorPthread(char * err_string,const char * function, int line);$/;"	p	signature:(char * err_string,const char * function, int line)
 MySend	server.c	/^int  MySend( int source_fd,int target_fd,char * send_string )$/;"	f	signature:( int source_fd,int target_fd,char * send_string )
 MySend	server.h	/^int  MySend( int source_fd,int target_fd,char * send_string );$/;"	p	signature:( int source_fd,int target_fd,char * send_string )
+Myexit	server.c	/^void Myexit( void )$/;"	f	signature:( void )
+Myexit	server.h	/^void Myexit( void );$/;"	p	signature:( void )
 Mywrite	tool.c	/^int Mywrite( int fd, const void * buf,unsigned int count )$/;"	f	signature:( int fd, const void * buf,unsigned int count )
 Mywrite	tool.h	/^int Mywrite( int fd, const void * buf,unsigned int count );$/;"	p	signature:( int fd, const void * buf,unsigned int count )
 ProcessMesg	server.c	/^void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data)$/;"	f	signature:(int clie_fd,struct CliToSerFrame * get_data)
@@ -92,6 +94,7 @@ chatroom_authority	frame.h	/^        int chatroom_authority;            \/\/ 客
 confd	user.h	/^        int confd;                              \/* 通信接口*\/$/;"	m	struct:UserDate	access:public
 debug_msg	debug.h	20;"	d
 debug_msg	debug.h	23;"	d
+g_mutex	server.c	/^pthread_mutex_t g_mutex; \/\/锁$/;"	v
 g_sock_fd	server.c	/^        int g_sock_fd;$/;"	v
 g_user_list	server.c	/^PtrUserDate g_user_list;$/;"	v
 input_msg	debug.h	21;"	d

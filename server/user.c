@@ -165,6 +165,7 @@ int  WriteUserList( PtrUserDate list)
                 fwrite(p,sizeof(struct UserDate),1,fp);
                 p = p->next;
         }
+        fclose(fp);
         return 0;
 }
 

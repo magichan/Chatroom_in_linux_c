@@ -24,3 +24,4 @@ void MyErrorPthread(char * err_string,const char * function, int line);
 void Log(const char *log_string, const char * user_string);
 const char *FdToUsername( int client_fd );
 int Mywrite( int fd, const void * buf,unsigned int count );
+int   GetInfo( char *buf,unsigned int counnt);

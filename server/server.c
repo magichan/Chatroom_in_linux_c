@@ -23,12 +23,13 @@
 /*   全局变量，所有线程共享  */
 PtrUserDate g_user_list;
         int g_sock_fd;
-
+pthread_mutex_t g_mutex; //锁
 
 
 int main( void )
 {
         int clie_fd;
+        pthread_t exit_pthread;
         int AllClieFd[CLIENT_MAX] = {-1};//存放所有的套接字
         int Maxfd;//存放最大的文件描述符
         struct SerToCliFrame send_data;
@@ -39,7 +40,12 @@ int main( void )
        g_user_list =  InitUserList();
        /*套接字初始化*/
        InitSock();
+       /* 互斥锁的初始化*/
+       pthread_mutex_init(&g_mutex,NULL);
+       /* 创建一个新的线程负责退出机制*/
+       pthread_create(&exit_pthread,NULL,(void * )Myexit,NULL);
         
+
         FD_ZERO(&readfile);
         FD_SET(g_sock_fd,&Allreadfile);
         Maxfd = g_sock_fd;
@@ -100,6 +106,7 @@ int main( void )
                                 if(FD_ISSET(AllClieFd[i],&readfile))
                                 {
                                         input_msg("%d 的文件描述符有信息发送过来\n",AllClieFd[i]);
+                                        pthread_mutex_lock(&g_mutex);
                                        switch(AnalyzeMesg( AllClieFd[i] ))
                                        {
                                                case 1:
@@ -116,15 +123,56 @@ int main( void )
                                                default:
                                                        break;
                                        }//switch 处理客户端关闭，并且重置空间
+                                       pthread_mutex_unlock(&g_mutex);
                                 }// if(FD_ISSET(AllClieFd[i],&readfile))
                         }//for( i=0; i< CLIENT_MAX; i++ ),处理有数据发送过来的套接字
                 }//if(flag > = 1 )
         }//while(1)
 
-
-
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  Myexit
+ *  Description:  获取服务器输入退出，线程的异步性
+ *        Entry:  
+ *         Exit:
+ * =====================================================================================
+ */
+void Myexit( void )
+{
+        char commnd[USER_MAX];
+        while(1)
+        {
+                GetInfo(commnd,USER_MAX);
+                if( strcmp(commnd,"exit") == 0 )
+                {
+                        pthread_mutex_lock(&g_mutex);
+                        
+                                PtrUserDate p;
+
+                                /* 发送信息处理 */
+                                struct SerToCliFrame send_data;
+                                memset(&send_data,0,sizeof(struct SerToCliFrame));
+                                send_data.option = REQUEST_EXIT;
+                                strcpy(send_data.mesg_data,"服务器关闭");
+
+                                p = g_user_list->next;
+                                while( p!=NULL )
+                                {
+                                        write(p->confd,&send_data,sizeof(struct SerToCliFrame));
+                                        p = p->next;
+                                }
+                                WriteUserList(g_user_list);
+                        pthread_mutex_unlock(&g_mutex);
+                        pthread_mutex_destroy(&g_mutex);
+                        printf("++++++++++++++++++++CLOSE++++++++++++++++++++++++\n");
+                        sleep(1);
+                        exit(0);
+                        
+                }//判断是否是退出请求
+        }//等待命令
+}
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -196,6 +244,7 @@ int   AnalyzeMesg( int clie_fd )
 
 
 
+  //      pthread_mutex_lock(&g_mutex);
         switch( get_data.option)
         {
                 case REQUIE_REGISTER:
@@ -217,6 +266,7 @@ int   AnalyzeMesg( int clie_fd )
                         {
                                 if( SearchUser(g_user_list,get_data.mesg_data) == NULL )
                                 {
+                                        input_msg("姓名请求获得");
                                         PtrUserDate temp = (struct UserDate *)malloc(sizeof(struct UserDate));
                                         strcpy(temp->name,get_data.mesg_data);
                                         temp->status = USER_STATUS_DEALING;//待处理的用户结构
@@ -326,7 +376,8 @@ int   AnalyzeMesg( int clie_fd )
                 default:
                         ProcessMesg(clie_fd,&get_data);
                         return 0;
-        }
+        }//swtich
+//        pthread_mutex_unlock(&g_mutex);
 
 }
 
