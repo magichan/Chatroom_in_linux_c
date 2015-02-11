@@ -82,10 +82,11 @@ void InterfaceRootHelp(void)
         printf("向 who 发送 消息   \n");
         printf(":list/:l           \n");
         printf("显示登陆人情况     \n");
-        printf(":exit/:q     \n");
+        printf(":exit/:q           \n");
         printf("退出客户端         \n");
-        printf(":set -lk who       \n");
+        printf(":set -lkc who      \n");
         printf("-l:将某人设置为旁听\n");
+        printf("-c:将某人设置为普通\n");
         printf("-k:强制某人退出    \n");
         printf("********××*********\n");
 

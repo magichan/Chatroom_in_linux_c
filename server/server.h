@@ -49,10 +49,13 @@
 #define         ERROR_TEXT                              -6 /*  错误描述见数据*/
 #define         ERROR_USER_HAVE_UP                      -7 /*  该用户已经登陆*/
 #define         ERROR_COMD_NOEXISTENCE                  -8 /*  命令无法解析*/
+#define         ERROR_LACK_OF_PERMISSION                -9 /*  权限不足 */
+#define         ERROR_PARAMETER                         -10 /*参数错误*/
+#define         ERROR_USER_HAVE_DOWN                    -11 /* 该用户已下线*/
 void  InitSock(void);
 int   AnalyzeMesg( int clie_fd );
 void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data);
-int  MySend( int source_fd,int target_fd,char * send_string );
+int  MySend( int source_fd,int target_fd,char * send_string ,int chose );
 void Myexit( void );
 
 

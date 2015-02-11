@@ -18,6 +18,7 @@
 #include"server.h"
 #include"frame.h"
 #include"user.h"
+#include<time.h>
  /* 日志的宏定义 */
 #define   LOG_SERVER    -1
 void MyError(char * err_string,const char * function, int line);
@@ -27,3 +28,5 @@ const char *FdToUsername( int client_fd );
 int Mywrite( int fd, const void * buf,unsigned int count );
 int   GetInfo( char *buf,unsigned int counnt);
 int DealCommond(char *commond, char (* commond_conist)[USER_MAX]);
+void SendError( int clie_fd, int error, char * err_string );
+int  SendRequest( PtrUserDate target, int request, char * notice_string );

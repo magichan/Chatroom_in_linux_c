@@ -42,6 +42,9 @@
 #define         ERROR_TEXT                              -6 /*  错误描述见数据*/
 #define         ERROR_USER_HAVE_UP                      -7 /*  该用户已经登陆*/
 #define         ERROR_COMD_NOEXISTENCE                  -8 /*  命令无法解析*/
+#define         ERROR_LACK_OF_PERMISSION                -9 /*  权限不足 */
+#define         ERROR_PARAMETER                         -10 /*参数错误*/
+#define         ERROR_USER_HAVE_DOWN                    -11 /* 该用户已下线*/
 
 int  Login(int serv_fd);
 int  Regist(int serv_fd);

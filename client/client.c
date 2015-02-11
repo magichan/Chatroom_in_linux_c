@@ -180,7 +180,7 @@ int  Login( int serv_fd)
                                 break;
                         case LOGIN_SUCCESE:
                                 {
-                                        InterfaceHello();
+                                        
                                         g_authority = get_data.chatroom_authority;
                                         return 0;
                                 }
@@ -456,6 +456,20 @@ void Chat(int serv_fd)
                                 write(serv_fd,&send_data,sizeof(struct CliToSerFrame));
                                 close(serv_fd);
                                 exit(0);
+                        }else if( strcmp(commond_conist[0],"send")==0 || strcmp(commond_conist[0],"s")==0 ){
+                                
+                                memset(&send_data,0,sizeof(struct CliToSerFrame));
+                                send_data.option = SEND_PRIVATE_MESG;
+                                strcpy(send_data.target_name,commond_conist[1]);
+
+                                if( count > 2 )   printf("只能发送一个，优先发送给 %s\n",commond_conist[1]);
+
+                                printf(" [私信]");
+                                memset(commond,0,MESG_MAX);
+                                GetInfo(commond,MESG_MAX);
+                                strcpy(send_data.mesg_data,commond);
+                                write(serv_fd,&send_data,sizeof(struct CliToSerFrame));
+
                         }else{
                                 memset(&send_data,0,sizeof(struct CliToSerFrame));
                                 send_data.option = SEND_COMD;
@@ -463,7 +477,7 @@ void Chat(int serv_fd)
                                 write(serv_fd,&send_data,sizeof(struct CliToSerFrame));
 
                         }
-                }//解析本地可解析命令, exit 和 help，发送本地不可解析命令到服务器
+                }//解析本地可解析命令, exit 和 help 以及本地部分解析的send ，发送本地不可解析命令到服务器
                 else{
 
                          memset(&send_data,0,sizeof(struct CliToSerFrame));

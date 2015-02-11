@@ -178,3 +178,59 @@ int DealCommond(char *commond, char (* commond_conist)[USER_MAX])
 
         }//直接字符串结束
 }
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  SendError
+ *  Description:  将错误报告发送给客户端
+ *        Entry:  发送对象 clie_fd ,错误种类 error ,错误信息 err_string
+ *         Exit:
+ * =====================================================================================
+ */
+void SendError( int clie_fd, int error, char * err_string )
+{
+        struct SerToCliFrame send_data;
+        memset(&send_data,0,sizeof(struct SerToCliFrame));
+        send_data.option = error;
+        strcpy(send_data.mesg_data,err_string);
+        Mywrite(clie_fd,&send_data,sizeof(struct SerToCliFrame));
+}
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  SendRequest
+ *  Description:  将命令从服务发送到客户端
+ *        Entry:  目标 target , 要去 requtes , 采用默认通知使用 NULL
+ *         Exit:  成功返回 0
+ *                失败返回 -1
+ * =====================================================================================
+ */
+int  SendRequest( PtrUserDate target, int request, char * notice_string )
+{
+        struct SerToCliFrame send_data;
+        memset(&send_data,0,sizeof(struct SerToCliFrame));
+
+        send_data.send_time = time(NULL);      
+        send_data.option = request;
+        if( request == CHANGE_AUTHORITY )
+        {
+                send_data.chatroom_authority =  target->authority;
+                if( notice_string == NULL )
+                strcpy(send_data.mesg_data,"[NOTICE] server: 改变客户端权限 ");
+        }
+        if( request == REQUEST_EXIT )
+        {
+                send_data.option = REQUEST_EXIT;
+                if( notice_string == NULL )
+                strcpy(send_data.mesg_data,"[NOTICE] server: 即将退出 ");
+                
+        }
+
+
+        if( notice_string != NULL )
+            strcpy(send_data.mesg_data,notice_string);
+
+        if(write(target->confd,&send_data,sizeof(struct SerToCliFrame)) < 0 )
+                return -1;
+        return 0;
+}

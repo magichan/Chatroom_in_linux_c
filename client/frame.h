@@ -39,6 +39,7 @@ struct SerToCliFrame{ /* 服务端向客户端发送 */
 
 struct CliToSerFrame{                      /* 客户端向服务端发送  */
         int option;                        /* 命令选项，仅和登录和注册有关 */
+        char target_name[USER_MAX];
         char mesg_data[MESG_MAX];          /* 数据 */
 };
 /*  登陆和注册 退出  所用 宏定义  */
@@ -57,4 +58,5 @@ struct CliToSerFrame{                      /* 客户端向服务端发送  */
 #define SEND_COMD                  14 /* 发送命令 */
 #define USER_LIST_MESG             15 /* 登陆者列表信息*/
 #define CHANGE_AUTHORITY           16 /* 改变服务端权限*/
+#define SEND_PRIVATE_MESG          17 /* 发送私人消息 */
 #endif

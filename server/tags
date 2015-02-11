@@ -8,6 +8,7 @@ AddUser	user.c	/^int  AddUser( PtrUserDate  list, PtrUserDate Node ) $/;"	f	sign
 AddUser	user.h	/^int  AddUser( PtrUserDate  list, PtrUserDate Node ); \/*  添加用户*\/$/;"	p	signature:( PtrUserDate list, PtrUserDate Node )
 AnalyzeMesg	server.c	/^int   AnalyzeMesg( int clie_fd )$/;"	f	signature:( int clie_fd )
 AnalyzeMesg	server.h	/^int   AnalyzeMesg( int clie_fd );$/;"	p	signature:( int clie_fd )
+CHANGE_AUTHORITY	frame.h	59;"	d
 CLIENT_MAX	server.h	41;"	d
 CLIENT_STATUS_AUDIENCE	frame.h	38;"	d
 CLIENT_STATUS_COMMON	frame.h	37;"	d
@@ -15,26 +16,35 @@ CLIENT_STATUS_ROOT	frame.h	36;"	d
 CliToSerFrame	frame.h	/^struct CliToSerFrame{                      \/* 客户端向服务端发送  *\/$/;"	s
 CliToSerFrame::mesg_data	frame.h	/^        char mesg_data[MESG_MAX];          \/* 数据 *\/$/;"	m	struct:CliToSerFrame	access:public
 CliToSerFrame::option	frame.h	/^        int option;                        \/* 命令选项，仅和登录和注册有关 *\/$/;"	m	struct:CliToSerFrame	access:public
+CliToSerFrame::target_name	frame.h	/^        char target_name[USER_MAX];$/;"	m	struct:CliToSerFrame	access:public
+DealCommond	tool.c	/^int DealCommond(char *commond, char (* commond_conist)[USER_MAX])$/;"	f	signature:(char *commond, char (* commond_conist)[USER_MAX])
+DealCommond	tool.h	/^int DealCommond(char *commond, char (* commond_conist)[USER_MAX]);$/;"	p	signature:(char *commond, char (* commond_conist)[USER_MAX])
 DeleUser	user.c	/^int  DeleUser( PtrUserDate list, char * name ) $/;"	f	signature:( PtrUserDate list, char * name )
 DeleUser	user.h	/^int  DeleUser( PtrUserDate list, char * name ); \/*  删除用户*\/$/;"	p	signature:( PtrUserDate list, char * name )
+ERROR_COMD_NOEXISTENCE	server.h	51;"	d
 ERROR_EXCEEDING	server.h	48;"	d
+ERROR_LACK_OF_PERMISSION	server.h	52;"	d
+ERROR_PARAMETER	server.h	53;"	d
 ERROR_PROCESS	server.h	44;"	d
 ERROR_TEXT	server.h	49;"	d
 ERROR_USERNAME_EXISTENCE	server.h	45;"	d
 ERROR_USERPASS_WRONG	server.h	47;"	d
+ERROR_USER_HAVE_DOWN	server.h	54;"	d
 ERROR_USER_HAVE_UP	server.h	50;"	d
 ERROR_USRENAME_NOEXISTENCE	server.h	46;"	d
 FdToUsername	tool.c	/^const char * FdToUsername( int client_fd )$/;"	f	signature:( int client_fd )
 FdToUsername	tool.h	/^const char *FdToUsername( int client_fd );$/;"	p	signature:( int client_fd )
+GetInfo	tool.c	/^int   GetInfo( char *buf,unsigned int counnt)$/;"	f	signature:( char *buf,unsigned int counnt)
+GetInfo	tool.h	/^int   GetInfo( char *buf,unsigned int counnt);$/;"	p	signature:( char *buf,unsigned int counnt)
 InitSock	server.c	/^void  InitSock(void)$/;"	f	signature:(void)
 InitSock	server.h	/^void  InitSock(void);$/;"	p	signature:(void)
 InitUserList	user.c	/^PtrUserDate InitUserList( void )           $/;"	f	signature:( void )
 InitUserList	user.h	/^PtrUserDate InitUserList( void );               \/* 链表初始化 *\/$/;"	p	signature:( void )
 LISTENQ	server.h	40;"	d
-LOGIN_SUCCESE	frame.h	52;"	d
-LOGIN_USERNAME	frame.h	50;"	d
-LOGIN_USERPASSWORD	frame.h	51;"	d
-LOG_SERVER	tool.h	21;"	d
+LOGIN_SUCCESE	frame.h	53;"	d
+LOGIN_USERNAME	frame.h	51;"	d
+LOGIN_USERPASSWORD	frame.h	52;"	d
+LOG_SERVER	tool.h	23;"	d
 Log	tool.c	/^void Log(const char *log_string, const char * user_string)$/;"	f	signature:(const char *log_string, const char * user_string)
 Log	tool.h	/^void Log(const char *log_string, const char * user_string);$/;"	p	signature:(const char *log_string, const char * user_string)
 MESG_MAX	frame.h	24;"	d
@@ -43,8 +53,8 @@ MyError	tool.c	/^void MyError(char * err_string,const char * function, int line)
 MyError	tool.h	/^void MyError(char * err_string,const char * function, int line);$/;"	p	signature:(char * err_string,const char * function, int line)
 MyErrorPthread	tool.c	/^void MyErrorPthread(char * err_string,const char * function, int line)$/;"	f	signature:(char * err_string,const char * function, int line)
 MyErrorPthread	tool.h	/^void MyErrorPthread(char * err_string,const char * function, int line);$/;"	p	signature:(char * err_string,const char * function, int line)
-MySend	server.c	/^int  MySend( int source_fd,int target_fd,char * send_string )$/;"	f	signature:( int source_fd,int target_fd,char * send_string )
-MySend	server.h	/^int  MySend( int source_fd,int target_fd,char * send_string );$/;"	p	signature:( int source_fd,int target_fd,char * send_string )
+MySend	server.c	/^int  MySend( int source_fd,int target_fd,char * send_string ,int chose )$/;"	f	signature:( int source_fd,int target_fd,char * send_string ,int chose )
+MySend	server.h	/^int  MySend( int source_fd,int target_fd,char * send_string ,int chose );$/;"	p	signature:( int source_fd,int target_fd,char * send_string ,int chose )
 Myexit	server.c	/^void Myexit( void )$/;"	f	signature:( void )
 Myexit	server.h	/^void Myexit( void );$/;"	p	signature:( void )
 Mywrite	tool.c	/^int Mywrite( int fd, const void * buf,unsigned int count )$/;"	f	signature:( int fd, const void * buf,unsigned int count )
@@ -52,16 +62,22 @@ Mywrite	tool.h	/^int Mywrite( int fd, const void * buf,unsigned int count );$/;"
 ProcessMesg	server.c	/^void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data)$/;"	f	signature:(int clie_fd,struct CliToSerFrame * get_data)
 ProcessMesg	server.h	/^void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data);$/;"	p	signature:(int clie_fd,struct CliToSerFrame * get_data)
 PtrUserDate	user.h	/^typedef struct UserDate * PtrUserDate;$/;"	t	typeref:struct:UserDate
-REGISTER_SUCCSE	frame.h	45;"	d
-REGISTER_USERNAME	frame.h	47;"	d
-REGISTER_USERPASSWORD	frame.h	48;"	d
-REQUEST_EXIT	frame.h	53;"	d
-REQUEST_LOGIN	frame.h	49;"	d
-REQUIE_REGISTER	frame.h	46;"	d
-SEND_MESG	frame.h	55;"	d
+REGISTER_SUCCSE	frame.h	46;"	d
+REGISTER_USERNAME	frame.h	48;"	d
+REGISTER_USERPASSWORD	frame.h	49;"	d
+REQUEST_EXIT	frame.h	54;"	d
+REQUEST_LOGIN	frame.h	50;"	d
+REQUIE_REGISTER	frame.h	47;"	d
+SEND_COMD	frame.h	57;"	d
+SEND_MESG	frame.h	56;"	d
+SEND_PRIVATE_MESG	frame.h	60;"	d
 SERV_PORT	server.h	39;"	d
 SearchUser	user.c	/^ PtrUserDate  SearchUser( PtrUserDate list, const char * name )$/;"	f	signature:( PtrUserDate list, const char * name )
 SearchUser	user.h	/^ PtrUserDate  SearchUser( PtrUserDate list, const char * name ); \/* 查找用户 *\/$/;"	p	signature:( PtrUserDate list, const char * name )
+SendError	tool.c	/^void SendError( int clie_fd, int error, char * err_string )$/;"	f	signature:( int clie_fd, int error, char * err_string )
+SendError	tool.h	/^void SendError( int clie_fd, int error, char * err_string );$/;"	p	signature:( int clie_fd, int error, char * err_string )
+SendRequest	tool.c	/^int  SendRequest( PtrUserDate target, int request, char * notice_string )$/;"	f	signature:( PtrUserDate target, int request, char * notice_string )
+SendRequest	tool.h	/^int  SendRequest( PtrUserDate target, int request, char * notice_string );$/;"	p	signature:( PtrUserDate target, int request, char * notice_string )
 SerToCliFrame	frame.h	/^struct SerToCliFrame{ \/* 服务端向客户端发送 *\/$/;"	s
 SerToCliFrame::chatroom_authority	frame.h	/^        int chatroom_authority;            \/\/ 客户端权限$/;"	m	struct:SerToCliFrame	access:public
 SerToCliFrame::mesg_data	frame.h	/^        char mesg_data[MESG_MAX];        \/\/ 数据$/;"	m	struct:SerToCliFrame	access:public
@@ -69,6 +85,7 @@ SerToCliFrame::option	frame.h	/^        int option;                       \/\/ �
 SerToCliFrame::send_time	frame.h	/^        time_t send_time;                 \/\/ 发送时间$/;"	m	struct:SerToCliFrame	access:public
 SerToCliFrame::sender_name	frame.h	/^        char sender_name[USER_MAX];       \/\/ 发送者信息$/;"	m	struct:SerToCliFrame	access:public
 USERFIFE	user.h	27;"	d
+USER_LIST_MESG	frame.h	58;"	d
 USER_MAX	frame.h	23;"	d
 USER_STATUS_DEALING	user.h	39;"	d
 USER_STATUS_DOWN	user.h	41;"	d
@@ -111,3 +128,4 @@ password	user.h	/^        char password[USER_MAX];                \/* 密码 *\/
 send_time	frame.h	/^        time_t send_time;                 \/\/ 发送时间$/;"	m	struct:SerToCliFrame	access:public
 sender_name	frame.h	/^        char sender_name[USER_MAX];       \/\/ 发送者信息$/;"	m	struct:SerToCliFrame	access:public
 status	user.h	/^        int status;                             \/* 用户状态 *\/$/;"	m	struct:UserDate	access:public
+target_name	frame.h	/^        char target_name[USER_MAX];$/;"	m	struct:CliToSerFrame	access:public
