@@ -18,12 +18,13 @@
  * =====================================================================================
  */
 #include"client.h"
-int  authority = 0; //客户端权限标志符
+int  g_authority = 0; //客户端权限标志符
 
 int main( int argc,char * argv[] )
 {
         
         struct sockaddr_in serv_addr;
+        pthread_t pthread_getinfo;
         int i;
         struct CliToSerFrame send_data;
         int choice;
@@ -75,8 +76,8 @@ int main( int argc,char * argv[] )
                                    {
                                          InterfaceWelcome();
                                    }else{
-                                           /*解决正确登录及主函数退出问题*/
-                                           //exit(0);
+                                           Chat(conn_fd);
+                                           pthread_create(&pthread_getinfo,NULL,( void *)GetMesg,&conn_fd);
                                    }//判断是否登录成功
                                 break;
                         case '2':
@@ -180,9 +181,7 @@ int  Login( int serv_fd)
                         case LOGIN_SUCCESE:
                                 {
                                         InterfaceHello();
-                                        /*
-                                         * 登陆成功应该干些啥
-                                         * */
+                                        g_authority = get_data.chatroom_authority;
                                         return 0;
                                 }
                                 break;
@@ -357,3 +356,122 @@ int  Regist( int serv_fd )
         }
 
 }
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  GetMesg
+ *  Description:  从套接字中获取信息并且处理信息
+ *        Entry:  套接字
+ *         Exit:  
+ * =====================================================================================
+ */
+void GetMesg( void *  serv )
+{
+        int serv_fd;
+        fd_set serv_set;
+        int flag;
+        struct SerToCliFrame get_data;
+        serv_fd = *( int * )serv;
+        FD_ZERO(&serv_set);
+        FD_SET(serv_fd,&serv_set);
+        while(1)
+        {
+                if( (flag=select(serv_fd+1,&serv_set,NULL,NULL,NULL)) == 1 )
+                {
+                        memset(&get_data,0,sizeof(struct SerToCliFrame));
+                        if( read(serv_fd,&get_data,sizeof(struct SerToCliFrame)) <= 0 )
+                        {
+                                MyError("read",__FUNCTION__,__LINE__);
+                        }
+                        DealMesg(&get_data); 
+                }
+                
+        }
+
+}
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  DealMesg
+ *  Description:  处理GetMesg中读取的信息
+ *        Entry:  数据帧
+ *         Exit:
+ * =====================================================================================
+ */
+void DealMesg( struct SerToCliFrame * get_data )
+{
+        switch(get_data->option)
+        {
+                case 1:
+                        printf("SUCCES");
+                        break;
+                case 2:
+                        printf("SUCCES");
+                        break;
+                case 3:
+                        printf("SUCCES");
+                        break;
+                default:
+                        printf("SUCCES");
+        }
+}
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  Chat
+ *  Description:  提供聊天和命令选项
+ *        Entry:  套接字
+ *         Exit:
+ * =====================================================================================
+ */
+void Chat(int serv_fd)
+{
+        char commond[MESG_MAX];
+        char commond_conist[12+4][USER_MAX];//最多是12个用户
+        int  count;
+        struct CliToSerFrame send_data;
+        while(1)
+        {
+                printf("[输入]");
+                GetInfo(commond,MESG_MAX);
+
+                if(commond[0]==':')
+                {
+                        count =  DealCommond(commond+1,commond_conist);
+                        printf("成功处理\n");
+                        
+                        if(strcmp("help",commond_conist[0])==0||strcmp("h",commond_conist[0])==0)
+                        {
+                                if( g_authority == CLIENT_STATUS_ROOT  )
+                                        InterfaceRootHelp();
+                                else
+                                        InterfaceHelp();
+                                if( count > 1 )
+                                {
+                                        printf("部分输入无效\n");
+                                }
+                        }else if(strcmp("exit",commond_conist[0])==0||strcmp("q",commond_conist[0])==0)
+                        {
+                                memset(&send_data,0,sizeof(struct CliToSerFrame));
+                                send_data.option = REQUEST_EXIT;
+                                write(serv_fd,&send_data,sizeof(struct CliToSerFrame));
+                                close(serv_fd);
+                                exit(0);
+                        }else{
+                                memset(&send_data,0,sizeof(struct CliToSerFrame));
+                                send_data.option = SEND_COMD;
+                                strcpy(send_data.mesg_data,commond+1);//传入服务器的是不带 :
+                                write(serv_fd,&send_data,sizeof(struct CliToSerFrame));
+
+                        }
+                }//解析本地可解析命令, exit 和 help，发送本地不可解析命令到服务器
+                else{
+
+                         memset(&send_data,0,sizeof(struct CliToSerFrame));
+                         send_data.option = SEND_MESG;
+                         strcpy(send_data.mesg_data,commond);//传入服务器的是不带 :
+                         write(serv_fd,&send_data,sizeof(struct CliToSerFrame));
+                }//发送群发消息到服务器
+        }//while(1) 等待输入
+
+}
+

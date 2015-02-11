@@ -11,13 +11,15 @@
 i
 3.界面模式
 
-  默认为公众信息，::为操作信息
-  ::send  who mesg
-  ::exit
-  ::l
-  ::h
-  ::set -only/all  listen/kill
-  ::set -sec msg 
+  默认为公众信息，:为操作信息
+本地处理
+  :help/h
+  :exit
+服务器处理
+  :send/s  who mesg
+  :l -a who 
+  :set -only/all  listen/kill
+  :set -sec msg 
  
 
   from who(open/private) / server :

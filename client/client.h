@@ -41,8 +41,12 @@
 #define         ERROR_EXCEEDING                         -5 /*  客户端过多*/
 #define         ERROR_TEXT                              -6 /*  错误描述见数据*/
 #define         ERROR_USER_HAVE_UP                      -7 /*  该用户已经登陆*/
+#define         ERROR_COMD_NOEXISTENCE                  -8 /*  命令无法解析*/
 
 int  Login(int serv_fd);
 int  Regist(int serv_fd);
+void   Chat(int serv_fd);
+void GetMesg( void *  serv );
+void DealMesg( struct SerToCliFrame  * get_data ); 
 
 #endif

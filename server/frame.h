@@ -52,5 +52,8 @@ struct CliToSerFrame{                      /* 客户端向服务端发送  */
 #define LOGIN_SUCCESE              11 /* 登陆成功开始回话*/
 #define REQUEST_EXIT               12/*客户端退出请求||服务器要求退出*/
 /*   get mesg */
-#define SEND_MESG                  13 /**/
+#define SEND_MESG                  13 /* 发送信息 */
+#define SEND_COMD                  14 /* 发送命令 */
+#define USER_LIST_MESG             15 /* 登陆者列表信息*/
+#define CHANGE_AUTHORITY           16 /* 改变服务端权限*/
 #endif

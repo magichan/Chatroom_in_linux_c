@@ -21,8 +21,10 @@
 #include<time.h>
 #include<pthread.h>
 #include<stdlib.h>
+#include"frame.h"
 void MyError(char * err_string,const char * function, int line);
 void MyErrorPthread(char * err_string,const char * function, int line);
 void Log(const char *log_string, const char * user_string);
 int  GetInfo( char *buf,unsigned int counnt);
 void Myfflush(void);
+int DealCommond(char *commond, char (* commond_conist)[USER_MAX]);

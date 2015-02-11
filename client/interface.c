@@ -63,7 +63,49 @@ void InterfaceHello( void )
         
         printf("******6666666*****\n");
         printf("*     登陆成功   *\n");
-        printf("*   输入 ::help  *\n");
+        printf("*   输入 :help  *\n");
         printf("*    寻求帮助    *\n");
         printf("********××********\n");
+}
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  InterfaceRootHelp
+ *  Description:  显示管理员的帮助
+ *        Entry:
+ *         Exit:
+ * =====================================================================================
+ */
+void InterfaceRootHelp(void)
+{
+        printf("****   help *******\n");
+        printf(":send/:s who MESG  \n");
+        printf("向 who 发送 消息   \n");
+        printf(":list/:l           \n");
+        printf("显示登陆人情况     \n");
+        printf(":exit/:q     \n");
+        printf("退出客户端         \n");
+        printf(":set -lk who       \n");
+        printf("-l:将某人设置为旁听\n");
+        printf("-k:强制某人退出    \n");
+        printf("********××*********\n");
+
+}
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  InterfaceHelp
+ *  Description:  显示普通用户的帮助
+ *        Entry:
+ *         Exit:
+ * =====================================================================================
+ */
+void InterfaceHelp(void)
+{
+        printf("****   help *******\n");
+        printf(":send/:s who MESG  \n");
+        printf("向 who 发送 消息   \n");
+        printf(":list/:l           \n");
+        printf("显示登陆人情况     \n");
+        printf(":exit/:q     \n");
+        printf("退出客户端         \n");
+        printf("********××*********\n");
 }

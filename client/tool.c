@@ -75,11 +75,11 @@ int   GetInfo( char *buf,unsigned int counnt)
         int  i = 0;
         int  c;
         int temp;
-
         if( buf == NULL )
         {
                 return -1;
         }
+
          while( (temp=getchar()) == '\n') ;
         
         buf[i++] = temp;
@@ -93,7 +93,6 @@ int   GetInfo( char *buf,unsigned int counnt)
                 memset(buf,0,counnt);
                 return -2;
         }
-
          buf[i] = '\0';//去回车，加\0
          return 0;
 
@@ -113,3 +112,44 @@ void Myfflush( void )
         while( (ch=getchar())!='\n'&&ch!=EOF);
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  DealCommond
+ *  Description:  解析输入命令的字符串
+ *        Entry:  命令的字符串commond
+ *         Exit: 成功， 返回有几个命令【以空格区分】，而 commond_conist 以二位字符数组的形式依次存放命令
+ *               失败返回 -1
+ *
+ * =====================================================================================
+ */
+int DealCommond(char *commond, char (* commond_conist)[USER_MAX])
+{
+        int count=0;
+        int i=0;
+        int j=0;
+        char temp[USER_MAX];
+        if( commond == NULL||commond_conist==NULL)
+                return -1;
+        
+        while( commond[i]==' ' )  i++;
+        while(1)
+        {
+                temp[j] = commond[i];
+                if( commond[i] == ' '|| commond[i] == '\0' )
+                {
+                        temp[j] = '\0';
+                        strcpy(*(commond_conist+count),temp);
+                        j = -1;
+                        count++;
+                        if( commond[i] == '\0' )
+                        {
+                                return count;
+                        }//字符串结束，结束函数，返回个数
+                        while( commond[i]== ' ' )  i++;
+                        i--;//消去 判断while结束 的影响
+                }//遇到一个字符段
+                j++;
+                i++;
+
+        }//直接字符串结束
+}

@@ -16,6 +16,7 @@
  * =====================================================================================
  */
 #include"server.h"
+#include"frame.h"
 #include"user.h"
  /* 日志的宏定义 */
 #define   LOG_SERVER    -1
@@ -25,3 +26,4 @@ void Log(const char *log_string, const char * user_string);
 const char *FdToUsername( int client_fd );
 int Mywrite( int fd, const void * buf,unsigned int count );
 int   GetInfo( char *buf,unsigned int counnt);
+int DealCommond(char *commond, char (* commond_conist)[USER_MAX]);

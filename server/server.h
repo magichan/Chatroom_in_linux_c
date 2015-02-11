@@ -48,7 +48,7 @@
 #define         ERROR_EXCEEDING                         -5 /*  客户端过多*/
 #define         ERROR_TEXT                              -6 /*  错误描述见数据*/
 #define         ERROR_USER_HAVE_UP                      -7 /*  该用户已经登陆*/
-
+#define         ERROR_COMD_NOEXISTENCE                  -8 /*  命令无法解析*/
 void  InitSock(void);
 int   AnalyzeMesg( int clie_fd );
 void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data);

@@ -6,7 +6,7 @@
 #vpath %.h headers
 CC = clang
 client : client.o tool.o interface.o
-	clang -g client.o tool.o interface.o -o client
+	clang -g client.o tool.o interface.o -lpthread -o client
 client.o: frame.h interface.h tool.h debug.h
 tool.o: tool.h debug.h
 interface.o: interface.h debug.h 
