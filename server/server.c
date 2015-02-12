@@ -24,13 +24,14 @@
 PtrUserDate g_user_list;
         int g_sock_fd;
 pthread_mutex_t g_mutex; //锁
+int AllClieFd[CLIENT_MAX] = {-1};//存放所有的套接字
+fd_set Allreadfile;//select所用 的文件描述符
 
 
 int main( void )
 {
         int clie_fd;
         pthread_t exit_pthread;
-        int AllClieFd[CLIENT_MAX] = {-1};//存放所有的套接字
         int Maxfd;//存放最大的文件描述符
         struct SerToCliFrame send_data;
         fd_set readfile,Allreadfile;//select所用 的文件描述符
@@ -105,7 +106,7 @@ int main( void )
                         {
                                 if(FD_ISSET(AllClieFd[i],&readfile))
                                 {
-                                        input_msg("%d 的文件描述符有信息发送过来\n",AllClieFd[i]);
+                                        //input_msg("%d 的文件描述符有信息发送过来\n",AllClieFd[i]);
                                         pthread_mutex_lock(&g_mutex);
                                        switch(AnalyzeMesg( AllClieFd[i] ))
                                        {
@@ -380,6 +381,14 @@ int   AnalyzeMesg( int clie_fd )
 
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  ProcessMesg
+ *  Description:  处理非登陆和注册流程的 命令 请求
+ *        Entry:   
+ *         Exit:
+ * =====================================================================================
+ */
 void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data)
 {
        PtrUserDate head;
@@ -389,6 +398,7 @@ void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data)
        char commnd_conist[15][USER_MAX];
        struct SerToCliFrame send_data;
        temp=SearchUser(g_user_list,FdToUsername(clie_fd));
+
        switch( get_data->option)
        {
                case SEND_MESG:
@@ -403,73 +413,35 @@ void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data)
                           }
                           break;
                case SEND_COMD:
+
                           counnt = DealCommond(get_data->mesg_data,commnd_conist);
+#if(1)
+                         {
+                                 int i;
+                                 for(i=0; i<counnt; i++ )
+                                 {
+                                         printf("%s\n",commnd_conist[i]);
+                                 }
+                         }
+#endif
                           if(strcmp(commnd_conist[0],"set")==0 )
                           {
-                                  if( temp->authority != CLIENT_STATUS_ROOT )
+                                  if(DealComdSet(clie_fd,commnd_conist,counnt) < 0 )
                                   {
-                                          SendError(clie_fd,ERROR_LACK_OF_PERMISSION,"权限不足");
-                                         break;
+                                          Log("处理set命令发生错误",FdToUsername(clie_fd));
+                                          input_msg("处理set命令发生错误   %s ",FdToUsername(clie_fd));
                                   }
-                                  if((strcmp(commnd_conist[1],"-c")!=0&&strcmp(commnd_conist[1],"-l")!=0&&strcmp(commnd_conist[1],"-k")!=0)
-                                                  || counnt <=2 )
+                          }else if( strcmp(commnd_conist[0],"list")==0 || strcmp(commnd_conist[0],"l")==0 )
+                          {
+                                  input_msg("成功获取 list 指令 \n");
+                                  if(DealComdList(clie_fd,commnd_conist,counnt)<0)
                                   {
-                                          SendError(clie_fd,ERROR_PARAMETER,"set 缺乏必要的参数,参照:help");
-                                          break;
+                                          Log("处理list命令发生错误",FdToUsername(clie_fd));
+                                          input_msg("处理list命令发生错误   %s ",FdToUsername(clie_fd));
+
                                   }
-                                  
-                                  if(1)//将三个命令总结为一个
-                                  {
-                                          int j=2;
-                                          int flag;
-
-                                          for( ;j<counnt; j++ )
-                                          {
-                                                  temp = SearchUser(g_user_list,commnd_conist[j]);
-                                                  if( temp == NULL )
-                                                  { 
-                                                          int char_count=0;
-                                                          char temp_string[MESG_MAX];
-                                                          while(commnd_conist[j][char_count] != '\0' )
-                                                          {
-                                                                  temp_string[char_count] = commnd_conist[j][char_count];
-                                                                  char_count++;
-                                                          }
-                                                          strcpy(&temp_string[char_count]," 未找到该用户");
-                                                          SendError(clie_fd,ERROR_TEXT,temp_string);
-                                                          continue;
-                                                  }//if( temp == NULL ) 处理 未找到该用户的问题，并解决 汇报错误时，字符串的连接问题
-
-                                                  if( strcmp(commnd_conist[2],"-l")== 0 )
-                                                  {
-                                                        temp->authority = CLIENT_STATUS_AUDIENCE;//设置为旁听模式
-                                                        flag = SendRequest(temp,CHANGE_AUTHORITY,NULL); 
-                                                  }
-                                                  if( strcmp(commnd_conist[2],"-c")== 0 )
-                                                  {
-                                                        temp->authority = CLIENT_STATUS_COMMON;//设置为旁听模式
-                                                        flag = SendRequest(temp,CHANGE_AUTHORITY,NULL); 
-                                                  }
-                                                  if( strcmp(commnd_conist[2],"-k")== 0 )
-                                                  {
-                                                        flag = SendRequest(temp,REQUEST_EXIT,NULL); 
-                                                  }
-
-                                                  if( flag < 0 )
-                                                  {
-                                                          int char_count=0;
-                                                          char temp_string[MESG_MAX];
-                                                          while(commnd_conist[j][char_count] != '\0' )
-                                                          {
-                                                                  temp_string[char_count] = commnd_conist[j][char_count];
-                                                                  char_count++;
-                                                          }
-                                                          strcpy(&temp_string[char_count]," 未发送成功");
-                                                          SendError(clie_fd,ERROR_TEXT,temp_string);
-                                                  }//if( (.....)<0) 解决发送失败的汇报问题
-
-                                          }//发送给要求的所有客户端
-                                  }//设置成旁听模式
+                          }else{
+                                  SendError(clie_fd,ERROR_TEXT,"处理命令发生错误");
                           }
 
                           break;
@@ -488,6 +460,24 @@ void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data)
                           MySend(clie_fd,temp->confd,get_data->mesg_data,SEND_PRIVATE_MESG);
                         
                           break;
+               case REQUEST_EXIT:
+                          {
+                                  PtrUserDate cli;
+                                  int ki;
+                                  cli = SearchUser(g_user_list,FdToUsername(clie_fd));
+                                  cli->status = USER_STATUS_UP;
+                                  for( ki=0; ki<CLIENT_MAX; ki++ )
+                                  {
+                                          if( AllClieFd[ki] == clie_fd )
+                                          {
+                                               Log("申请退出",FdToUsername(clie_fd));
+                                               close(clie_fd);
+                                               FD_CLR(clie_fd,&Allreadfile);
+                                               AllClieFd[ki] = -1;
+                                               break;
+                                          }
+                                  }
+                          }
 
                default:
                           /*处理不存在指令*/
@@ -495,9 +485,7 @@ void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data)
                           send_data.option = ERROR_COMD_NOEXISTENCE;
                           strcpy(send_data.mesg_data,"该操作不存在");
                           write(clie_fd,&send_data,sizeof(struct SerToCliFrame));
-                          
        }
-       
 
 }
 /* 
@@ -525,4 +513,145 @@ int  MySend( int source_fd,int target_fd,char * send_string ,int chose )
                 return -1;
         }
         return 0;
+}
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  DealComdSet
+ *  Description:  处理命令 set 
+ *        Entry: 发送者的套接字 commnd的解析部分
+ *         Exit: 成功返回 0 ，失败返回 -1【找不到clie_fd】 , -2 【 参数错误 】
+ * =====================================================================================
+ */
+int DealComdSet(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt)
+{
+            PtrUserDate send_temp,temp;
+            send_temp  = SearchUser(g_user_list,FdToUsername(clie_fd));
+            
+            if( send_temp->authority != CLIENT_STATUS_ROOT )
+            {
+                    SendError(clie_fd,ERROR_LACK_OF_PERMISSION,"权限不足");
+                    return -1;
+            }
+            if((strcmp(commnd_conist[1],"-c")!=0&&strcmp(commnd_conist[1],"-l")!=0&&strcmp(commnd_conist[1],"-k")!=0)
+                            || counnt <=2 )
+            {
+                    SendError(clie_fd,ERROR_PARAMETER,"set 缺乏必要的参数,参照:help");
+                    return -2;
+            }
+            
+            if(1)//将三个命令总结为一个
+            {
+                    int j=2;
+                    int flag;
+
+                    for( ;j<counnt; j++ )
+                    {
+                            temp = SearchUser(g_user_list,commnd_conist[j]); if( temp == NULL )
+                            { 
+                                    int char_count=0;
+                                    char temp_string[MESG_MAX];
+                                    while(commnd_conist[j][char_count] != '\0' )
+                                    {
+                                            temp_string[char_count] = commnd_conist[j][char_count];
+                                            char_count++;
+                                    }
+                                    strcpy(&temp_string[char_count]," 未找到该用户");
+                                    SendError(clie_fd,ERROR_TEXT,temp_string);
+                                    continue;
+                            }//if( temp == NULL ) 处理 未找到该用户的问题，并解决 汇报错误时，字符串的连接问题
+
+                            if( strcmp(commnd_conist[2],"-l")== 0 )
+                            {
+                                  temp->authority = CLIENT_STATUS_AUDIENCE;//设置为旁听模式
+                                  flag = SendRequest(temp->confd,CHANGE_AUTHORITY,NULL); 
+                            }
+                            if( strcmp(commnd_conist[2],"-c")== 0 )
+                            {
+                                  temp->authority = CLIENT_STATUS_COMMON;//设置为旁听模式
+                                  flag = SendRequest(temp->confd,CHANGE_AUTHORITY,NULL); 
+                            }
+                            if( strcmp(commnd_conist[2],"-k")== 0 )
+                            {
+                                  flag = SendRequest(temp->confd,REQUEST_EXIT,NULL); 
+                            }
+
+                            if( flag < 0 )
+                                {
+                                    int char_count=0;
+                                    char temp_string[MESG_MAX];
+                                    while(commnd_conist[j][char_count] != '\0' )
+                                    {
+                                            temp_string[char_count] = commnd_conist[j][char_count];
+                                            char_count++;
+                                    }
+                                    strcpy(&temp_string[char_count]," 未发送成功");
+                                    SendError(clie_fd,ERROR_TEXT,temp_string);
+                            }//if( (.....)<0) 解决发送失败的汇报问题
+
+                    }//发送给要求的所有客户端
+            }//设置成旁听模式
+            return 0;
+}
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  DealComdList
+ *  Description:  处理list 命令
+ *        Entry:  
+ *         Exit:  成功返回 0
+ *                参数错误 返回 -1
+ *                write 错误 返回 -2
+ * =====================================================================================
+ */
+int DealComdList(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt)
+{
+        PtrUserDate temp;
+        int i=0;
+        struct SerToCliFrame send_data;
+        int up_usr_count=0;
+        char temp_string[MESG_MAX];
+        temp = g_user_list->next;
+        if( counnt > 1 )
+        {
+                SendError(clie_fd,ERROR_PARAMETER,"参数错误，请查询:help");
+                return -1;
+        }
+        memset(&send_data,0,sizeof(struct  SerToCliFrame));
+
+        while( temp!=NULL )
+        {
+                if( temp->status == USER_STATUS_UP )
+                {
+                        up_usr_count++;
+                }
+                temp = temp->next;
+        }
+        sprintf(temp_string,"上线人数:%d\n",up_usr_count);
+
+        temp = g_user_list->next;
+        while( temp!=NULL )
+        {
+                if( temp->status == USER_STATUS_UP )
+                {
+                        strcat(temp_string,temp->name);
+                        strcat(temp_string,"  ");
+                        i++;
+                        if( i%3 == 0 )
+                        {
+                                strcat(temp_string,"\n");
+                        }
+                }
+                temp = temp->next;
+        }
+        strcat(temp_string,"\n*********end********\n");
+        send_data.option = USER_LIST_MESG;
+        strcpy(send_data.mesg_data,temp_string);
+        if( write(clie_fd,&send_data,sizeof(struct SerToCliFrame)) < 0 )
+        {
+                MyError("write",__FUNCTION__,__LINE__);
+                return -2;
+        }
+        return 0;
+
 }

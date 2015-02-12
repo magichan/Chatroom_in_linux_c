@@ -205,9 +205,11 @@ void SendError( int clie_fd, int error, char * err_string )
  *                失败返回 -1
  * =====================================================================================
  */
-int  SendRequest( PtrUserDate target, int request, char * notice_string )
+int  SendRequest( int fd, int request, char * notice_string )
 {
+        PtrUserDate target;
         struct SerToCliFrame send_data;
+        target = SearchUser(g_user_list,FdToUsername(fd));
         memset(&send_data,0,sizeof(struct SerToCliFrame));
 
         send_data.send_time = time(NULL);      

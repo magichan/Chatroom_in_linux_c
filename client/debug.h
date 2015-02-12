@@ -16,7 +16,6 @@
  * =====================================================================================
  */
 
-#define _DEBUG_
 #ifndef _DEBUG_
 #define debug_msg(fmt,args...)
 #define input_msg(fmt,args...)

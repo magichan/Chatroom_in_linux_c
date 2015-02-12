@@ -57,6 +57,9 @@ int   AnalyzeMesg( int clie_fd );
 void ProcessMesg(int clie_fd,struct CliToSerFrame * get_data);
 int  MySend( int source_fd,int target_fd,char * send_string ,int chose );
 void Myexit( void );
+/* 信息处理函数 */
+int DealComdSet(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt);
+int DealComdList(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt);
 
 
 

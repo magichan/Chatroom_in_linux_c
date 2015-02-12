@@ -6,8 +6,11 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 AddUser	user.c	/^int  AddUser( PtrUserDate  list, PtrUserDate Node ) $/;"	f	signature:( PtrUserDate list, PtrUserDate Node )
 AddUser	user.h	/^int  AddUser( PtrUserDate  list, PtrUserDate Node ); \/*  添加用户*\/$/;"	p	signature:( PtrUserDate list, PtrUserDate Node )
+AllClieFd	server.c	/^int AllClieFd[CLIENT_MAX] = {-1};\/\/存放所有的套接字$/;"	v
+Allreadfile	server.c	/^fd_set Allreadfile;\/\/select所用 的文件描述符$/;"	v
 AnalyzeMesg	server.c	/^int   AnalyzeMesg( int clie_fd )$/;"	f	signature:( int clie_fd )
 AnalyzeMesg	server.h	/^int   AnalyzeMesg( int clie_fd );$/;"	p	signature:( int clie_fd )
+CC	makefile	/^CC = clang$/;"	m
 CHANGE_AUTHORITY	frame.h	59;"	d
 CLIENT_MAX	server.h	41;"	d
 CLIENT_STATUS_AUDIENCE	frame.h	38;"	d
@@ -17,6 +20,10 @@ CliToSerFrame	frame.h	/^struct CliToSerFrame{                      \/* 客户端
 CliToSerFrame::mesg_data	frame.h	/^        char mesg_data[MESG_MAX];          \/* 数据 *\/$/;"	m	struct:CliToSerFrame	access:public
 CliToSerFrame::option	frame.h	/^        int option;                        \/* 命令选项，仅和登录和注册有关 *\/$/;"	m	struct:CliToSerFrame	access:public
 CliToSerFrame::target_name	frame.h	/^        char target_name[USER_MAX];$/;"	m	struct:CliToSerFrame	access:public
+DealComdList	server.c	/^int DealComdList(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt)$/;"	f	signature:(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt)
+DealComdList	server.h	/^int DealComdList(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt);$/;"	p	signature:(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt)
+DealComdSet	server.c	/^int DealComdSet(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt)$/;"	f	signature:(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt)
+DealComdSet	server.h	/^int DealComdSet(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt);$/;"	p	signature:(int clie_fd, char (*commnd_conist)[USER_MAX],int counnt)
 DealCommond	tool.c	/^int DealCommond(char *commond, char (* commond_conist)[USER_MAX])$/;"	f	signature:(char *commond, char (* commond_conist)[USER_MAX])
 DealCommond	tool.h	/^int DealCommond(char *commond, char (* commond_conist)[USER_MAX]);$/;"	p	signature:(char *commond, char (* commond_conist)[USER_MAX])
 DeleUser	user.c	/^int  DeleUser( PtrUserDate list, char * name ) $/;"	f	signature:( PtrUserDate list, char * name )
@@ -76,8 +83,8 @@ SearchUser	user.c	/^ PtrUserDate  SearchUser( PtrUserDate list, const char * nam
 SearchUser	user.h	/^ PtrUserDate  SearchUser( PtrUserDate list, const char * name ); \/* 查找用户 *\/$/;"	p	signature:( PtrUserDate list, const char * name )
 SendError	tool.c	/^void SendError( int clie_fd, int error, char * err_string )$/;"	f	signature:( int clie_fd, int error, char * err_string )
 SendError	tool.h	/^void SendError( int clie_fd, int error, char * err_string );$/;"	p	signature:( int clie_fd, int error, char * err_string )
-SendRequest	tool.c	/^int  SendRequest( PtrUserDate target, int request, char * notice_string )$/;"	f	signature:( PtrUserDate target, int request, char * notice_string )
-SendRequest	tool.h	/^int  SendRequest( PtrUserDate target, int request, char * notice_string );$/;"	p	signature:( PtrUserDate target, int request, char * notice_string )
+SendRequest	tool.c	/^int  SendRequest( int fd, int request, char * notice_string )$/;"	f	signature:( int fd, int request, char * notice_string )
+SendRequest	tool.h	/^int  SendRequest(int fd, int request, char * notice_string );$/;"	p	signature:(int fd, int request, char * notice_string )
 SerToCliFrame	frame.h	/^struct SerToCliFrame{ \/* 服务端向客户端发送 *\/$/;"	s
 SerToCliFrame::chatroom_authority	frame.h	/^        int chatroom_authority;            \/\/ 客户端权限$/;"	m	struct:SerToCliFrame	access:public
 SerToCliFrame::mesg_data	frame.h	/^        char mesg_data[MESG_MAX];        \/\/ 数据$/;"	m	struct:SerToCliFrame	access:public
@@ -102,20 +109,19 @@ UserListIsEmpty	user.h	/^int  UserListIsEmpty( PtrUserDate list);        \/*判�
 WriteUserList	user.c	/^int  WriteUserList( PtrUserDate list)    $/;"	f	signature:( PtrUserDate list)
 WriteUserList	user.h	/^int  WriteUserList( PtrUserDate list);          \/*  写入文件*\/$/;"	p	signature:( PtrUserDate list)
 _CLIENT_H_	server.h	20;"	d
-_DEBUG_	debug.h	18;"	d
 _DEBUG_	server.c	21;"	d	file:
 _FRAME_H_	frame.h	21;"	d
 _USER_H_	user.h	21;"	d
 authority	user.h	/^        int authority;                          \/* 客户端权限*\/$/;"	m	struct:UserDate	access:public
 chatroom_authority	frame.h	/^        int chatroom_authority;            \/\/ 客户端权限$/;"	m	struct:SerToCliFrame	access:public
 confd	user.h	/^        int confd;                              \/* 通信接口*\/$/;"	m	struct:UserDate	access:public
-debug_msg	debug.h	20;"	d
-debug_msg	debug.h	23;"	d
+debug_msg	debug.h	19;"	d
+debug_msg	debug.h	22;"	d
 g_mutex	server.c	/^pthread_mutex_t g_mutex; \/\/锁$/;"	v
 g_sock_fd	server.c	/^        int g_sock_fd;$/;"	v
 g_user_list	server.c	/^PtrUserDate g_user_list;$/;"	v
-input_msg	debug.h	21;"	d
-input_msg	debug.h	24;"	d
+input_msg	debug.h	20;"	d
+input_msg	debug.h	23;"	d
 main	server.c	/^int main( void )$/;"	f	signature:( void )
 main	test/test1.c	/^int main()$/;"	f
 mesg_data	frame.h	/^        char mesg_data[MESG_MAX];          \/* 数据 *\/$/;"	m	struct:CliToSerFrame	access:public

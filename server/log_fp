@@ -262,3 +262,145 @@ time:Wed Feb 11 20:37:30 2015
  what:登陆成功   who:      root
 time:Wed Feb 11 20:37:42 2015
  what:申请退出   who:      root
+time:Thu Feb 12 17:48:42 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 17:48:50 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 17:49:35 2015
+ what:申请退出   who:      root
+time:Thu Feb 12 17:55:35 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 17:55:38 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 17:56:17 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 17:56:21 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 17:56:49 2015
+ what:申请退出   who:      root
+time:Thu Feb 12 18:01:32 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 18:01:37 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 18:43:10 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 18:43:14 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 18:43:21 2015
+ what:非法退出   who:    麻烦
+time:Thu Feb 12 18:46:36 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 18:46:39 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 18:50:45 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 18:50:48 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 18:51:24 2015
+ what:非法退出   who:    麻烦
+time:Thu Feb 12 18:54:03 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 18:54:06 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 18:54:24 2015
+ what:处理set命令发生错误   who:      root
+time:Thu Feb 12 18:55:06 2015
+ what:申请退出   who:      root
+time:Thu Feb 12 18:55:29 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 18:55:32 2015
+ what:非法退出   who:    麻烦
+time:Thu Feb 12 18:55:38 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 18:55:45 2015
+ what:注册成功   who:        my
+time:Thu Feb 12 18:55:45 2015
+ what:申请退出   who:        my
+time:Thu Feb 12 18:55:52 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 18:55:56 2015
+ what:登陆成功   who:        my
+time:Thu Feb 12 18:56:34 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 18:56:39 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 18:57:48 2015
+ what:申请退出   who:      root
+time:Thu Feb 12 18:57:51 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 18:58:01 2015
+ what:非法退出   who:    麻烦
+time:Thu Feb 12 19:08:21 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:08:29 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 19:09:42 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:10:33 2015
+ what:注册成功   who:        hi
+time:Thu Feb 12 19:10:33 2015
+ what:申请退出   who:        hi
+time:Thu Feb 12 19:10:36 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:10:41 2015
+ what:登陆成功   who:        hi
+time:Thu Feb 12 19:10:59 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:11:12 2015
+ what:登陆成功   who:        my
+time:Thu Feb 12 19:11:59 2015
+ what:申请退出   who:        hi
+time:Thu Feb 12 19:12:07 2015
+ what:send mesg eror   who:        my
+time:Thu Feb 12 19:12:11 2015
+ what:申请退出   who:        my
+time:Thu Feb 12 19:14:06 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:14:10 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 19:25:01 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:25:08 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 19:28:11 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:28:16 2015
+ what:登陆成功   who:        my
+time:Thu Feb 12 19:41:18 2015
+ what:申请退出   who:        my
+time:Thu Feb 12 19:41:32 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:41:35 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 19:43:11 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:43:18 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 19:45:43 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:45:48 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 19:48:24 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:48:29 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 19:48:35 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:48:39 2015
+ what:登陆成功   who:        my
+time:Thu Feb 12 19:58:56 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:58:59 2015
+ what:登陆成功   who:      root
+time:Thu Feb 12 19:59:05 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:59:11 2015
+ what:注册成功   who:      3re3
+time:Thu Feb 12 19:59:11 2015
+ what:申请退出   who:      3re3
+time:Thu Feb 12 19:59:23 2015
+ what:请求连接   who: 127.0.0.1
+time:Thu Feb 12 19:59:27 2015
+ what:登陆成功   who:        my
+time:Thu Feb 12 20:01:08 2015
+ what:申请退出   who:        my

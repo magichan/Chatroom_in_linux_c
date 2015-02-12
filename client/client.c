@@ -12,7 +12,7 @@
  *
  *         Author:  magichan (fgm), 574932286@qq.com
  *   Organization:  FH Südwestfalen, Iserlohn
- *           Rule:  ???? question 
+ *           Rule:  ????
  *                  [    comment
  *
  * =====================================================================================
@@ -76,8 +76,8 @@ int main( int argc,char * argv[] )
                                    {
                                          InterfaceWelcome();
                                    }else{
-                                           Chat(conn_fd);
                                            pthread_create(&pthread_getinfo,NULL,( void *)GetMesg,&conn_fd);
+                                           Chat(conn_fd);
                                    }//判断是否登录成功
                                 break;
                         case '2':
@@ -401,18 +401,48 @@ void DealMesg( struct SerToCliFrame * get_data )
 {
         switch(get_data->option)
         {
-                case 1:
-                        printf("SUCCES");
+                case SEND_MESG:
+                        printf("\n[%s]:",get_data->sender_name);
+                        printf("%s\n",get_data->mesg_data);
                         break;
-                case 2:
-                        printf("SUCCES");
+                case SEND_PRIVATE_MESG:
+                        printf("\n[%s][private]:",get_data->sender_name);
+                        printf("%s\n",get_data->mesg_data);
                         break;
-                case 3:
-                        printf("SUCCES");
+                case REQUEST_EXIT:
+                        printf("\n[server]:");
+                        printf("应服务器请求，客户端即将关闭\n");
+                        sleep(1);
+                        exit(0);
                         break;
+                case CHANGE_AUTHORITY:
+                        if( get_data->chatroom_authority == CLIENT_STATUS_COMMON )
+                        {
+                                if( g_authority == CLIENT_STATUS_AUDIENCE )
+                                {
+                                         g_authority = CLIENT_STATUS_COMMON;
+                                         printf("\nfrom:[server]      ");
+                                         printf("禁言已取消\n");
+                                }
+                        }
+                        if( get_data->chatroom_authority == CLIENT_STATUS_AUDIENCE )
+                        {
+                                if( g_authority == CLIENT_STATUS_COMMON )
+                                {
+                                         g_authority = CLIENT_STATUS_AUDIENCE;
+                                         printf("\nfrom:[server]     ");
+                                         printf("你被禁言\n");
+                                }
+                        }
+                        break;
+                case USER_LIST_MESG:
+                        printf("\n%s",get_data->mesg_data);
+                        break;
+
                 default:
-                        printf("SUCCES");
+                        printf("\nERROR:%s\n",get_data->mesg_data);
         }
+        printf("[输入]");
 }
 
 /* 
@@ -437,7 +467,6 @@ void Chat(int serv_fd)
                 if(commond[0]==':')
                 {
                         count =  DealCommond(commond+1,commond_conist);
-                        printf("成功处理\n");
                         
                         if(strcmp("help",commond_conist[0])==0||strcmp("h",commond_conist[0])==0)
                         {

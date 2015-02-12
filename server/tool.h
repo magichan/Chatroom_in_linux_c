@@ -29,4 +29,4 @@ int Mywrite( int fd, const void * buf,unsigned int count );
 int   GetInfo( char *buf,unsigned int counnt);
 int DealCommond(char *commond, char (* commond_conist)[USER_MAX]);
 void SendError( int clie_fd, int error, char * err_string );
-int  SendRequest( PtrUserDate target, int request, char * notice_string );
+int  SendRequest(int fd, int request, char * notice_string );
