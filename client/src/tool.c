@@ -15,9 +15,9 @@
  *           Rule:  ???? question 
  *                  [    comment
  *
- * ===================================================================================== */
+ * =====================================================================================
+ */
 #include"tool.h"
-
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  MyError
@@ -64,45 +64,6 @@ void Log(const char *log_string, const char * user_string)
 
 /* 
  * ===  FUNCTION  ======================================================================
- *         Name:  FdToUsername
- *  Description:  根据套接字，找到用户名
- *        Entry:  套接字
- *         Exit:  用户名
- * =====================================================================================
- */
-const char * FdToUsername( int client_fd )
-{
-        PtrUserDate temp;
-
-        temp =  g_user_list->next;
-
-        while( temp != NULL )
-        {
-                if( temp->confd == client_fd )
-                {
-                        return temp->name;
-                }
-                temp = temp->next;
-        }
-        return NULL;
-}
-
-int Mywrite( int fd, const void * buf,unsigned int count )
-{
-        int return_value;
-        if( (return_value=write(fd,buf,count)) > 0 )
-        {
-                return return_value; 
-        }
-        else{
-                printf("write 函数出错 \n");
-                exit(0);
-        }
-
-  
-}
-/* 
- * ===  FUNCTION  ======================================================================
  *         Name:  get_info
  *  Description:  获取一行输入,以回车为结尾，在buf中删除\n,以\0为结尾
  *        Entry:  存放空间 buf ,空间大小
@@ -114,11 +75,11 @@ int   GetInfo( char *buf,unsigned int counnt)
         int  i = 0;
         int  c;
         int temp;
-
         if( buf == NULL )
         {
                 return -1;
         }
+
          while( (temp=getchar()) == '\n') ;
         
         buf[i++] = temp;
@@ -132,9 +93,23 @@ int   GetInfo( char *buf,unsigned int counnt)
                 memset(buf,0,counnt);
                 return -2;
         }
-
          buf[i] = '\0';//去回车，加\0
          return 0;
+
+}
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  Myfflush
+ *  Description:  清空标准输入流
+ *        Entry:
+ *         Exit:
+ * =====================================================================================
+ */
+void Myfflush( void )
+{
+        char ch;
+        while( (ch=getchar())!='\n'&&ch!=EOF);
 }
 
 /* 
@@ -177,63 +152,4 @@ int DealCommond(char *commond, char (* commond_conist)[USER_MAX])
                 i++;
 
         }//直接字符串结束
-}
-
-/* 
- * ===  FUNCTION  ======================================================================
- *         Name:  SendError
- *  Description:  将错误报告发送给客户端
- *        Entry:  发送对象 clie_fd ,错误种类 error ,错误信息 err_string
- *         Exit:
- * =====================================================================================
- */
-void SendError( int clie_fd, int error, char * err_string )
-{
-        struct SerToCliFrame send_data;
-        memset(&send_data,0,sizeof(struct SerToCliFrame));
-        send_data.option = error;
-        strcpy(send_data.mesg_data,err_string);
-        Mywrite(clie_fd,&send_data,sizeof(struct SerToCliFrame));
-}
-
-/* 
- * ===  FUNCTION  ======================================================================
- *         Name:  SendRequest
- *  Description:  将命令从服务发送到客户端
- *        Entry:  目标 target , 要去 requtes , 采用默认通知使用 NULL
- *         Exit:  成功返回 0
- *                失败返回 -1
- * =====================================================================================
- */
-int  SendRequest( int fd, int request, char * notice_string )
-{
-        PtrUserDate target;
-        struct SerToCliFrame send_data;
-        target = SearchUser(g_user_list,FdToUsername(fd));
-        memset(&send_data,0,sizeof(struct SerToCliFrame));
-
-        send_data.send_time = time(NULL);      
-        send_data.option = request;
-        if( request == CHANGE_AUTHORITY )
-        {
-                send_data.chatroom_authority =  target->authority;
-                if( notice_string == NULL )
-                strcpy(send_data.mesg_data,"[NOTICE] server: 改变客户端权限 ");
-        }
-        if( request == REQUEST_EXIT )
-        {
-                if( notice_string == NULL )
-                strcpy(send_data.mesg_data,"[NOTICE] server: 即将退出 ");
-                
-        }
-
-        if( notice_string != NULL )
-            strcpy(send_data.mesg_data,notice_string);
-        input_msg("发给 %s 的信息 ：%s\n",target->name,send_data.mesg_data);
-
-        if(write(target->confd,&send_data,sizeof(struct SerToCliFrame)) < 0 )
-        {
-                MyError("write",__FUNCTION__,__LINE__);
-        }
-        return 0;
 }

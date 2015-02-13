@@ -109,19 +109,20 @@ UserListIsEmpty	user.h	/^int  UserListIsEmpty( PtrUserDate list);        \/*判�
 WriteUserList	user.c	/^int  WriteUserList( PtrUserDate list)    $/;"	f	signature:( PtrUserDate list)
 WriteUserList	user.h	/^int  WriteUserList( PtrUserDate list);          \/*  写入文件*\/$/;"	p	signature:( PtrUserDate list)
 _CLIENT_H_	server.h	20;"	d
+_DEBUG_	debug.h	18;"	d
 _DEBUG_	server.c	21;"	d	file:
 _FRAME_H_	frame.h	21;"	d
 _USER_H_	user.h	21;"	d
 authority	user.h	/^        int authority;                          \/* 客户端权限*\/$/;"	m	struct:UserDate	access:public
 chatroom_authority	frame.h	/^        int chatroom_authority;            \/\/ 客户端权限$/;"	m	struct:SerToCliFrame	access:public
 confd	user.h	/^        int confd;                              \/* 通信接口*\/$/;"	m	struct:UserDate	access:public
-debug_msg	debug.h	19;"	d
-debug_msg	debug.h	22;"	d
+debug_msg	debug.h	20;"	d
+debug_msg	debug.h	23;"	d
 g_mutex	server.c	/^pthread_mutex_t g_mutex; \/\/锁$/;"	v
 g_sock_fd	server.c	/^        int g_sock_fd;$/;"	v
 g_user_list	server.c	/^PtrUserDate g_user_list;$/;"	v
-input_msg	debug.h	20;"	d
-input_msg	debug.h	23;"	d
+input_msg	debug.h	21;"	d
+input_msg	debug.h	24;"	d
 main	server.c	/^int main( void )$/;"	f	signature:( void )
 main	test/test1.c	/^int main()$/;"	f
 mesg_data	frame.h	/^        char mesg_data[MESG_MAX];          \/* 数据 *\/$/;"	m	struct:CliToSerFrame	access:public

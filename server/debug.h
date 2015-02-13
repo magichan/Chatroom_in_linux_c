@@ -16,8 +16,8 @@
  * =====================================================================================
  */
 #ifndef _DEBUG_
-#define debug_msg(fmt,args...)  
-#define input_msg(fmt,args...) 
+#define debug_msg(fmt,args...)   printf("");
+#define input_msg(fmt,args...)   printf("");
 #else
 #define debug_msg(fmt,args...)   printf("[%s:%s:line %d]"fmt,__FILE__,__FUNCTION__,__LINE__,##args)
 #define input_msg(fmt,args...)   printf("[%s:%s:line %d]"fmt,__FILE__,__FUNCTION__,__LINE__,##args)
