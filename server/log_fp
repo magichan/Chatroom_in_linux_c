@@ -516,3 +516,9 @@ time:Fri Feb 13 19:36:19 2015
  what:登陆成功   who:        my
 time:Fri Feb 13 19:36:34 2015
  what:处理set命令发生错误   who:      root
+time:Fri Feb 13 20:22:07 2015
+ what:请求连接   who: 127.0.0.1
+time:Fri Feb 13 20:22:10 2015
+ what:登陆成功   who:      root
+time:Fri Feb 13 20:22:25 2015
+ what:非法退出   who:    麻烦
