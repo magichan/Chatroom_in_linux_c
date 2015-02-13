@@ -12,3 +12,18 @@
    1.服务器向客户端发送的帧结构  SerToCliFrame
    2.客户端向服务器发送的帧结构  CliToSerFrame
    3.数据域规则： 使用\0结尾的字符串,默认不带回车
+
+文件
+├── client  可执行文件
+├── headers 
+│   ├── client.h      软件主要流程
+│   ├── debug.h       调试头文件
+│   ├── frame.h       数据帧头文件
+│   ├── interface.h   提供截面的头文件
+│   ├── tool.h        提供一些工具的头文件
+│   └── user.h        维护用户列表的头文件
+├── makefile      
+└── src
+    ├── client.c
+    ├── interface.c
+    └── tool.c

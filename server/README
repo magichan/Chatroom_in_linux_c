@@ -1,0 +1,31 @@
+
+
+书写规则
+   1.宏定义全部大写，所有建立的变量类型首字母大写，所有变量小写
+   2.函数大小写混写，不含下划线，描述动作
+   3.常量用 k 开头
+   4.全局变量使用 g 开头
+   4.一般变量，使用 _ 连接单词
+   依据:http://www.cppblog.com/Fox/archive/2008/07/22/56845.html
+
+帧规则
+   1.服务器向客户端发送的帧结构  SerToCliFrame
+   2.客户端向服务器发送的帧结构  CliToSerFrame
+   3.数据域规则： 使用\0结尾的字符串,默认不带回车
+
+文件
+├── headers
+│   ├── debug.h       调试文件
+│   ├── frame.h       数据帧文件
+│   ├── server.h      软件主要流程
+│   ├── tool.h        提供一些工具的头文件
+│   └── user.h        维护用户列表的头文件   
+├── log_fp          日志文件
+├── makefile
+├── ser_doc
+├── server         可执行程序
+├── src
+│   ├── server.c
+│   ├── tool.c
+│   └── user.c
+├── userlist       配置文件

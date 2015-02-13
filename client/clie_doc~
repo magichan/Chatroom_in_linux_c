@@ -19,5 +19,18 @@
     第一位注册者为管理员
     注册完成后自动退出，必须重新登陆
     服务端做尽可能少的操作，最好制作判断 帧的标签 ，进行输出
-
+文件
+├── client  可执行文件
+├── headers 
+│   ├── client.h      软件主要流程
+│   ├── debug.h       调试头文件
+│   ├── frame.h       数据帧头文件
+│   ├── interface.h   提供截面的头文件
+│   ├── tool.h        提供一些工具的头文件
+│   └── user.h        维护用户列表的头文件
+├── makefile      
+└── src
+    ├── client.c
+    ├── interface.c
+    └── tool.c
 
